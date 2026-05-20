@@ -7,7 +7,9 @@ const REGISTRY_CSV_PATH = new URL("../registry.csv", import.meta.url);
 
 const entries = await readdir(ISSUE_QUADS_DIR, { withFileTypes: true }).catch((error) => {
   const message = error instanceof Error ? error.message : String(error);
-  console.warn(`Could not read profiles directory, aggregating empty set: ${message}`);
+  console.warn(
+    `Profiles directory not found or unreadable, starting empty aggregation: ${message}`,
+  );
   return [];
 });
 const nqFiles = entries

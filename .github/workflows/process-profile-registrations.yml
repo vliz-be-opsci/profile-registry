@@ -55,5 +55,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `Profile registration workflow completed. Opened PR #${{ steps.create_pr.outputs.pull-request-number }} containing file profiles/issue-${{ github.event.issue.number }}.nq.`
+              body: `Profile registration issue #${{ github.event.issue.number }} completed. Opened PR #${{ steps.create_pr.outputs.pull-request-number }} containing file profiles/issue-${{ github.event.issue.number }}.nq.`
             });
