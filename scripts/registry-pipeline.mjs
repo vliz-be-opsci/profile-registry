@@ -157,7 +157,7 @@ export function updateRegistryCsv(existingCsv, newEntries) {
     const values = [];
     let current = "";
     let inQuotes = false;
-    for (let i = 0; i < row.length; i += 1) {
+    for (let i = 0; i < row.length; i++) {
       const char = row[i];
       if (char === '"') {
         if (inQuotes && row[i + 1] === '"') {

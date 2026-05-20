@@ -40,7 +40,7 @@
           triplesOutput.textContent = lines.join("\n");
         } catch (error) {
           console.warn(
-            `Failed to load triples: ${error && error.message ? error.message : error}`,
+            `Failed to load triples: ${error?.message ?? error}`,
           );
           // Keep the page usable even before any triples are discovered.
           triplesStatus.textContent =
