@@ -1,6 +1,8 @@
 <https://github.com/cedricdcc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/13> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/14> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/13> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/pull/14> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://w3id.org/ro/crate> <http://purl.org/dc/terms/source> <https://w3id.org/ro/crate> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://w3id.org/ro/crate> <http://schema.org/about> "RO-Crate is a community effort to establish a lightweight approach to packaging research data with their metadata. It is based on schema.org annotations in JSON-LD, and aims to make best-practice in formal metadata description accessible and practical for use in a wider variety of situations, from an individual researcher working with a folder of data, to large data-intensive computational research environments." .
 <https://w3id.org/ro/crate> <http://schema.org/name> "Research Object Crate (RO-Crate)" .
