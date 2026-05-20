@@ -159,10 +159,7 @@ export function mergeNQuads(existingContent, newContent) {
 }
 
 export function countNQuadStatements(content = "") {
-  if (!content.trim()) {
-    return 0;
-  }
-  return content.trim().split("\n").filter(Boolean).length;
+  return parseNQuads(content).length;
 }
 
 export function updateRegistryCsv(existingCsv, newEntries) {

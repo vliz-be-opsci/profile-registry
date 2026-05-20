@@ -39,11 +39,13 @@ async function extractDocumentsForUri(uri) {
   return result ? [result] : [];
 }
 
-function getIssueQuadPath(issueNumber) {
-  return new URL(`issue-${issueNumber}.nq`, ISSUE_QUADS_DIR);
+function getIssueQuadPath(issueNumber, outputDirectory = ISSUE_QUADS_DIR) {
+  return new URL(`issue-${issueNumber}.nq`, outputDirectory);
 }
 
-export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
+export async function updateProfileRegistryFromUri(rootUri, issueNumber, options = {}) {
+  const loadDocuments = options.extractDocumentsForUri || extractDocumentsForUri;
+  const outputDirectory = options.outputDirectory || ISSUE_QUADS_DIR;
   const queue = [rootUri];
   const visited = new Set();
   const allQuads = [];
@@ -56,7 +58,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
     }
     visited.add(currentUri);
 
-    const documents = await extractDocumentsForUri(currentUri);
+    const documents = await loadDocuments(currentUri);
     const quads = documents.flatMap(parseExtractedDocument);
     if (!quads.length) {
       continue;
@@ -84,8 +86,8 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
     discoveredNQuads = createFallbackProfileTypeTriple(rootUri);
   }
 
-  const issuePath = getIssueQuadPath(issueNumber);
-  await mkdir(ISSUE_QUADS_DIR, { recursive: true });
+  const issuePath = getIssueQuadPath(issueNumber, outputDirectory);
+  await mkdir(outputDirectory, { recursive: true });
   await writeFile(issuePath, discoveredNQuads, "utf8");
 
   return {

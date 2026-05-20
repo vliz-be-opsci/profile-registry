@@ -1,12 +1,13 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { mergeNQuads, parseNQuads, buildPredicateCsvFromQuads } from "./registry-pipeline.mjs";
+import { getErrorMessage } from "./error-utils.mjs";
 
 const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
 const ALL_PROFILES_PATH = new URL("../all_profiles_quads.nq", import.meta.url);
 const REGISTRY_CSV_PATH = new URL("../registry.csv", import.meta.url);
 
 const entries = await readdir(ISSUE_QUADS_DIR, { withFileTypes: true }).catch((error) => {
-  const message = error instanceof Error ? error.message : String(error);
+  const message = getErrorMessage(error);
   console.warn(
     `No profiles directory found or readable; aggregation will produce empty outputs: ${message}`,
   );
