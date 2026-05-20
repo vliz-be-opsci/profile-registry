@@ -30,8 +30,8 @@ test("accepts HTTP(S) and URN profile URIs", () => {
   assert.equal(isAllowedProfileUri("ftp://example.org/profile"), false);
 });
 
-test("identifies profiles and catalogs from extracted triples", () => {
-  const quads = parseExtractedDocument({
+test("identifies profiles and catalogs from extracted triples", async () => {
+  const quads = await parseExtractedDocument({
     format: "nquads",
     content: `<https://example.org/p1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .\n<https://example.org/c1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Catalog> .\n<https://example.org/c1> <http://www.w3.org/ns/dcat#dataset> <https://example.org/p1> .\n`,
   });
@@ -45,6 +45,28 @@ test("identifies profiles and catalogs from extracted triples", () => {
 
   const surrounding = collectSurroundingProfileQuads(quads, profiles);
   assert.equal(surrounding.length > 0, true);
+});
+
+test("parses JSON-LD documents", async () => {
+  const doc = {
+    format: "application/ld+json",
+    content: JSON.stringify({
+      "@context": {
+        "name": "http://schema.org/name",
+        "url": { "@id": "http://schema.org/url", "@type": "@id" },
+        "about": "http://schema.org/about",
+        "WebSite": "http://schema.org/WebSite"
+      },
+      "@type": "WebSite",
+      "name": "Research Object Crate (RO-Crate)",
+      "url": "https://www.researchobject.org",
+      "about": "RO-Crate description"
+    })
+  };
+  const quads = await parseExtractedDocument(doc);
+  assert.equal(quads.length, 4);
+  const websiteQuad = quads.find(q => q.predicate.value === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" && q.object.value === "http://schema.org/WebSite");
+  assert.ok(websiteQuad);
 });
 
 test("updates registry CSV and merges N-Quads without duplicates", () => {

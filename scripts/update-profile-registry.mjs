@@ -49,7 +49,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
   const queue = [rootUri];
   const visited = new Set();
   const allQuads = [];
-  const profileUris = new Set();
+  const profileUris = new Set([rootUri]);
 
   while (queue.length) {
     const currentUri = queue.shift();
@@ -59,7 +59,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     visited.add(currentUri);
 
     const documents = await loadDocuments(currentUri);
-    const quads = documents.flatMap(parseExtractedDocument);
+    const quads = (await Promise.all(documents.map((doc) => parseExtractedDocument(doc, currentUri)))).flat();
     if (!quads.length) {
       continue;
     }

@@ -1,4 +1,5 @@
 import { Parser, Writer } from "n3";
+import jsonld from "jsonld";
 
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const PROF_PROFILE = "http://www.w3.org/ns/dx/prof/Profile";
@@ -64,18 +65,49 @@ function guessParserFormat(doc) {
   if (format === "turtle" || format === "n3" || mime.includes("turtle")) {
     return "text/turtle";
   }
+  if (
+    format === "jsonld" ||
+    format === "json-ld" ||
+    format.includes("json") ||
+    format.includes("ld+json") ||
+    mime.includes("json") ||
+    mime.includes("ld+json")
+  ) {
+    return "application/ld+json";
+  }
   return null;
 }
 
-export function parseExtractedDocument(doc) {
+export async function parseExtractedDocument(doc, fallbackUri) {
   const parserFormat = guessParserFormat(doc);
   if (!parserFormat || !doc?.content) {
     return [];
   }
 
   try {
-    const parser = new Parser({ format: parserFormat });
-    return parser.parse(doc.content);
+    let contentToParse = doc.content;
+    let actualFormat = parserFormat;
+
+    if (parserFormat === "application/ld+json") {
+      const parsed = typeof doc.content === "string" ? JSON.parse(doc.content) : doc.content;
+      const targetId = doc.uri || fallbackUri || "";
+      if (targetId) {
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) {
+            if (item && typeof item === "object" && !item["@id"]) {
+              item["@id"] = targetId;
+            }
+          }
+        } else if (parsed && typeof parsed === "object" && !parsed["@id"]) {
+          parsed["@id"] = targetId;
+        }
+      }
+      contentToParse = await jsonld.toRDF(parsed, { format: "application/n-quads" });
+      actualFormat = "application/n-quads";
+    }
+
+    const parser = new Parser({ format: actualFormat });
+    return parser.parse(contentToParse);
   } catch (error) {
     // Unsupported or malformed RDF payloads are skipped.
     const message = error instanceof Error ? error.message : String(error);
