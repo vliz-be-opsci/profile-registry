@@ -1,0 +1,67 @@
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/author> "Kendrick Lemarenostrum" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/description> "test repo for test profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/hasPart> <https://cedricdcc.github.io/test-profile-repository/test/data/README.md> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/headline> "test file readme" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/keywords> "correct" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/keywords> "profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/keywords> "test" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/name> "test profile A" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/version> "1.0.0" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Dataset> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://purl.org/dc/terms/conformsTo> <https://w3id.org/ro/crate/1.1> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/about> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/author> "Kendrick Lemarenostrum" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/description> "test repo for test profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/keywords> "correct" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/keywords> "profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/keywords> "test" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/name> "test profile A" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/version> "1.0.0" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/CreativeWork> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://purl.org/dc/terms/conformsTo> <https://w3id.org/ro/crate/1.1> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/about> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/author> "Decruw Cedric" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/description> "test repo for test profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/keywords> "correct" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/keywords> "profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/keywords> "test" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/name> "test profile" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/version> "1.0.0" .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/CreativeWork> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/cedricdcc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/11> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+_:n3-1 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+_:n3-2 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
