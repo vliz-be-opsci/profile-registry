@@ -80,6 +80,6 @@ test("builds aggregate CSV with URI and discovered predicate columns", () => {
     lines[0],
     "URI,https://example.org/title,https://example.org/type",
   );
-  assert.equal(lines[1], 'https://example.org/p1,Profile One,https://example.org/kind');
+  assert.equal(lines[1], "https://example.org/p1,Profile One,https://example.org/kind");
   assert.equal(lines[2], "https://example.org/p2,Profile Two,");
 });
