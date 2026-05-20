@@ -13,8 +13,40 @@
         <input id="profile-uri" name="profile-uri" type="text" required />
         <button type="submit">Register Profile</button>
       </form>
+      <section>
+        <h2>Profile Registry Triples</h2>
+        <p id="triples-status">Loading triples…</p>
+        <pre id="triples-output"></pre>
+      </section>
     </main>
     <script>
+      const triplesStatus = document.getElementById("triples-status");
+      const triplesOutput = document.getElementById("triples-output");
+
+      async function loadTriples() {
+        try {
+          const response = await fetch("./profile-registry-triples.nq", {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error("No triples found yet.");
+          }
+          const content = await response.text();
+          const lines = content
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean);
+          triplesStatus.textContent = `${lines.length} triples loaded`;
+          triplesOutput.textContent = lines.join("\n");
+        } catch (_) {
+          triplesStatus.textContent =
+            "No triples available yet. New registrations will populate this view.";
+          triplesOutput.textContent = "";
+        }
+      }
+
+      loadTriples();
+
       document
         .getElementById("register-profile-form")
         .addEventListener("submit", function (event) {

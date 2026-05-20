@@ -1,0 +1,14 @@
+{
+  "name": "profile-registry",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run scripts/build.mjs",
+    "test": "node --test scripts/registry-pipeline.test.mjs",
+    "process-registration-issue": "bun run scripts/process-registration-issue.mjs"
+  },
+  "dependencies": {
+    "n3": "1.26.0",
+    "wrx": "github:cedricdcc/wrx"
+  }
+}
