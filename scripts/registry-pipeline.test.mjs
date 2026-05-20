@@ -72,7 +72,10 @@ test("creates fallback profile typing triple for URI", () => {
 
 test("builds aggregate CSV with URI and discovered predicate columns", () => {
   const quads = parseNQuads(
-    "<https://example.org/p1> <https://example.org/title> \"Profile One\" .\n<https://example.org/p1> <https://example.org/type> <https://example.org/kind> .\n<https://example.org/p2> <https://example.org/title> \"Profile Two\" .\n",
+    `<https://example.org/p1> <https://example.org/title> "Profile One" .
+<https://example.org/p1> <https://example.org/type> <https://example.org/kind> .
+<https://example.org/p2> <https://example.org/title> "Profile Two" .
+`,
   );
   const csv = buildPredicateCsvFromQuads(quads);
   const lines = csv.trim().split("\n");

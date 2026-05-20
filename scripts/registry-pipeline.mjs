@@ -158,6 +158,13 @@ export function mergeNQuads(existingContent, newContent) {
   return [...merged].sort().join("\n") + (merged.size ? "\n" : "");
 }
 
+export function countNQuadStatements(content = "") {
+  if (!content.trim()) {
+    return 0;
+  }
+  return content.trim().split("\n").filter(Boolean).length;
+}
+
 export function updateRegistryCsv(existingCsv, newEntries) {
   const parseCsvRow = (row) => {
     const values = [];

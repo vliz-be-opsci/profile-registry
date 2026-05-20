@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { extractAllRDF, extractRDF } from "wrx";
 import {
   categorizeTypedResources,
+  countNQuadStatements,
   collectSurroundingProfileQuads,
   createFallbackProfileTypeTriple,
   getCatalogLinkedUris,
@@ -89,7 +90,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
 
   return {
     registeredProfiles: profileUris.size,
-    writtenTriples: discoveredNQuads.trim().split("\n").filter(Boolean).length,
+    writtenTriples: countNQuadStatements(discoveredNQuads),
     outputFile: `profiles/issue-${issueNumber}.nq`,
   };
 }
