@@ -11,6 +11,7 @@ const CATALOG_TYPES = new Set([
   "http://www.w3.org/ns/dcat#Catalog",
   "http://www.w3.org/ns/dcat#catalog",
 ]);
+const MULTI_VALUE_SEPARATOR = " | ";
 
 const DCAT_LINK_PREDICATES = new Set([
   "http://www.w3.org/ns/dcat#dataset",
@@ -270,7 +271,9 @@ export function buildPredicateCsvFromQuads(quads) {
     const row = rowMap.get(subject);
     const values = predicates.map((predicate) => {
       const objects = row.get(predicate);
-      return objects ? [...objects].sort((a, b) => a.localeCompare(b)).join(" | ") : "";
+      return objects
+        ? [...objects].sort((a, b) => a.localeCompare(b)).join(MULTI_VALUE_SEPARATOR)
+        : "";
     });
     lines.push([subject, ...values].map(escapeCsv).join(","));
   }

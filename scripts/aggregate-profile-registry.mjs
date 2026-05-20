@@ -35,7 +35,7 @@ console.log(
   JSON.stringify(
     {
       filesProcessed: nqFiles.length,
-      mergedTriples: merged.split("\n").filter(Boolean).length,
+      mergedTriples: quads.length,
       csvRows: csv.split("\n").filter(Boolean).length - 1,
     },
     null,

@@ -89,7 +89,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
 
   return {
     registeredProfiles: profileUris.size,
-    writtenTriples: discoveredNQuads.split("\n").filter(Boolean).length,
+    writtenTriples: discoveredNQuads.trim().split("\n").filter(Boolean).length,
     outputFile: `profiles/issue-${issueNumber}.nq`,
   };
 }
