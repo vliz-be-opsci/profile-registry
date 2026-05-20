@@ -96,22 +96,11 @@ test("builds RFC7284 registry metadata triples for discovered profiles", () => {
   );
 
   const metadata = buildRfc7284RegistryMetadataNQuads(quads);
-  assert.equal(
-    metadata.includes(
-      "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#InformationResourceDirectory> .",
-    ),
-    true,
-  );
-  assert.equal(
-    metadata.includes(
-      "<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/profile/a> .",
-    ),
-    true,
-  );
-  assert.equal(
-    metadata.includes(
-      "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .",
-    ),
-    true,
-  );
+  const lines = metadata.trim().split("\n");
+  assert.equal(lines.length, 3);
+  assert.deepEqual(lines.sort((a, b) => a.localeCompare(b)), [
+    "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#InformationResourceDirectory> .",
+    "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .",
+    "<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/profile/a> .",
+  ]);
 });

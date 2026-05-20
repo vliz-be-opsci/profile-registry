@@ -297,7 +297,7 @@ export function buildRfc7284RegistryMetadataNQuads(quads) {
     `<${REGISTRY_RESOURCE_URI}> <${RDFS_SEE_ALSO}> <${RFC7284_DOCUMENT}> .`,
   ];
 
-  for (const profileUri of [...profiles].sort((a, b) => a.localeCompare(b))) {
+  for (const profileUri of Array.from(profiles).sort((a, b) => a.localeCompare(b))) {
     registryTriples.push(`<${REGISTRY_RESOURCE_URI}> <${RFC7284_URI_PREDICATE}> <${profileUri}> .`);
   }
 
