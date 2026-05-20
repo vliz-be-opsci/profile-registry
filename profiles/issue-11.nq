@@ -56,7 +56,9 @@
 <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/cedricdcc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/11> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/12> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/11> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/pull/12> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://open-science.vliz.be/demo-profile-repository> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
