@@ -3,25 +3,1792 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile Registry</title>
+    <title>Semantic Profile Registry | Open Science VLIZ</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --bg-color: #080c14;
+        --card-bg: rgba(13, 20, 35, 0.65);
+        --card-hover: rgba(18, 28, 48, 0.8);
+        --border-color: rgba(255, 255, 255, 0.06);
+        --border-hover: rgba(99, 102, 241, 0.35);
+        --border-focus: rgba(99, 102, 241, 0.6);
+        --text-primary: #f3f4f6;
+        --text-secondary: #9ca3af;
+        --text-muted: #4b5563;
+        --accent-color: #6366f1;
+        --accent-glow: rgba(99, 102, 241, 0.35);
+        --success-color: #10b981;
+        --success-glow: rgba(16, 185, 129, 0.2);
+        
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+        --text-gradient: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #818cf8 100%);
+        
+        --font-sans: 'Inter', sans-serif;
+        --font-heading: 'Outfit', sans-serif;
+        --font-mono: 'Fira Code', monospace;
+        
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      /* Glowing background decorative blobs */
+      .glow-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(140px);
+        z-index: -1;
+        opacity: 0.35;
+        pointer-events: none;
+        mix-blend-mode: screen;
+      }
+
+      .blob-1 {
+        top: -15%;
+        left: -10%;
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
+      }
+
+      .blob-2 {
+        top: 45%;
+        right: -15%;
+        width: 55vw;
+        height: 55vw;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0) 70%);
+      }
+
+      .blob-3 {
+        bottom: -10%;
+        left: 15%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(236, 72, 153, 0) 70%);
+      }
+
+      /* Navigation Bar */
+      nav {
+        background: rgba(8, 12, 20, 0.7);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        transition: var(--transition);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.25rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #ffffff;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: 1.35rem;
+        letter-spacing: -0.01em;
+      }
+
+      .logo svg {
+        color: #818cf8;
+        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .nav-link:hover {
+        color: #ffffff;
+      }
+
+      .nav-btn {
+        background: rgba(99, 102, 241, 0.15);
+        border: 1px solid rgba(99, 102, 241, 0.35);
+        padding: 0.5rem 1.1rem;
+        border-radius: 100px;
+        color: #a5b4fc;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .nav-btn:hover {
+        background: #6366f1;
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
+      }
+
+      /* Main container layout */
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        max-width: 850px;
+        margin: 0 auto;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .badge-container {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 1.1rem;
+        background: rgba(99, 102, 241, 0.08);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        border-radius: 100px;
+        color: #818cf8;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.06);
+      }
+
+      .badge.badge-success {
+        background: rgba(16, 185, 129, 0.08);
+        border-color: rgba(16, 185, 129, 0.25);
+        color: #34d399;
+      }
+
+      h1 {
+        font-family: var(--font-heading);
+        font-size: 4.25rem;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 1.75rem;
+        background: var(--text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+      }
+
+      .lead {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        max-width: 750px;
+        margin: 0 auto 2.5rem auto;
+        font-weight: 300;
+        line-height: 1.7;
+      }
+
+      .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: #ffffff;
+        padding: 1rem 2rem;
+        border-radius: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        font-size: 1rem;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        color: #ffffff;
+        padding: 1rem 2rem;
+        border-radius: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: var(--transition);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+      }
+
+      /* Core Explanation Section */
+      .section-header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 3rem auto;
+      }
+
+      .section-header h2 {
+        font-family: var(--font-heading);
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.75rem;
+        background: linear-gradient(to right, #ffffff, #d1d5db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .section-header p {
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+      }
+
+      /* Glassmorphic Cards Grid */
+      .glass-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      @media (max-width: 900px) {
+        .glass-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .glass-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 2.5rem;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.03);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .glass-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0) 100%);
+      }
+
+      .glass-card:hover {
+        border-color: var(--border-hover);
+        background: var(--card-hover);
+        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08),
+                    0 10px 30px rgba(0, 0, 0, 0.35);
+        transform: translateY(-3px);
+      }
+
+      .card-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: rgba(99, 102, 241, 0.08);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        color: #818cf8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        box-shadow: inset 0 2px 4px rgba(99, 102, 241, 0.1);
+      }
+
+      .glass-card h3 {
+        font-family: var(--font-heading);
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 0.85rem;
+        color: #ffffff;
+      }
+
+      .glass-card p {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      .card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #818cf8;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: 1.5rem;
+        transition: var(--transition);
+      }
+
+      .card-link:hover {
+        color: #d946ef;
+      }
+
+      /* Interactive Stepper: Registration Pipeline */
+      .pipeline-section {
+        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 60%);
+        border-radius: 32px;
+        border: 1px solid var(--border-color);
+        padding: 4rem 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .pipeline-section {
+          padding: 2.5rem 1.5rem;
+        }
+      }
+
+      .stepper-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        position: relative;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 900px) {
+        .stepper-container {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+      }
+
+      .step-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .step-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #0f172a;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+        transition: var(--transition);
+        font-family: var(--font-heading);
+        z-index: 2;
+      }
+
+      .step-item:hover .step-badge {
+        border-color: #818cf8;
+        background: #6366f1;
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+      }
+
+      .step-title {
+        font-family: var(--font-heading);
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+      }
+
+      .step-description {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Decorative line between steps (only on desktop) */
+      @media (min-width: 901px) {
+        .step-item:not(:last-child)::after {
+          content: '';
+          position: absolute;
+          top: 19px;
+          left: 38px;
+          width: calc(100% + 2rem - 38px);
+          height: 2px;
+          background: linear-gradient(to right, rgba(99, 102, 241, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+          z-index: 1;
+        }
+      }
+
+      /* Two Column Interactive Dashboard */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+
+      @media (max-width: 950px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Registration Form Section styling */
+      .form-card {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .card-header-with-icon {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .card-header-with-icon h2 {
+        font-family: var(--font-heading);
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      .card-header-with-icon svg {
+        color: #818cf8;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #a5b4fc;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-wrapper svg {
+        position: absolute;
+        left: 1.25rem;
+        color: var(--text-muted);
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 1.15rem 1.15rem 1.15rem 3.25rem;
+        background: rgba(5, 8, 16, 0.8);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        transition: var(--transition);
+        outline: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      input[type="text"]:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18),
+                    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      input[type="text"]:focus + svg {
+        color: #818cf8;
+      }
+
+      /* Checklist of Requirements */
+      .checklist-card {
+        background: rgba(5, 8, 16, 0.4);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .checklist-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #a5b4fc;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      .checklist-item.verified svg {
+        color: #34d399;
+        margin-top: 2px;
+      }
+
+      .checklist-item.caution svg {
+        color: #fbbf24;
+        margin-top: 2px;
+      }
+
+      .checklist-item code {
+        font-family: var(--font-mono);
+        color: #e2e8f0;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.82rem;
+      }
+
+      /* Active stream visualization section */
+      .stream-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stream-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 0.9rem;
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        color: #34d399;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 100px;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+      }
+
+      .status-pill.loading {
+        background: rgba(245, 158, 11, 0.08);
+        border-color: rgba(245, 158, 11, 0.25);
+        color: #fbbf24;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: currentColor;
+        box-shadow: 0 0 8px currentColor;
+      }
+
+      .status-dot.pulse {
+        animation: pulseAnimation 1.5s infinite alternate;
+      }
+
+      /* High Fidelity Console Simulator */
+      .console-window {
+        background: #040711;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5),
+                    inset 0 1px 2px rgba(255, 255, 255, 0.02);
+        display: flex;
+        flex-direction: column;
+        max-height: 480px;
+      }
+
+      .console-topbar {
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 0.85rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .console-dots {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .console-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ef4444;
+      }
+
+      .console-dot.yellow { background: #eab308; }
+      .console-dot.green { background: #22c55e; }
+
+      .console-title {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        letter-spacing: 0.02em;
+      }
+
+      .console-action-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 6px;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .console-action-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+      }
+
+      .console-body {
+        padding: 1.5rem;
+        overflow: auto;
+        font-family: var(--font-mono);
+        font-size: 0.83rem;
+        line-height: 1.6;
+        color: #818cf8;
+        flex-grow: 1;
+      }
+
+      .console-body pre {
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      /* Active Profile Directory Section (Tabular filtering view) */
+      .explorer-section {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 32px;
+        padding: 3.5rem;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .explorer-section {
+          padding: 2rem 1.25rem;
+        }
+      }
+
+      .explorer-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .search-box-wrapper {
+        position: relative;
+        flex-grow: 1;
+        max-width: 450px;
+        min-width: 280px;
+      }
+
+      .search-box-wrapper svg {
+        position: absolute;
+        left: 1.1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.85rem 1rem 0.85rem 2.85rem;
+        background: rgba(5, 8, 16, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        transition: var(--transition);
+        outline: none;
+      }
+
+      .search-input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      }
+
+      .search-input:focus + svg {
+        color: #818cf8;
+      }
+
+      .sandbox-banner {
+        width: 100%;
+        background: rgba(245, 158, 11, 0.08);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        border-radius: 14px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .sandbox-banner-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: #fbbf24;
+      }
+
+      .sandbox-banner-left svg {
+        flex-shrink: 0;
+      }
+
+      .sandbox-toggle-btn {
+        background: rgba(245, 158, 11, 0.15);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: #fbbf24;
+        padding: 0.4rem 1rem;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .sandbox-toggle-btn:hover {
+        background: #fbbf24;
+        color: #080c14;
+      }
+
+      /* Dynamic Profiles Table */
+      .table-wrapper {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        background: rgba(5, 8, 16, 0.4);
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.95rem;
+      }
+
+      th {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 1.1rem 1.5rem;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      td {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        vertical-align: top;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.005);
+      }
+
+      .profile-identity {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .profile-uri-link {
+        font-family: var(--font-mono);
+        color: #a5b4fc;
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: var(--transition);
+        word-break: break-all;
+      }
+
+      .profile-uri-link:hover {
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(165, 180, 252, 0.3);
+      }
+
+      .profile-label {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff;
+        font-family: var(--font-heading);
+      }
+
+      .type-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        font-weight: 500;
+        font-family: var(--font-mono);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .type-pill:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+
+      .type-pill.profile {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: rgba(99, 102, 241, 0.25);
+        color: #a5b4fc;
+      }
+
+      .type-pill.profile:hover {
+        background: #6366f1;
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+      }
+
+      .type-pill.catalog {
+        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(139, 92, 246, 0.25);
+        color: #c084fc;
+      }
+
+      .type-pill.catalog:hover {
+        background: #8b5cf6;
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+      }
+
+      /* View Provenance button styling */
+      .btn-prov {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        color: #a5b4fc;
+        padding: 0.5rem 1.1rem;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 0.5rem;
+        width: fit-content;
+      }
+
+      .btn-prov:hover {
+        background: var(--primary-gradient);
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+        transform: translateY(-1px);
+      }
+
+      .btn-prov:active {
+        transform: translateY(1px);
+      }
+
+      /* Associated Properties Dictionary View inside explorer table */
+      .assoc-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        font-size: 0.88rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .assoc-table tr:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .assoc-table td {
+        padding: 0.85rem 1.15rem;
+        vertical-align: top;
+        border: none;
+      }
+
+      .assoc-predicate-cell {
+        width: 32%;
+        font-family: var(--font-mono);
+        color: #818cf8;
+        word-break: break-all;
+        font-weight: 600;
+      }
+
+      .assoc-predicate-cell a {
+        color: inherit;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .assoc-predicate-cell a:hover {
+        color: #d946ef;
+        text-decoration: underline;
+      }
+
+      .assoc-value-cell {
+        width: 68%;
+        word-break: break-all;
+        color: var(--text-secondary);
+      }
+
+      .assoc-value-cell a {
+        color: #a5b4fc;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .assoc-value-cell a:hover {
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(165, 180, 252, 0.4);
+      }
+
+      .assoc-literal-string {
+        color: #34d399;
+      }
+
+      .assoc-literal-other {
+        color: #fbbf24;
+      }
+
+      .actions-cell {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .action-icon-btn {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .action-icon-btn:hover {
+        background: rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.4);
+        color: #ffffff;
+      }
+
+      .action-icon-btn:active {
+        transform: scale(0.95);
+      }
+
+      .no-results {
+        padding: 4rem 2rem;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+
+      /* W3C PROV-O Graphical Provenance Modal Overlay */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(4, 7, 17, 0.85);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-window {
+        background: #0b0f19;
+        border: 1px solid var(--border-hover);
+        border-radius: 28px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(99, 102, 241, 0.15);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform: translateY(20px);
+        transition: var(--transition);
+      }
+
+      .modal-overlay.active .modal-window {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .modal-title {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      .modal-close-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .modal-close-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+      }
+
+      .modal-body {
+        padding: 2rem;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+
+      /* Graphical Flowchart Nodes for Provenance */
+      .prov-flow-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        margin: 1.5rem 0;
+      }
+
+      .prov-node {
+        background: rgba(13, 20, 35, 0.85);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 1.1rem 1.4rem;
+        width: 100%;
+        max-width: 580px;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.02);
+        transition: var(--transition);
+      }
+
+      .prov-node:hover {
+        border-color: var(--border-hover);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.05),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.04);
+      }
+
+      .prov-node-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+
+      .prov-node.source .prov-node-icon {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        color: #34d399;
+      }
+
+      .prov-node.influence .prov-node-icon {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        color: #fbbf24;
+      }
+
+      .prov-node.activity .prov-node-icon {
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        color: #818cf8;
+      }
+
+      .prov-node.agent .prov-node-icon {
+        background: rgba(219, 39, 119, 0.1);
+        border: 1px solid rgba(219, 39, 119, 0.25);
+        color: #f472b6;
+      }
+
+      .prov-node.profile-target {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.4);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.1),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      }
+
+      .prov-node.profile-target .prov-node-icon {
+        background: rgba(99, 102, 241, 0.2);
+        border: 1px solid rgba(99, 102, 241, 0.4);
+        color: #a5b4fc;
+      }
+
+      .prov-node-info {
+        flex-grow: 1;
+        min-width: 0;
+      }
+
+      .prov-node-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+        margin-bottom: 0.2rem;
+      }
+
+      .prov-node-title {
+        font-family: var(--font-heading);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.25rem;
+      }
+
+      .prov-node-value {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        word-break: break-all;
+      }
+
+      .prov-node-value a {
+        color: #818cf8;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .prov-node-value a:hover {
+        color: #d946ef;
+        text-decoration: underline;
+      }
+
+      .prov-flow-arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: rgba(99, 102, 241, 0.4);
+        font-size: 0.85rem;
+        font-weight: 700;
+        gap: 0.2rem;
+      }
+
+      .prov-flow-arrow svg {
+        animation: floatArrow 1.5s infinite alternate;
+      }
+
+      @keyframes floatArrow {
+        from { transform: translateY(0); }
+        to { transform: translateY(4px); }
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 5rem 2rem 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      footer a {
+        color: #818cf8;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      footer a:hover {
+        color: #d946ef;
+        text-decoration: underline;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulseAnimation {
+        from {
+          opacity: 0.6;
+          box-shadow: 0 0 4px currentColor;
+        }
+        to {
+          opacity: 1;
+          box-shadow: 0 0 12px currentColor;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Background glow elements -->
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <svg xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+          Open Science Profiles
+        </a>
+        <div class="nav-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#pipeline" class="nav-link">Pipeline</a>
+          <a href="#register" class="nav-link">Register</a>
+          <a href="#explorer" class="nav-link">Explorer</a>
+          <a href="https://github.com/vliz-be-opsci/profile-registry" target="_blank" class="nav-btn">GitHub Repo</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
     <main>
-      <h1>Profile Registry</h1>
-      <form id="register-profile-form">
-        <label for="profile-uri">Profile URI</label>
-        <input id="profile-uri" name="profile-uri" type="text" required />
-        <button type="submit">Register Profile</button>
-      </form>
-      <section>
-        <h2>Profile Registry Triples</h2>
-        <p id="triples-status">Loading triples…</p>
-        <pre id="triples-output"></pre>
+      <!-- Hero Header -->
+      <section class="hero">
+        <div class="badge-container">
+          <div class="badge">W3C DXWG Standard</div>
+          <div class="badge">RFC 7284 Compliant</div>
+          <div class="badge">Recursive wrx Discovery</div>
+          <div class="badge badge-success">Provenance Named Graph</div>
+        </div>
+        <h1>Decentralized Profile Registry</h1>
+        <p class="lead">
+          A modern, machine-actionable open-science infrastructure designed to index, validate, audit, and traverse semantic RDF profiles, W3C specifications, and metadata catalogs.
+        </p>
+        <div class="hero-buttons">
+          <a href="#register" class="btn-primary">
+            Register a Profile
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#explorer" class="btn-secondary">
+            Explore Active Index
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </a>
+        </div>
       </section>
+
+      <!-- About Section: What is a Profile Registry? -->
+      <section id="about" class="about-section">
+        <div class="section-header">
+          <h2>What is a Profile Registry?</h2>
+          <p>Learn how decentralized profiles govern metadata compliance and structure open-science discovery.</p>
+        </div>
+
+        <div class="glass-grid">
+          <!-- Card 1 -->
+          <div class="glass-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>W3C Profiles (prof:Profile)</h3>
+            <p>
+              A W3C profile is a semantic specification that constrains, extends, or combines standard base vocabularies (e.g. DCAT or PROV) for custom domains. It establishes machine-readable structural agreements for data communities.
+            </p>
+            <a href="https://www.w3.org/TR/dx-prof/" target="_blank" class="card-link">
+              Read W3C Specification
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glass-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Recursive Crawler (wrx)</h3>
+            <p>
+              Our registry utilizes the high-performance <code>wrx</code> traversal package to recursively crawl sub-catalogs and resource links. It automatically harvests profiles and schema alignments while filtering noisy blank nodes to preserve clean graphs.
+            </p>
+            <a href="https://github.com/vliz-be-opsci/profile-registry" target="_blank" class="card-link">
+              Explore Our Engine
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glass-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3>W3C PROV-O Provenance</h3>
+            <p>
+              Every registration automatically generates a Dublin Core and W3C PROV-O provenance chain, stored inside a dedicated named graph (<code style="color: #a5b4fc;">#provenance</code>). This records the parsed source URL, discovery pathways, requesting issue, and pull request.
+            </p>
+            <a href="https://www.w3.org/TR/prov-o/" target="_blank" class="card-link">
+              Learn W3C PROV-O
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pipeline Visualization Section -->
+      <section id="pipeline" class="pipeline-section">
+        <div class="section-header" style="margin-bottom: 2rem;">
+          <h2 style="font-size: 2rem; background: linear-gradient(to right, #ffffff, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Automated Registration Workflow
+          </h2>
+          <p>Here is how our decentralized pipeline recursively processes and indexes profile submissions.</p>
+        </div>
+
+        <div class="stepper-container">
+          <!-- Step 1 -->
+          <div class="step-item">
+            <div class="step-badge">01</div>
+            <div class="step-title">Submit URI</div>
+            <div class="step-description">
+              Provide a persistent profile or catalog URI (e.g. PurL, w3id, URN) into our registration form below.
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="step-item">
+            <div class="step-badge">02</div>
+            <div class="step-title">Trigger Run</div>
+            <div class="step-description">
+              A structured GitHub Issue is generated. Our automated CI workflow instantly boots up to resolve and crawl your resource.
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="step-item">
+            <div class="step-badge">03</div>
+            <div class="step-title">Parse & Clean</div>
+            <div class="step-description">
+              The crawl resolves recursive nodes via <code>wrx</code>, isolates profile predicates, filters blank nodes, and seals W3C PROV-O provenance.
+            </div>
+          </div>
+          <!-- Step 4 -->
+          <div class="step-item">
+            <div class="step-badge">04</div>
+            <div class="step-title">PR & Publish</div>
+            <div class="step-description">
+              An automated Pull Request is opened. Upon administrative approval, the profile enters the globally aggregated registry CSV & N-Quads.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Interactive Section -->
+      <div id="register" class="dashboard-grid">
+        <!-- Form Section -->
+        <section class="glass-card form-card">
+          <div class="card-header-with-icon">
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            <h2>Register Profile</h2>
+          </div>
+          
+          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 0.5rem;">
+            Submit your semantic resource below. Our pipeline will traverse catalogs, extract profiles, validate compliance, and request review.
+          </p>
+
+          <form id="register-profile-form">
+            <div class="input-group">
+              <label for="profile-uri">Resource URI / URL</label>
+              <div class="input-wrapper">
+                <input 
+                  id="profile-uri" 
+                  name="profile-uri" 
+                  type="text" 
+                  placeholder="https://w3id.org/ro/crate" 
+                  required 
+                />
+                <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+              Verify & Submit to Pipeline
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+
+          <!-- Checklist -->
+          <div class="checklist-card">
+            <div class="checklist-title">Submission Requirements Checklist</div>
+            <div class="checklist-item verified">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Persistent unique identifier (e.g. <code>https://w3id.org/...</code> or <code>urn:...</code>)</span>
+            </div>
+            <div class="checklist-item verified">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Explicit RDFS type declaration (e.g. <code>prof:Profile</code>, <code>dcat:Catalog</code>)</span>
+            </div>
+            <div class="checklist-item caution">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Noisy blank nodes will be cleaned/excluded from the final aggregated CSV</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Active Stream Section -->
+        <section class="glass-card stream-card">
+          <div class="stream-header">
+            <div class="card-header-with-icon">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <h2>Registry Metadata</h2>
+            </div>
+            <div id="triples-status-badge" class="status-pill loading">
+              <span class="status-dot pulse"></span>
+              <span id="triples-status">Checking…</span>
+            </div>
+          </div>
+
+          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">
+            Directly conforming to RFC 7284 (Information Resource Dictionary standard) metadata rules:
+          </p>
+
+          <!-- Console Window -->
+          <div class="console-window">
+            <div class="console-topbar">
+              <div class="console-dots">
+                <span class="console-dot"></span>
+                <span class="console-dot yellow"></span>
+                <span class="console-dot green"></span>
+              </div>
+              <span class="console-title">profile-registry-triples.nq</span>
+              <button class="console-action-btn" id="copy-console-btn" title="Copy Content">
+                <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div class="console-body">
+              <pre id="triples-output">Awaiting stream...</pre>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Active Profile Directory Section -->
+      <section id="explorer" class="explorer-section">
+        <div class="section-header">
+          <h2>Active Profile Explorer</h2>
+          <p>Search, filter, and inspect registered semantic profiles in our structured key-value database view.</p>
+        </div>
+
+        <div class="sandbox-banner" id="sandbox-warning" style="display: none;">
+          <div class="sandbox-banner-left">
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><strong>Sandbox Mode:</strong> Showing simulated registry records because the compiled N-Quads dataset is empty or not yet aggregated.</span>
+          </div>
+          <button class="sandbox-toggle-btn" id="toggle-sandbox-btn">Try Re-loading Live Data</button>
+        </div>
+
+        <div class="explorer-controls">
+          <div class="search-box-wrapper">
+            <input 
+              type="text" 
+              class="search-input" 
+              id="search-profiles" 
+              placeholder="Search profile URIs, predicates, or associated data values..." 
+            />
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <a href="./registry.csv" download class="btn-primary" id="download-csv-btn" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download registry.csv
+            </a>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;" id="table-record-count">
+              Loading directory...
+            </div>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-wrapper">
+          <table id="profiles-table">
+            <thead>
+              <tr>
+                <th style="width: 38%;">Profile Identifier & Actions</th>
+                <th style="width: 62%;">Associated Data (Semantic Key-Value Pairs)</th>
+              </tr>
+            </thead>
+            <tbody id="profiles-tbody">
+              <!-- Rendered Dynamically -->
+              <tr>
+                <td colspan="2" class="no-results">Initializing registry explorer...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <p>Conforms to W3C DXWG standards. Powering open science semantic structures at <a href="https://www.vliz.be/" target="_blank">VLIZ (Flanders Marine Institute)</a>.</p>
+        <p style="font-size: 0.78rem; opacity: 0.8;">
+          Designed with ❤️ for premium accessibility & modern visual standardizations. Licensed under CC-BY 4.0.
+        </p>
+      </footer>
     </main>
+
+    <!-- W3C PROV-O Graphical Provenance Modal Overlay -->
+    <div class="modal-overlay" id="provenance-modal">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h3 class="modal-title">W3C PROV-O Provenance Audit</h3>
+          <button class="modal-close-btn" id="close-modal-btn" title="Close Overlay">
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="card-description" style="margin-bottom: 1.5rem; text-align: center;">
+            This dynamic graph represents the official Dublin Core and W3C PROV-O lineage trail for this registered resource.
+          </p>
+          <div class="prov-flow-container" id="prov-flow-content">
+            <!-- Dynamic Flowchart Nodes Rendered Here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       const triplesStatus = document.getElementById("triples-status");
       const triplesOutput = document.getElementById("triples-output");
+      const triplesBadge = document.getElementById("triples-status-badge");
+      const copyConsoleBtn = document.getElementById("copy-console-btn");
+      
+      const searchProfiles = document.getElementById("search-profiles");
+      const profilesTbody = document.getElementById("profiles-tbody");
+      const recordCountSpan = document.getElementById("table-record-count");
+      const sandboxWarning = document.getElementById("sandbox-warning");
+      const toggleSandboxBtn = document.getElementById("toggle-sandbox-btn");
+
+      const provenanceModal = document.getElementById("provenance-modal");
+      const closeModalBtn = document.getElementById("close-modal-btn");
+      const provFlowContent = document.getElementById("prov-flow-content");
+
+      let parsedRegistryData = []; // holds structured profiles
+      let isSandboxMode = false;
+
+      // RDF Namespace dictionary mapping for clickable predicate shortening
+      const namespaces = {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
+        "http://www.w3.org/2000/01/rdf-schema#": "rdfs",
+        "http://www.w3.org/ns/dx/prof/": "prof",
+        "http://purl.org/dc/terms/": "dct",
+        "http://www.w3.org/ns/prov#": "prov",
+        "http://www.w3.org/ns/dcat#": "dcat",
+        "http://schema.org/": "schema",
+        "http://xmlns.com/foaf/0.1/": "foaf",
+        "http://www.w3.org/2002/07/owl#": "owl"
+      };
+
+      function shortenUri(uri) {
+        for (const [ns, prefix] of Object.entries(namespaces)) {
+          if (uri.startsWith(ns)) {
+            return `${prefix}:${uri.slice(ns.length)}`;
+          }
+        }
+        return uri;
+      }
+
+      // High-Fidelity Mock Sandbox N-Quads including active metadata and PROV-O provenance structures
+      const sandboxNQuads = `
+# RO-Crate Profile
+<https://w3id.org/ro/crate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://w3id.org/ro/crate> <http://www.w3.org/2000/01/rdf-schema#label> "Research Object Crate Profile" .
+<https://w3id.org/ro/crate> <http://purl.org/dc/terms/title> "RO-Crate Specification Profile" .
+<https://w3id.org/ro/crate> <http://purl.org/dc/terms/description> "A lightweight profile of schema.org and other vocabularies to describe research datasets." .
+<https://w3id.org/ro/crate> <http://www.w3.org/ns/dx/prof/hasResource> <https://w3id.org/ro/crate/specification> .
+<https://w3id.org/ro/crate> <http://purl.org/dc/terms/publisher> <https://researchobject.org> .
+
+# RO-Crate Provenance (in named graph)
+<https://w3id.org/ro/crate> <http://purl.org/dc/terms/source> <https://w3id.org/ro/crate/context.jsonld> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://w3id.org/ro/crate/context.jsonld> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/4> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/4> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/cedricdcc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/4> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/12> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/pull/12> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+
+# VLIZ Demo Profile
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Catalog> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/2000/01/rdf-schema#label> "VLIZ Ocean Science Demo Profile" .
+<https://open-science.vliz.be/demo-profile-repository> <http://purl.org/dc/terms/title> "VLIZ Ocean Profile" .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/2002/07/owl#versionInfo> "v1.2.0" .
+
+# VLIZ Demo Provenance (in named graph)
+<https://open-science.vliz.be/demo-profile-repository> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository/index.html> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz-be-opsci/demo-profile-repository/index.html> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/5> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/5> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/githu-user> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/githu-user> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/5> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/13> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/pull/13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+
+# Discovered Profile (recursively crawled)
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/2000/01/rdf-schema#label> "Recursive Nested Marine Profile" .
+
+# Discovered Profile Provenance
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository/nested-profile.ttl> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz-be-opsci/demo-profile-repository/nested-profile.ttl> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/5> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+`;
+
+      // Console copying helper
+      copyConsoleBtn.addEventListener("click", () => {
+        const text = triplesOutput.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const originalTitle = copyConsoleBtn.title;
+          copyConsoleBtn.title = "Copied!";
+          setTimeout(() => {
+            copyConsoleBtn.title = originalTitle;
+          }, 1500);
+        });
+      });
 
       async function loadTriples() {
         try {
@@ -29,28 +1796,524 @@
             cache: "no-store",
           });
           if (!response.ok) {
-            throw new Error("No triples found yet.");
+            throw new Error("No registry quads discovered yet.");
           }
           const content = await response.text();
           const lines = content
             .split("\n")
             .map((line) => line.trim())
             .filter(Boolean);
-          triplesStatus.textContent = `${lines.length} triples loaded`;
-          triplesOutput.textContent = lines.join("\n");
+          
+          triplesBadge.className = "status-pill";
+          triplesStatus.textContent = `${lines.length} Triples Active`;
+          
+          // Simple custom syntax highlighting for N-Quads (Subjects, Predicates, Objects, named graph)
+          const highlightedLines = lines.map(line => {
+            let safeLine = line.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            safeLine = safeLine.replace(/(&lt;[^&]+&gt;)/g, '<span style="color: #a5b4fc;">$1</span>');
+            return safeLine;
+          });
+
+          triplesOutput.innerHTML = highlightedLines.join("\n");
         } catch (error) {
-          console.warn(
-            `Failed to load triples: ${error?.message ?? error}`,
-          );
-          // Keep the page usable even before any triples are discovered.
-          triplesStatus.textContent =
-            "No triples available yet. New registrations will populate this view.";
-          triplesOutput.textContent = "";
+          console.warn(`Failed to load triples: ${error?.message ?? error}`);
+          triplesBadge.className = "status-pill loading";
+          triplesStatus.textContent = "Awaiting Registrations";
+          triplesOutput.textContent = "# Triples will appear here as profiles are registered and validated via GitHub Actions.\n# Conforming to RFC 7284 ProfileURIsRegistry.";
         }
       }
 
-      loadTriples();
+      // Highly robust browser-based N-Quads parser
+      function parseNQuads(text) {
+        const lines = text.split("\n");
+        const quads = [];
+        // Matches: subject predicate object [graph] .
+        const regex = /^\s*(<[^>]+>|_:\S+)\s+(<[^>]+>)\s+(<[^>]+>|_:\S+|"(?:\\"|[^"])*"(?:\^\^<[^>]+>|@[a-zA-Z-]+)?)\s*(?:(<[^>]+>))?\s*\.\s*$/;
+        
+        for (let line of lines) {
+          line = line.trim();
+          if (!line || line.startsWith("#")) continue;
+          const match = line.match(regex);
+          if (match) {
+            const subject = unescapeRdf(match[1]);
+            const predicate = unescapeRdf(match[2]);
+            const object = unescapeRdf(match[3]);
+            const graph = match[4] ? unescapeRdf(match[4]) : "";
+            quads.push({ subject, predicate, object, graph });
+          }
+        }
+        return quads;
+      }
 
+      function unescapeRdf(term) {
+        if (term.startsWith("<") && term.endsWith(">")) {
+          return { type: "NamedNode", value: term.slice(1, -1) };
+        }
+        if (term.startsWith("_:")) {
+          return { type: "BlankNode", value: term };
+        }
+        if (term.startsWith('"')) {
+          const lastQuote = term.lastIndexOf('"');
+          let value = term.slice(1, lastQuote).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+          const suffix = term.slice(lastQuote + 1);
+          let datatype = "";
+          let language = "";
+          if (suffix.startsWith("^^")) {
+            datatype = suffix.slice(3, -1);
+          } else if (suffix.startsWith("@")) {
+            language = suffix.slice(1);
+          }
+          return { type: "Literal", value, datatype, language };
+        }
+        return { type: "Unknown", value: term };
+      }
+
+      // Group quads into profiles, associated properties, and provenance named graph
+      function processQuadsIntoRegistry(quads) {
+        const profilesMap = new Map();
+        const provenanceMap = new Map();
+
+        // 1. Identify distinct subjects having provenance records OR explicit profile types
+        const candidateProfileSubjects = new Set();
+
+        quads.forEach(q => {
+          const sub = q.subject.value;
+          const pred = q.predicate.value;
+          const obj = q.object.value;
+          const graph = typeof q.graph === "string" ? q.graph : q.graph.value;
+
+          // Ignore the registry descriptor itself
+          if (sub === "https://github.com/vliz-be-opsci/profile-registry#registry") {
+            return;
+          }
+
+          if (graph === "https://github.com/vliz-be-opsci/profile-registry#provenance") {
+            candidateProfileSubjects.add(sub);
+            // Collect provenance assertions
+            if (!provenanceMap.has(sub)) provenanceMap.set(sub, []);
+            provenanceMap.get(sub).push(q);
+          } else {
+            // Check for explicit RDF profile/catalog typing
+            if (pred === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+              if (
+                obj === "http://www.w3.org/ns/dx/prof/Profile" ||
+                obj === "http://www.w3.org/ns/dcat#Catalog"
+              ) {
+                candidateProfileSubjects.add(sub);
+              }
+            }
+          }
+        });
+
+        // 2. Build structured data map of properties for each verified profile
+        candidateProfileSubjects.forEach(profileUri => {
+          profilesMap.set(profileUri, {
+            uri: profileUri,
+            properties: new Map(), // predicate -> Array of object terms
+            types: new Set(),
+            provenance: []
+          });
+        });
+
+        // 3. Populate properties for each identified profile from default graph assertions
+        quads.forEach(q => {
+          const sub = q.subject.value;
+          const pred = q.predicate.value;
+          const obj = q.object;
+          const graph = typeof q.graph === "string" ? q.graph : q.graph.value;
+
+          if (graph === "https://github.com/vliz-be-opsci/profile-registry#provenance") {
+            return; // processed separately
+          }
+
+          if (profilesMap.has(sub)) {
+            const profile = profilesMap.get(sub);
+            if (!profile.properties.has(pred)) {
+              profile.properties.set(pred, []);
+            }
+            profile.properties.get(pred).push(obj);
+
+            // Record types
+            if (pred === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+              profile.types.add(obj.value);
+            }
+          }
+        });
+
+        // 4. Attach provenance lists to each profile model
+        provenanceMap.forEach((provQuads, sub) => {
+          if (profilesMap.has(sub)) {
+            profilesMap.get(sub).provenance = provQuads;
+          }
+        });
+
+        return Array.from(profilesMap.values());
+      }
+
+      async function fetchRegistryNQuads() {
+        try {
+          const response = await fetch("./all_profiles_quads.nq", {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error("Aggregated N-Quads file not found.");
+          }
+          const content = await response.text();
+          const quads = parseNQuads(content);
+          parsedRegistryData = processQuadsIntoRegistry(quads);
+          if (parsedRegistryData.length === 0) {
+            throw new Error("Aggregated N-Quads has no active profiles.");
+          }
+
+          isSandboxMode = false;
+          sandboxWarning.style.display = "none";
+          renderExplorerTable(parsedRegistryData);
+        } catch (error) {
+          console.warn(`Live N-Quads missing/empty: ${error?.message ?? error}. Loading Sandbox Sandbox Data.`);
+          const quads = parseNQuads(sandboxNQuads);
+          parsedRegistryData = processQuadsIntoRegistry(quads);
+          isSandboxMode = true;
+          sandboxWarning.style.display = "flex";
+          renderExplorerTable(parsedRegistryData);
+        }
+      }
+
+      // Render the two-column profile list matching predicates dynamically
+      function renderExplorerTable(data) {
+        profilesTbody.innerHTML = "";
+
+        if (data.length === 0) {
+          profilesTbody.innerHTML = `<tr><td colspan="2" class="no-results">No profiles found matching your search term.</td></tr>`;
+          recordCountSpan.textContent = "0 Records Found";
+          return;
+        }
+
+        data.forEach(profile => {
+          const tr = document.createElement("tr");
+
+          // Build explicitly registered types badges
+          const typesList = Array.from(profile.types);
+          const typePillsHtml = typesList.map(type => {
+            const shortName = shortenUri(type).split(":").pop();
+            const isProfile = type.toLowerCase().includes("profile");
+            const isCatalog = type.toLowerCase().includes("catalog");
+            const pillClass = isProfile ? "type-pill profile" : (isCatalog ? "type-pill catalog" : "type-pill");
+            return `<a href="${type}" target="_blank" class="${pillClass}" title="${type}">${shortName}</a>`;
+          }).join(" ") || '<a href="http://www.w3.org/2000/01/rdf-schema#Resource" target="_blank" class="type-pill">Resource</a>';
+
+          // Build Column 2: Associated Properties Table (predicates and values fully clickable)
+          let assocPropertiesHtml = `<table class="assoc-table">`;
+          
+          // Sort predicates alphabetically
+          const sortedPredicates = Array.from(profile.properties.keys()).sort((a, b) => a.localeCompare(b));
+          
+          if (sortedPredicates.length === 0) {
+            assocPropertiesHtml += `<tr><td colspan="2" style="color: var(--text-muted); font-style: italic;">No default properties associated.</td></tr>`;
+          } else {
+            sortedPredicates.forEach(pred => {
+              const objects = profile.properties.get(pred);
+              const shortenedPred = shortenUri(pred);
+
+              // Render predicate clickable link
+              assocPropertiesHtml += `
+                <tr>
+                  <td class="assoc-predicate-cell">
+                    <a href="${pred}" target="_blank" title="${pred}">${shortenedPred}</a>
+                  </td>
+                  <td class="assoc-value-cell">
+                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+              `;
+
+              // Render object values: links if NamedNodes, styled strings otherwise
+              objects.forEach(obj => {
+                if (obj.type === "NamedNode") {
+                  assocPropertiesHtml += `
+                    <div>
+                      <a href="${obj.value}" target="_blank" title="${obj.value}">${shortenUri(obj.value)}</a>
+                    </div>
+                  `;
+                } else if (obj.type === "Literal") {
+                  const isString = !obj.datatype || obj.datatype.includes("string");
+                  const styleClass = isString ? "assoc-literal-string" : "assoc-literal-other";
+                  const displayValue = isString ? `"${obj.value}"` : obj.value;
+                  assocPropertiesHtml += `
+                    <div class="${styleClass}">
+                      ${displayValue}
+                    </div>
+                  `;
+                } else {
+                  assocPropertiesHtml += `<div>${obj.value}</div>`;
+                }
+              });
+
+              assocPropertiesHtml += `
+                    </div>
+                  </td>
+                </tr>
+              `;
+            });
+          }
+          assocPropertiesHtml += `</table>`;
+
+          // Put everything together
+          tr.innerHTML = `
+            <td>
+              <div class="profile-identity">
+                <span class="profile-label">${profile.uri.split(/[\/#]/).pop() || profile.uri}</span>
+                <a href="${profile.uri}" target="_blank" class="profile-uri-link">${profile.uri}</a>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.25rem;">
+                  ${typePillsHtml}
+                </div>
+                <button class="btn-prov view-provenance-btn" data-uri="${profile.uri}">
+                  <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/><path d="M12 2L2 7L12 12L22 7L12 2Z"/></svg>
+                  View Provenance Graph
+                </button>
+              </div>
+            </td>
+            <td>
+              ${assocPropertiesHtml}
+            </td>
+          `;
+
+          // Add click listener to trigger the graphical W3C PROV-O Flowchart Modal
+          tr.querySelector(".view-provenance-btn").addEventListener("click", function() {
+            const uri = this.getAttribute("data-uri");
+            openProvenanceVisualizer(uri);
+          });
+
+          profilesTbody.appendChild(tr);
+        });
+
+        const label = isSandboxMode ? "Mock Sandbox" : "Active";
+        recordCountSpan.textContent = `${data.length} ${label} Records Found`;
+      }
+
+      // W3C PROV-O Graphical Provenance visualizer engine
+      function openProvenanceVisualizer(profileUri) {
+        provFlowContent.innerHTML = "";
+        
+        // Find profile entry
+        const profile = parsedRegistryData.find(p => p.uri === profileUri);
+        if (!profile) return;
+
+        // Traverse provenance quads to reconstruct relationships
+        let sourceUri = "";
+        let parentUri = "";
+        let issueUrl = "";
+        let creatorUri = "";
+        let prUrl = "";
+
+        profile.provenance.forEach(q => {
+          const pred = q.predicate.value;
+          const obj = q.object.value;
+
+          if (pred === "http://purl.org/dc/terms/source" || pred === "http://www.w3.org/ns/prov#wasDerivedFrom") {
+            sourceUri = obj;
+          } else if (pred === "http://www.w3.org/ns/prov#wasInfluencedBy") {
+            parentUri = obj;
+          } else if (pred === "http://www.w3.org/ns/prov#wasGeneratedBy") {
+            issueUrl = obj;
+          }
+        });
+
+        // Resolve retrospective activities from default graph or provenance assertions
+        if (issueUrl) {
+          // search graph quads for matching issueUrl subject
+          const registryQuads = isSandboxMode ? parseNQuads(sandboxNQuads) : [];
+          
+          // Helper search list combining all provenance lists
+          const allProvQuads = [];
+          parsedRegistryData.forEach(p => allProvQuads.push(...p.provenance));
+
+          allProvQuads.forEach(q => {
+            if (q.subject.value === issueUrl) {
+              if (q.predicate.value === "http://www.w3.org/ns/prov#wasAssociatedWith") {
+                creatorUri = q.object.value;
+              } else if (q.predicate.value === "http://www.w3.org/ns/prov#used") {
+                prUrl = q.object.value;
+              }
+            }
+          });
+        }
+
+        // Generate Graphical Flow nodes using CSS/HTML structure
+        let nodesHtml = "";
+
+        // 1. Crawler Origin Source Node
+        if (sourceUri) {
+          nodesHtml += `
+            <div class="prov-node source">
+              <div class="prov-node-icon">🌐</div>
+              <div class="prov-node-info">
+                <div class="prov-node-label">dct:source / prov:wasDerivedFrom</div>
+                <div class="prov-node-title">Resolved Data Source</div>
+                <div class="prov-node-value">
+                  <a href="${sourceUri}" target="_blank">${sourceUri}</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 2. Influence Parent (optional)
+        if (parentUri) {
+          nodesHtml += `
+            <div class="prov-flow-arrow">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+            <div class="prov-node influence">
+              <div class="prov-node-icon">🔗</div>
+              <div class="prov-node-info">
+                <div class="prov-node-label">prov:wasInfluencedBy</div>
+                <div class="prov-node-title">Parent Discovery Catalog</div>
+                <div class="prov-node-value">
+                  <a href="${parentUri}" target="_blank">${parentUri}</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 3. Activity GitHub Pipeline Node
+        if (issueUrl) {
+          const issueNumStr = issueUrl.split("/").pop();
+          nodesHtml += `
+            <div class="prov-flow-arrow">
+              <span>resolved by</span>
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+            <div class="prov-node activity">
+              <div class="prov-node-icon">⚙️</div>
+              <div class="prov-node-info">
+                <div class="prov-node-label">prov:wasGeneratedBy (prov:Activity)</div>
+                <div class="prov-node-title">GitHub Actions Pipeline</div>
+                <div class="prov-node-value">
+                  Registration Request: <a href="${issueUrl}" target="_blank">Issue #${issueNumStr}</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 4. Request Author Agent Node
+        if (creatorUri) {
+          const username = creatorUri.split("/").pop();
+          nodesHtml += `
+            <div class="prov-flow-arrow">
+              <span>requested by</span>
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+            <div class="prov-node agent">
+              <div class="prov-node-icon">👤</div>
+              <div class="prov-node-info">
+                <div class="prov-node-label">prov:wasAssociatedWith (prov:Agent)</div>
+                <div class="prov-node-title">Request Author</div>
+                <div class="prov-node-value">
+                  GitHub User: <a href="${creatorUri}" target="_blank">@${username}</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 5. PR Verification Node (Retrospective Entity)
+        if (prUrl) {
+          const prNumStr = prUrl.split("/").pop();
+          nodesHtml += `
+            <div class="prov-flow-arrow">
+              <span>verified & merged via</span>
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+            <div class="prov-node agent" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.35);">
+              <div class="prov-node-icon" style="background: rgba(139, 92, 246, 0.1); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.25);">🔀</div>
+              <div class="prov-node-info">
+                <div class="prov-node-label">prov:used (prov:Entity)</div>
+                <div class="prov-node-title">Retrospective Pull Request</div>
+                <div class="prov-node-value">
+                  GitHub PR: <a href="${prUrl}" target="_blank" style="color: #c084fc;">Pull Request #${prNumStr}</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 6. Registered Destination Target Node
+        nodesHtml += `
+          <div class="prov-flow-arrow">
+            <span>produced active index</span>
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </div>
+          <div class="prov-node profile-target">
+            <div class="prov-node-icon">🌟</div>
+            <div class="prov-node-info">
+              <div class="prov-node-label">Active Registry Item</div>
+              <div class="prov-node-title">${profileUri.split(/[\/#]/).pop() || profileUri}</div>
+              <div class="prov-node-value">
+                <a href="${profileUri}" target="_blank">${profileUri}</a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (!sourceUri && !issueUrl) {
+          provFlowContent.innerHTML = `
+            <div style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+              <p>No lineage assertions found. Added via direct manual pull request.</p>
+            </div>
+          `;
+        } else {
+          provFlowContent.innerHTML = nodesHtml;
+        }
+
+        // Open modal window
+        provenanceModal.classList.add("active");
+      }
+
+      // Close modal events
+      closeModalBtn.addEventListener("click", () => provenanceModal.classList.remove("active"));
+      provenanceModal.addEventListener("click", (e) => {
+        if (e.target === provenanceModal) provenanceModal.classList.remove("active");
+      });
+
+      // Filter/Search Logic across profile URIs, predicate keys, and associated values
+      searchProfiles.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) {
+          renderExplorerTable(parsedRegistryData);
+          return;
+        }
+
+        const filtered = parsedRegistryData.filter(profile => {
+          const matchUri = profile.uri.toLowerCase().includes(query);
+          
+          let matchProperties = false;
+          profile.properties.forEach((objs, pred) => {
+            if (pred.toLowerCase().includes(query) || shortenUri(pred).toLowerCase().includes(query)) {
+              matchProperties = true;
+            }
+            objs.forEach(obj => {
+              if (obj.value.toLowerCase().includes(query)) {
+                matchProperties = true;
+              }
+            });
+          });
+
+          return matchUri || matchProperties;
+        });
+
+        renderExplorerTable(filtered);
+      });
+
+      // Toggle Sandbox/Live Action
+      toggleSandboxBtn.addEventListener("click", () => {
+        fetchRegistryNQuads();
+      });
+
+      // Initialize
+      loadTriples();
+      fetchRegistryNQuads();
+
+      // Form Submit Redirection to GitHub Issue
       document
         .getElementById("register-profile-form")
         .addEventListener("submit", function (event) {
