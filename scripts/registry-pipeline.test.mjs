@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildRfc7284RegistryMetadataNQuads,
   buildPredicateCsvFromQuads,
   categorizeTypedResources,
   collectSurroundingProfileQuads,
@@ -85,4 +86,26 @@ test("builds aggregate CSV with URI and discovered predicate columns", () => {
   );
   assert.equal(lines[1], "https://example.org/p1,Profile One,https://example.org/kind");
   assert.equal(lines[2], "https://example.org/p2,Profile Two,");
+});
+
+test("builds RFC7284 registry metadata triples for discovered profiles", () => {
+  const quads = parseNQuads(
+    `<https://example.org/profile/a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://example.org/catalog/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Catalog> .
+`,
+  );
+
+  const metadata = buildRfc7284RegistryMetadataNQuads(quads);
+  assert.equal(
+    metadata.includes(
+      "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#InformationResourceDirectory> .",
+    ),
+    true,
+  );
+  assert.equal(
+    metadata.includes(
+      "<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/profile/a> .",
+    ),
+    true,
+  );
 });

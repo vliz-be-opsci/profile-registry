@@ -1,5 +1,10 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
-import { mergeNQuads, parseNQuads, buildPredicateCsvFromQuads } from "./registry-pipeline.mjs";
+import {
+  mergeNQuads,
+  parseNQuads,
+  buildPredicateCsvFromQuads,
+  buildRfc7284RegistryMetadataNQuads,
+} from "./registry-pipeline.mjs";
 import { getErrorMessage } from "./error-utils.mjs";
 
 const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
@@ -25,10 +30,13 @@ for (const fileName of nqFiles) {
 }
 
 const quads = parseNQuads(merged);
-const csv = buildPredicateCsvFromQuads(quads);
+const registryMetadata = buildRfc7284RegistryMetadataNQuads(quads);
+const mergedWithRegistryMetadata = mergeNQuads(merged, registryMetadata);
+const publishedQuads = parseNQuads(mergedWithRegistryMetadata);
+const csv = buildPredicateCsvFromQuads(publishedQuads);
 
 await Promise.all([
-  writeFile(ALL_PROFILES_PATH, merged, "utf8"),
+  writeFile(ALL_PROFILES_PATH, mergedWithRegistryMetadata, "utf8"),
   writeFile(REGISTRY_CSV_PATH, csv, "utf8"),
 ]);
 
@@ -36,7 +44,7 @@ console.log(
   JSON.stringify(
     {
       filesProcessed: nqFiles.length,
-      mergedTriples: quads.length,
+      mergedTriples: publishedQuads.length,
       csvRows: csv.split("\n").filter(Boolean).length - 1,
     },
     null,

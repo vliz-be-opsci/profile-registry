@@ -1,0 +1,2 @@
+<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#InformationResourceDirectory> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .

@@ -2,6 +2,11 @@ import { Parser, Writer } from "n3";
 
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const PROF_PROFILE = "http://www.w3.org/ns/dx/prof/Profile";
+const RDFS_SEE_ALSO = "http://www.w3.org/2000/01/rdf-schema#seeAlso";
+const RFC7284_DOCUMENT = "https://datatracker.ietf.org/doc/html/rfc7284";
+const RFC7284_IRD_CLASS = "https://datatracker.ietf.org/doc/html/rfc7284#InformationResourceDirectory";
+const RFC7284_URI_PREDICATE = "https://datatracker.ietf.org/doc/html/rfc7284#uri";
+const REGISTRY_RESOURCE_URI = "https://github.com/vliz-be-opsci/profile-registry#registry";
 const PROFILE_TYPES = new Set([
   PROF_PROFILE,
   "http://www.w3.org/2000/01/rdf-schema#Profile",
@@ -283,4 +288,19 @@ export function buildPredicateCsvFromQuads(quads) {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+export function buildRfc7284RegistryMetadataNQuads(quads) {
+  const { profiles } = categorizeTypedResources(quads);
+  const registryTriples = [
+    `<${REGISTRY_RESOURCE_URI}> <${RDF_TYPE}> <${RFC7284_IRD_CLASS}> .`,
+    `<${REGISTRY_RESOURCE_URI}> <${RDFS_SEE_ALSO}> <${RFC7284_DOCUMENT}> .`,
+  ];
+
+  for (const profileUri of [...profiles].sort((a, b) => a.localeCompare(b))) {
+    registryTriples.push(`<${REGISTRY_RESOURCE_URI}> <${RFC7284_URI_PREDICATE}> <${profileUri}> .`);
+    registryTriples.push(`<${profileUri}> <${RDF_TYPE}> <${PROF_PROFILE}> .`);
+  }
+
+  return registryTriples.join("\n") + "\n";
 }
