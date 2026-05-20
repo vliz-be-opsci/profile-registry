@@ -1,5 +1,7 @@
-# profile-registry
-A common place to register profile and catalogs of profiles that will be published in a human and machine explorable way.
+# cpurr (cpurr Profile URI Resource Registry)
+A recursive, machine-actionable open-science registry designed to index, validate, audit, and traverse semantic RDF profiles and catalogs.
+
+`cpurr == cpurr profile-uri-resource-registry`
 
 ## Development
 

@@ -1,2 +1,7 @@
 <https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry> .
 <https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://open-science.vliz.be/demo-profile-repository> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://w3id.org/ro/crate> .

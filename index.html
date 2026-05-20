@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Semantic Profile Registry | Open Science VLIZ</title>
+    <title>cpurr | cpurr Profile URI Resource Registry</title>
+
+    <!-- Signposting & Metadata Discovery for wrx crawler -->
+    <link rel="describedby" type="text/turtle" href="describedby.ttl" />
+    <link rel="linkset" type="application/linkset+json" href="linkset.json" />
+    <link rel="linkset" type="application/linkset" href="linkset" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -311,14 +317,32 @@
         text-decoration: none;
         color: var(--logo-color);
         font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: 1.35rem;
-        letter-spacing: -0.01em;
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: -0.02em;
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        color: var(--accent-color);
       }
 
       .logo svg {
         color: var(--logo-svg-color);
         filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.4));
+        transition: var(--transition);
+      }
+
+      .logo:hover .cat-logo-svg {
+        animation: purr 1.2s ease-in-out infinite;
+      }
+
+      @keyframes purr {
+        0% { transform: scale(1) translateY(0); }
+        25% { transform: scale(1.05) translateY(-1px) rotate(-1deg); }
+        50% { transform: scale(0.97) translateY(0) rotate(1deg); }
+        75% { transform: scale(1.04) translateY(-0.5px) rotate(-0.5deg); }
+        100% { transform: scale(1) translateY(0); }
       }
 
       .nav-links {
@@ -505,14 +529,8 @@
       /* Glassmorphic Cards Grid */
       .glass-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 2rem;
-      }
-
-      @media (max-width: 900px) {
-        .glass-grid {
-          grid-template-columns: 1fr;
-        }
       }
 
       .glass-card {
@@ -1633,9 +1651,22 @@
     <!-- Navigation Bar -->
     <nav>
       <div class="nav-container">
-        <a href="#" class="logo">
-          <svg xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-          Open Science Profiles
+        <a href="#" class="logo" title="cpurr: cpurr Profile-URI-Resource-Registry">
+          <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Cat head outline with ears -->
+            <path d="M12 21c-4.4 0-8-3.6-8-8 0-3.3 2-6.2 4.9-7.4L7 2l4 3h2l4-3-1.9 3.6c2.9 1.2 4.9 4.1 4.9 7.4 0 4.4-3.6 8-8 8z"/>
+            <!-- Eyes -->
+            <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
+            <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
+            <!-- Nose -->
+            <path d="M12 14c-.3 0-.5-.2-.5-.4 0-.3.2-.4.5-.4s.5.1.5.4c0 .2-.2.4-.5.4z" fill="currentColor"/>
+            <!-- Whiskers -->
+            <line x1="5.5" y1="14" x2="2.5" y2="13.5"/>
+            <line x1="5.5" y1="15.5" x2="2" y2="15.5"/>
+            <line x1="18.5" y1="14" x2="21.5" y2="13.5"/>
+            <line x1="18.5" y1="15.5" x2="22" y2="15.5"/>
+          </svg>
+          cpurr
         </a>
         <div class="nav-links">
           <a href="#register" class="nav-link">Register</a>
@@ -1661,10 +1692,11 @@
           <div class="badge">RFC 7284 Compliant</div>
           <div class="badge">Recursive wrx Discovery</div>
           <div class="badge badge-success">Provenance Named Graph</div>
+          <div class="badge badge-success" style="background: rgba(220, 100, 150, 0.15); color: #ec4899; border-color: rgba(220, 100, 150, 0.3);">🐱 Recursive Acronym</div>
         </div>
-        <h1>Decentralized Profile Registry</h1>
+        <h1>cpurr</h1>
         <p class="lead">
-          A modern, machine-actionable open-science infrastructure designed to index, validate, audit, and traverse semantic RDF profiles, W3C specifications, and metadata catalogs.
+          <strong>cpurr</strong> (<em><strong>c</strong>purr <strong>p</strong>rofile-<strong>u</strong>ri-<strong>r</strong>esource-<strong>r</strong>egistry</em>) &mdash; a recursive, machine-actionable open-science registry designed to index, validate, audit, and traverse semantic RDF profiles, W3C specifications, and metadata catalogs.
         </p>
         <div class="hero-buttons">
           <a href="#register" class="btn-primary">
@@ -1877,6 +1909,26 @@
               Learn W3C PROV-O
               <svg xmlns="http://www.w3.org/2000/01/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="glass-card">
+            <div class="card-icon">
+              <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Cat head outline with ears -->
+                <path d="M12 21c-4.4 0-8-3.6-8-8 0-3.3 2-6.2 4.9-7.4L7 2l4 3h2l4-3-1.9 3.6c2.9 1.2 4.9 4.1 4.9 7.4 0 4.4-3.6 8-8 8z"/>
+                <!-- Eyes -->
+                <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
+                <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3>cpurr Recursive Acronym</h3>
+            <p>
+              Following classic hackers' recursion traditions (like GNU and SPARQL), <strong>cpurr</strong> stands recursively for <em><strong>c</strong>purr <strong>p</strong>rofile-<strong>u</strong>ri-<strong>r</strong>egistry</em>. Other variants include <code>fpurr</code>, <code>wpurr</code>, or <code>xpurr</code>.
+            </p>
+            <div class="card-link" style="cursor: default; opacity: 0.85;">
+              <code>cpurr == cpurr profile-uri-resource-registry</code>
+            </div>
           </div>
         </div>
       </section>

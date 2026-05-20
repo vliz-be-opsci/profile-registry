@@ -30,6 +30,24 @@ await Promise.all([
     },
   ),
   copyFile(new URL("conventions.MD", root), new URL("conventions.MD", dist)),
+  copyFile(new URL("describedby.ttl", root), new URL("describedby.ttl", dist)).catch(
+    (error) => {
+      const message = getErrorMessage(error);
+      console.warn(`Skipping optional describedby.ttl copy: ${message}`);
+    },
+  ),
+  copyFile(new URL("linkset.json", root), new URL("linkset.json", dist)).catch(
+    (error) => {
+      const message = getErrorMessage(error);
+      console.warn(`Skipping optional linkset.json copy: ${message}`);
+    },
+  ),
+  copyFile(new URL("linkset", root), new URL("linkset", dist)).catch(
+    (error) => {
+      const message = getErrorMessage(error);
+      console.warn(`Skipping optional linkset copy: ${message}`);
+    },
+  ),
 ]);
 
 console.log("Build complete: dist/ generated with site and registry assets.");

@@ -1,0 +1,30 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://github.com/vliz-be-opsci/profile-registry",
+      "describedby": [
+        {
+          "href": "https://github.com/vliz-be-opsci/profile-registry/describedby.ttl",
+          "type": "text/turtle"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+        },
+        {
+          "href": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json"
+        },
+        {
+          "href": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json"
+        },
+        {
+          "href": "https://open-science.vliz.be/demo-profile-repository"
+        },
+        {
+          "href": "https://w3id.org/ro/crate"
+        }
+      ]
+    }
+  ]
+}

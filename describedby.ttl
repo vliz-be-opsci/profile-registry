@@ -1,0 +1,25 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prof: <http://www.w3.org/ns/dx/prof/> .
+
+<https://github.com/vliz-be-opsci/profile-registry> a dcat:Catalog ;
+    dcterms:title "cpurr: cpurr Profile URI Resource Registry" ;
+    dcterms:description "A recursive, machine-actionable open-science registry designed to index, validate, audit, and traverse semantic RDF profiles and catalogs." ;
+    dcterms:publisher <https://open-science.vliz.be/> ;
+    rdfs:seeAlso <https://github.com/vliz-be-opsci/profile-registry> .
+
+<https://github.com/vliz-be-opsci/profile-registry> dcat:resource <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+<https://github.com/vliz-be-opsci/profile-registry> dcat:dataset <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+
+<https://github.com/vliz-be-opsci/profile-registry> dcat:resource <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+<https://github.com/vliz-be-opsci/profile-registry> dcat:dataset <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+
+<https://github.com/vliz-be-opsci/profile-registry> dcat:resource <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+<https://github.com/vliz-be-opsci/profile-registry> dcat:dataset <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+
+<https://github.com/vliz-be-opsci/profile-registry> dcat:resource <https://open-science.vliz.be/demo-profile-repository> .
+<https://github.com/vliz-be-opsci/profile-registry> dcat:dataset <https://open-science.vliz.be/demo-profile-repository> .
+
+<https://github.com/vliz-be-opsci/profile-registry> dcat:resource <https://w3id.org/ro/crate> .
+<https://github.com/vliz-be-opsci/profile-registry> dcat:dataset <https://w3id.org/ro/crate> .
