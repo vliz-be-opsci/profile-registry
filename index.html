@@ -15,18 +15,27 @@
         --card-bg: rgba(13, 20, 35, 0.65);
         --card-hover: rgba(18, 28, 48, 0.8);
         --border-color: rgba(255, 255, 255, 0.06);
-        --border-hover: rgba(99, 102, 241, 0.35);
-        --border-focus: rgba(99, 102, 241, 0.6);
+        --border-hover: rgba(101, 201, 205, 0.35);
+        --border-focus: rgba(101, 201, 205, 0.6);
         --text-primary: #f3f4f6;
         --text-secondary: #9ca3af;
         --text-muted: #4b5563;
-        --accent-color: #6366f1;
-        --accent-glow: rgba(99, 102, 241, 0.35);
+        
+        /* VLIZ Brand Colors */
+        --accent-color: #65c9cd; /* Bright Turquoise */
+        --accent-rgb: 101, 201, 205;
+        --ocean-color: #0779bf;  /* Ocean Blue */
+        --ocean-rgb: 7, 121, 191;
+        --navy-color: #354d9b;   /* Deep Corporate Blue */
+        --navy-rgb: 53, 77, 155;
+        
+        --accent-glow: rgba(101, 201, 205, 0.35);
         --success-color: #10b981;
         --success-glow: rgba(16, 185, 129, 0.2);
         
-        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-        --text-gradient: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #818cf8 100%);
+        /* Sleek Ocean Gradients */
+        --primary-gradient: linear-gradient(135deg, var(--navy-color) 0%, var(--ocean-color) 50%, var(--accent-color) 100%);
+        --text-gradient: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, var(--accent-color) 100%);
         
         --font-sans: 'Inter', sans-serif;
         --font-heading: 'Outfit', sans-serif;
@@ -67,7 +76,7 @@
         left: -10%;
         width: 60vw;
         height: 60vw;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
+        background: radial-gradient(circle, rgba(101, 201, 205, 0.4) 0%, rgba(101, 201, 205, 0) 70%);
       }
 
       .blob-2 {
@@ -75,7 +84,7 @@
         right: -15%;
         width: 55vw;
         height: 55vw;
-        background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0) 70%);
+        background: radial-gradient(circle, rgba(7, 121, 191, 0.35) 0%, rgba(7, 121, 191, 0) 70%);
       }
 
       .blob-3 {
@@ -83,7 +92,7 @@
         left: 15%;
         width: 50vw;
         height: 50vw;
-        background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(236, 72, 153, 0) 70%);
+        background: radial-gradient(circle, rgba(53, 77, 155, 0.25) 0%, rgba(53, 77, 155, 0) 70%);
       }
 
       /* Navigation Bar */
@@ -98,7 +107,7 @@
       }
 
       .nav-container {
-        max-width: 1200px;
+        max-width: 1920px;
         margin: 0 auto;
         padding: 1.25rem 2rem;
         display: flex;
@@ -119,8 +128,8 @@
       }
 
       .logo svg {
-        color: #818cf8;
-        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+        color: var(--accent-color);
+        filter: drop-shadow(0 0 8px rgba(101, 201, 205, 0.4));
       }
 
       .nav-links {
@@ -145,25 +154,25 @@
       }
 
       .nav-btn {
-        background: rgba(99, 102, 241, 0.15);
-        border: 1px solid rgba(99, 102, 241, 0.35);
+        background: rgba(101, 201, 205, 0.15);
+        border: 1px solid rgba(101, 201, 205, 0.35);
         padding: 0.5rem 1.1rem;
         border-radius: 100px;
-        color: #a5b4fc;
+        color: #8ce9ec;
         font-weight: 600;
         text-decoration: none;
         transition: var(--transition);
       }
 
       .nav-btn:hover {
-        background: #6366f1;
-        color: #ffffff;
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
+        background: var(--accent-color);
+        color: #080c14;
+        box-shadow: 0 0 15px rgba(101, 201, 205, 0.35);
       }
 
       /* Main container layout */
       main {
-        max-width: 1200px;
+        max-width: 1920px;
         margin: 0 auto;
         padding: 4rem 2rem;
         display: flex;
@@ -192,15 +201,15 @@
         align-items: center;
         gap: 0.4rem;
         padding: 0.4rem 1.1rem;
-        background: rgba(99, 102, 241, 0.08);
-        border: 1px solid rgba(99, 102, 241, 0.25);
+        background: rgba(var(--accent-rgb), 0.08);
+        border: 1px solid rgba(var(--accent-rgb), 0.25);
         border-radius: 100px;
-        color: #818cf8;
+        color: var(--accent-color);
         font-size: 0.8rem;
         font-weight: 600;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.06);
+        box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.06);
       }
 
       .badge.badge-success {
@@ -239,7 +248,7 @@
 
       .btn-primary {
         background: var(--primary-gradient);
-        color: #ffffff;
+        color: #080c14; /* Use dark background color for high contrast text on the bright turquoise gradient! */
         padding: 1rem 2rem;
         border-radius: 16px;
         font-weight: 600;
@@ -247,7 +256,7 @@
         display: inline-flex;
         align-items: center;
         gap: 0.75rem;
-        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        box-shadow: 0 8px 30px rgba(101, 201, 205, 0.4);
         transition: var(--transition);
         border: none;
         cursor: pointer;
@@ -257,7 +266,7 @@
 
       .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
+        box-shadow: 0 12px 35px rgba(101, 201, 205, 0.6);
       }
 
       .btn-secondary {
@@ -342,7 +351,7 @@
       .glass-card:hover {
         border-color: var(--border-hover);
         background: var(--card-hover);
-        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08),
+        box-shadow: 0 15px 40px rgba(101, 201, 205, 0.08),
                     0 10px 30px rgba(0, 0, 0, 0.35);
         transform: translateY(-3px);
       }
@@ -351,14 +360,14 @@
         width: 54px;
         height: 54px;
         border-radius: 16px;
-        background: rgba(99, 102, 241, 0.08);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        color: #818cf8;
+        background: rgba(101, 201, 205, 0.08);
+        border: 1px solid rgba(101, 201, 205, 0.2);
+        color: var(--accent-color);
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 1.5rem;
-        box-shadow: inset 0 2px 4px rgba(99, 102, 241, 0.1);
+        box-shadow: inset 0 2px 4px rgba(101, 201, 205, 0.1);
       }
 
       .glass-card h3 {
@@ -379,7 +388,7 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #818cf8;
+        color: var(--accent-color);
         text-decoration: none;
         font-weight: 600;
         font-size: 0.9rem;
@@ -388,12 +397,12 @@
       }
 
       .card-link:hover {
-        color: #d946ef;
+        color: var(--ocean-color);
       }
 
       /* Interactive Stepper: Registration Pipeline */
       .pipeline-section {
-        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 60%);
+        background: radial-gradient(circle at top right, rgba(101, 201, 205, 0.05), transparent 60%);
         border-radius: 32px;
         border: 1px solid var(--border-color);
         padding: 4rem 3rem;
@@ -446,10 +455,10 @@
       }
 
       .step-item:hover .step-badge {
-        border-color: #818cf8;
-        background: #6366f1;
-        color: #ffffff;
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+        border-color: var(--accent-color);
+        background: var(--accent-color);
+        color: #080c14;
+        box-shadow: 0 0 15px rgba(101, 201, 205, 0.5);
       }
 
       .step-title {
@@ -475,23 +484,22 @@
           left: 38px;
           width: calc(100% + 2rem - 38px);
           height: 2px;
-          background: linear-gradient(to right, rgba(99, 102, 241, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+          background: linear-gradient(to right, rgba(101, 201, 205, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
           z-index: 1;
         }
       }
 
-      /* Two Column Interactive Dashboard */
-      .dashboard-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        align-items: start;
+      /* Interactive Layout Sections */
+      .register-section {
+        max-width: 850px;
+        width: 100%;
+        margin: 0 auto;
       }
 
-      @media (max-width: 950px) {
-        .dashboard-grid {
-          grid-template-columns: 1fr;
-        }
+      .metadata-section {
+        max-width: 1400px;
+        width: 100%;
+        margin: 0 auto;
       }
 
       /* Registration Form Section styling */
@@ -515,7 +523,7 @@
       }
 
       .card-header-with-icon svg {
-        color: #818cf8;
+        color: var(--accent-color);
       }
 
       form {
@@ -533,7 +541,7 @@
       label {
         font-size: 0.8rem;
         font-weight: 700;
-        color: #a5b4fc;
+        color: var(--accent-color);
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
@@ -567,13 +575,13 @@
       }
 
       input[type="text"]:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18),
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px rgba(101, 201, 205, 0.18),
                     inset 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       input[type="text"]:focus + svg {
-        color: #818cf8;
+        color: var(--accent-color);
       }
 
       /* Checklist of Requirements */
@@ -590,7 +598,7 @@
       .checklist-title {
         font-size: 0.85rem;
         font-weight: 700;
-        color: #a5b4fc;
+        color: var(--accent-color);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         margin-bottom: 0.25rem;
@@ -738,7 +746,7 @@
         font-family: var(--font-mono);
         font-size: 0.83rem;
         line-height: 1.6;
-        color: #818cf8;
+        color: var(--accent-color);
         flex-grow: 1;
       }
 
@@ -803,12 +811,12 @@
       }
 
       .search-input:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(101, 201, 205, 0.15);
       }
 
       .search-input:focus + svg {
-        color: #818cf8;
+        color: var(--accent-color);
       }
 
       .sandbox-banner {
@@ -902,7 +910,7 @@
 
       .profile-uri-link {
         font-family: var(--font-mono);
-        color: #a5b4fc;
+        color: var(--accent-color);
         text-decoration: none;
         font-size: 0.88rem;
         font-weight: 500;
@@ -912,7 +920,7 @@
 
       .profile-uri-link:hover {
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(165, 180, 252, 0.3);
+        text-shadow: 0 0 10px rgba(101, 201, 205, 0.3);
       }
 
       .profile-label {
@@ -945,29 +953,29 @@
       }
 
       .type-pill.profile {
-        background: rgba(99, 102, 241, 0.1);
-        border-color: rgba(99, 102, 241, 0.25);
-        color: #a5b4fc;
+        background: rgba(101, 201, 205, 0.1);
+        border-color: rgba(101, 201, 205, 0.25);
+        color: var(--accent-color);
       }
 
       .type-pill.profile:hover {
-        background: #6366f1;
+        background: var(--accent-color);
         border-color: transparent;
-        color: #ffffff;
-        box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+        color: #080c14;
+        box-shadow: 0 0 12px rgba(101, 201, 205, 0.4);
       }
 
       .type-pill.catalog {
-        background: rgba(139, 92, 246, 0.1);
-        border-color: rgba(139, 92, 246, 0.25);
-        color: #c084fc;
+        background: rgba(7, 121, 191, 0.1);
+        border-color: rgba(7, 121, 191, 0.25);
+        color: var(--ocean-color);
       }
 
       .type-pill.catalog:hover {
-        background: #8b5cf6;
+        background: var(--ocean-color);
         border-color: transparent;
         color: #ffffff;
-        box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+        box-shadow: 0 0 12px rgba(7, 121, 191, 0.4);
       }
 
       /* View Provenance button styling */
@@ -975,9 +983,9 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: rgba(99, 102, 241, 0.1);
-        border: 1px solid rgba(99, 102, 241, 0.3);
-        color: #a5b4fc;
+        background: rgba(101, 201, 205, 0.1);
+        border: 1px solid rgba(101, 201, 205, 0.3);
+        color: var(--accent-color);
         padding: 0.5rem 1.1rem;
         border-radius: 10px;
         font-size: 0.85rem;
@@ -991,8 +999,8 @@
       .btn-prov:hover {
         background: var(--primary-gradient);
         border-color: transparent;
-        color: #ffffff;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+        color: #080c14;
+        box-shadow: 0 4px 15px rgba(101, 201, 205, 0.35);
         transform: translateY(-1px);
       }
 
@@ -1025,7 +1033,7 @@
       .assoc-predicate-cell {
         width: 32%;
         font-family: var(--font-mono);
-        color: #818cf8;
+        color: var(--accent-color);
         word-break: break-all;
         font-weight: 600;
       }
@@ -1037,7 +1045,7 @@
       }
 
       .assoc-predicate-cell a:hover {
-        color: #d946ef;
+        color: var(--ocean-color);
         text-decoration: underline;
       }
 
@@ -1048,14 +1056,14 @@
       }
 
       .assoc-value-cell a {
-        color: #a5b4fc;
+        color: var(--accent-color);
         text-decoration: none;
         transition: var(--transition);
       }
 
       .assoc-value-cell a:hover {
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(165, 180, 252, 0.4);
+        text-shadow: 0 0 10px rgba(101, 201, 205, 0.4);
       }
 
       .assoc-literal-string {
@@ -1086,8 +1094,8 @@
       }
 
       .action-icon-btn:hover {
-        background: rgba(99, 102, 241, 0.15);
-        border-color: rgba(99, 102, 241, 0.4);
+        background: rgba(101, 201, 205, 0.15);
+        border-color: rgba(101, 201, 205, 0.4);
         color: #ffffff;
       }
 
@@ -1133,7 +1141,7 @@
         max-width: 800px;
         max-height: 90vh;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                    0 0 40px rgba(99, 102, 241, 0.15);
+                    0 0 40px rgba(var(--accent-rgb), 0.15);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -1209,7 +1217,7 @@
 
       .prov-node:hover {
         border-color: var(--border-hover);
-        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.05),
+        box-shadow: 0 5px 15px rgba(var(--accent-rgb), 0.05),
                     inset 0 1px 1px rgba(255, 255, 255, 0.04);
       }
 
@@ -1237,9 +1245,9 @@
       }
 
       .prov-node.activity .prov-node-icon {
-        background: rgba(99, 102, 241, 0.1);
-        border: 1px solid rgba(99, 102, 241, 0.25);
-        color: #818cf8;
+        background: rgba(var(--accent-rgb), 0.1);
+        border: 1px solid rgba(var(--accent-rgb), 0.25);
+        color: var(--accent-color);
       }
 
       .prov-node.agent .prov-node-icon {
@@ -1249,16 +1257,16 @@
       }
 
       .prov-node.profile-target {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.4);
-        box-shadow: 0 0 20px rgba(99, 102, 241, 0.1),
+        background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.15) 0%, rgba(var(--ocean-rgb), 0.15) 100%);
+        border: 1px solid rgba(var(--accent-rgb), 0.4);
+        box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1),
                     inset 0 1px 1px rgba(255, 255, 255, 0.05);
       }
 
       .prov-node.profile-target .prov-node-icon {
-        background: rgba(99, 102, 241, 0.2);
-        border: 1px solid rgba(99, 102, 241, 0.4);
-        color: #a5b4fc;
+        background: rgba(var(--accent-rgb), 0.2);
+        border: 1px solid rgba(var(--accent-rgb), 0.4);
+        color: var(--accent-color);
       }
 
       .prov-node-info {
@@ -1290,13 +1298,14 @@
       }
 
       .prov-node-value a {
-        color: #818cf8;
+        color: var(--accent-color);
         text-decoration: none;
         transition: var(--transition);
       }
 
       .prov-node-value a:hover {
-        color: #d946ef;
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
         text-decoration: underline;
       }
 
@@ -1304,7 +1313,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: rgba(99, 102, 241, 0.4);
+        color: rgba(var(--accent-rgb), 0.4);
         font-size: 0.85rem;
         font-weight: 700;
         gap: 0.2rem;
@@ -1332,13 +1341,14 @@
       }
 
       footer a {
-        color: #818cf8;
+        color: var(--accent-color);
         text-decoration: none;
         transition: var(--transition);
       }
 
       footer a:hover {
-        color: #d946ef;
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
         text-decoration: underline;
       }
 
@@ -1380,10 +1390,11 @@
           Open Science Profiles
         </a>
         <div class="nav-links">
-          <a href="#about" class="nav-link">About</a>
-          <a href="#pipeline" class="nav-link">Pipeline</a>
           <a href="#register" class="nav-link">Register</a>
           <a href="#explorer" class="nav-link">Explorer</a>
+          <a href="#metadata-console" class="nav-link">Console</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#pipeline" class="nav-link">Pipeline</a>
           <a href="https://github.com/vliz-be-opsci/profile-registry" target="_blank" class="nav-btn">GitHub Repo</a>
         </div>
       </div>
@@ -1412,6 +1423,154 @@
             Explore Active Index
             <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </a>
+        </div>
+      </section>
+
+      <!-- Register Profile Section -->
+      <section id="register" class="register-section">
+        <!-- Form Section -->
+        <div class="glass-card form-card">
+          <div class="card-header-with-icon">
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            <h2>Register Profile</h2>
+          </div>
+          
+          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 0.5rem;">
+            Submit your semantic resource below. Our pipeline will traverse catalogs, extract profiles, validate compliance, and request review.
+          </p>
+
+          <form id="register-profile-form">
+            <div class="input-group">
+              <label for="profile-uri">Resource URI / URL</label>
+              <div class="input-wrapper">
+                <input 
+                  id="profile-uri" 
+                  name="profile-uri" 
+                  type="text" 
+                  placeholder="https://w3id.org/ro/crate" 
+                  required 
+                />
+                <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+              Verify & Submit to Pipeline
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+
+          <!-- Checklist -->
+          <div class="checklist-card">
+            <div class="checklist-title">Submission Requirements Checklist</div>
+            <div class="checklist-item verified">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Persistent unique identifier (e.g. <code>https://w3id.org/...</code> or <code>urn:...</code>)</span>
+            </div>
+            <div class="checklist-item verified">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Explicit RDFS type declaration (e.g. <code>prof:Profile</code>, <code>dcat:Catalog</code>)</span>
+            </div>
+            <div class="checklist-item caution">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Noisy blank nodes will be cleaned/excluded from the final aggregated CSV</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Profile Directory Section -->
+      <section id="explorer" class="explorer-section">
+        <div class="section-header">
+          <h2>Active Profile Explorer</h2>
+          <p>Search, filter, and inspect registered semantic profiles in our structured key-value database view.</p>
+        </div>
+
+        <div class="sandbox-banner" id="sandbox-warning" style="display: none;">
+          <div class="sandbox-banner-left">
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><strong>Sandbox Mode:</strong> Showing simulated registry records because the compiled N-Quads dataset is empty or not yet aggregated.</span>
+          </div>
+          <button class="sandbox-toggle-btn" id="toggle-sandbox-btn">Try Re-loading Live Data</button>
+        </div>
+
+        <div class="explorer-controls">
+          <div class="search-box-wrapper">
+            <input 
+              type="text" 
+              class="search-input" 
+              id="search-profiles" 
+              placeholder="Search profile URIs, predicates, or associated data values..." 
+            />
+            <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <a href="./registry.csv" download class="btn-primary" id="download-csv-btn" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.25);">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download registry.csv
+            </a>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;" id="table-record-count">
+              Loading directory...
+            </div>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-wrapper">
+          <table id="profiles-table">
+            <thead>
+              <tr>
+                <th style="width: 38%;">Profile Identifier & Actions</th>
+                <th style="width: 62%;">Associated Data (Semantic Key-Value Pairs)</th>
+              </tr>
+            </thead>
+            <tbody id="profiles-tbody">
+              <!-- Rendered Dynamically -->
+              <tr>
+                <td colspan="2" class="no-results">Initializing registry explorer...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Metadata Console Section -->
+      <section id="metadata-console" class="metadata-section">
+        <!-- Active Stream Section -->
+        <div class="glass-card stream-card">
+          <div class="stream-header">
+            <div class="card-header-with-icon">
+              <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <h2>Registry Metadata</h2>
+            </div>
+            <div id="triples-status-badge" class="status-pill loading">
+              <span class="status-dot pulse"></span>
+              <span id="triples-status">Checking…</span>
+            </div>
+          </div>
+
+          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">
+            Directly conforming to RFC 7284 (Information Resource Dictionary standard) metadata rules:
+          </p>
+
+          <!-- Console Window -->
+          <div class="console-window">
+            <div class="console-topbar">
+              <div class="console-dots">
+                <span class="console-dot"></span>
+                <span class="console-dot yellow"></span>
+                <span class="console-dot green"></span>
+              </div>
+              <span class="console-title">profile-registry-triples.nq</span>
+              <button class="console-action-btn" id="copy-console-btn" title="Copy Content">
+                <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div class="console-body">
+              <pre id="triples-output">Awaiting stream...</pre>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1460,7 +1619,7 @@
             </div>
             <h3>W3C PROV-O Provenance</h3>
             <p>
-              Every registration automatically generates a Dublin Core and W3C PROV-O provenance chain, stored inside a dedicated named graph (<code style="color: #a5b4fc;">#provenance</code>). This records the parsed source URL, discovery pathways, requesting issue, and pull request.
+              Every registration automatically generates a Dublin Core and W3C PROV-O provenance chain, stored inside a dedicated named graph (<code style="color: var(--accent-color);">#provenance</code>). This records the parsed source URL, discovery pathways, requesting issue, and pull request.
             </p>
             <a href="https://www.w3.org/TR/prov-o/" target="_blank" class="card-link">
               Learn W3C PROV-O
@@ -1473,7 +1632,7 @@
       <!-- Pipeline Visualization Section -->
       <section id="pipeline" class="pipeline-section">
         <div class="section-header" style="margin-bottom: 2rem;">
-          <h2 style="font-size: 2rem; background: linear-gradient(to right, #ffffff, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          <h2 style="font-size: 2rem; background: linear-gradient(to right, #ffffff, var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
             Automated Registration Workflow
           </h2>
           <p>Here is how our decentralized pipeline recursively processes and indexes profile submissions.</p>
@@ -1512,151 +1671,6 @@
               An automated Pull Request is opened. Upon administrative approval, the profile enters the globally aggregated registry CSV & N-Quads.
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Dashboard Interactive Section -->
-      <div id="register" class="dashboard-grid">
-        <!-- Form Section -->
-        <section class="glass-card form-card">
-          <div class="card-header-with-icon">
-            <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-            <h2>Register Profile</h2>
-          </div>
-          
-          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 0.5rem;">
-            Submit your semantic resource below. Our pipeline will traverse catalogs, extract profiles, validate compliance, and request review.
-          </p>
-
-          <form id="register-profile-form">
-            <div class="input-group">
-              <label for="profile-uri">Resource URI / URL</label>
-              <div class="input-wrapper">
-                <input 
-                  id="profile-uri" 
-                  name="profile-uri" 
-                  type="text" 
-                  placeholder="https://w3id.org/ro/crate" 
-                  required 
-                />
-                <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              </div>
-            </div>
-
-            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
-              Verify & Submit to Pipeline
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-          </form>
-
-          <!-- Checklist -->
-          <div class="checklist-card">
-            <div class="checklist-title">Submission Requirements Checklist</div>
-            <div class="checklist-item verified">
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Persistent unique identifier (e.g. <code>https://w3id.org/...</code> or <code>urn:...</code>)</span>
-            </div>
-            <div class="checklist-item verified">
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Explicit RDFS type declaration (e.g. <code>prof:Profile</code>, <code>dcat:Catalog</code>)</span>
-            </div>
-            <div class="checklist-item caution">
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span>Noisy blank nodes will be cleaned/excluded from the final aggregated CSV</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Active Stream Section -->
-        <section class="glass-card stream-card">
-          <div class="stream-header">
-            <div class="card-header-with-icon">
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              <h2>Registry Metadata</h2>
-            </div>
-            <div id="triples-status-badge" class="status-pill loading">
-              <span class="status-dot pulse"></span>
-              <span id="triples-status">Checking…</span>
-            </div>
-          </div>
-
-          <p class="card-description" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">
-            Directly conforming to RFC 7284 (Information Resource Dictionary standard) metadata rules:
-          </p>
-
-          <!-- Console Window -->
-          <div class="console-window">
-            <div class="console-topbar">
-              <div class="console-dots">
-                <span class="console-dot"></span>
-                <span class="console-dot yellow"></span>
-                <span class="console-dot green"></span>
-              </div>
-              <span class="console-title">profile-registry-triples.nq</span>
-              <button class="console-action-btn" id="copy-console-btn" title="Copy Content">
-                <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              </button>
-            </div>
-            <div class="console-body">
-              <pre id="triples-output">Awaiting stream...</pre>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- Active Profile Directory Section -->
-      <section id="explorer" class="explorer-section">
-        <div class="section-header">
-          <h2>Active Profile Explorer</h2>
-          <p>Search, filter, and inspect registered semantic profiles in our structured key-value database view.</p>
-        </div>
-
-        <div class="sandbox-banner" id="sandbox-warning" style="display: none;">
-          <div class="sandbox-banner-left">
-            <svg xmlns="http://www.w3.org/2000/01/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span><strong>Sandbox Mode:</strong> Showing simulated registry records because the compiled N-Quads dataset is empty or not yet aggregated.</span>
-          </div>
-          <button class="sandbox-toggle-btn" id="toggle-sandbox-btn">Try Re-loading Live Data</button>
-        </div>
-
-        <div class="explorer-controls">
-          <div class="search-box-wrapper">
-            <input 
-              type="text" 
-              class="search-input" 
-              id="search-profiles" 
-              placeholder="Search profile URIs, predicates, or associated data values..." 
-            />
-            <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </div>
-          
-          <div style="display: flex; gap: 1rem; align-items: center;">
-            <a href="./registry.csv" download class="btn-primary" id="download-csv-btn" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);">
-              <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download registry.csv
-            </a>
-            <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;" id="table-record-count">
-              Loading directory...
-            </div>
-          </div>
-        </div>
-
-        <!-- Table View -->
-        <div class="table-wrapper">
-          <table id="profiles-table">
-            <thead>
-              <tr>
-                <th style="width: 38%;">Profile Identifier & Actions</th>
-                <th style="width: 62%;">Associated Data (Semantic Key-Value Pairs)</th>
-              </tr>
-            </thead>
-            <tbody id="profiles-tbody">
-              <!-- Rendered Dynamically -->
-              <tr>
-                <td colspan="2" class="no-results">Initializing registry explorer...</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
@@ -1706,6 +1720,7 @@
       const provFlowContent = document.getElementById("prov-flow-content");
 
       let parsedRegistryData = []; // holds structured profiles
+      let allProvenanceQuads = []; // global cache for W3C PROV-O provenance assertions
       let isSandboxMode = false;
 
       // RDF Namespace dictionary mapping for clickable predicate shortening
@@ -1810,7 +1825,7 @@
           // Simple custom syntax highlighting for N-Quads (Subjects, Predicates, Objects, named graph)
           const highlightedLines = lines.map(line => {
             let safeLine = line.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            safeLine = safeLine.replace(/(&lt;[^&]+&gt;)/g, '<span style="color: #a5b4fc;">$1</span>');
+            safeLine = safeLine.replace(/(&lt;[^&]+&gt;)/g, '<span style="color: #8ce9ec;">$1</span>');
             return safeLine;
           });
 
@@ -1873,7 +1888,10 @@
         const profilesMap = new Map();
         const provenanceMap = new Map();
 
-        // 1. Identify distinct subjects having provenance records OR explicit profile types
+        // Reset global cache
+        allProvenanceQuads = [];
+
+        // 1. Identify distinct subjects having explicit profile types or being profile-level provenance targets
         const candidateProfileSubjects = new Set();
 
         quads.forEach(q => {
@@ -1888,19 +1906,32 @@
           }
 
           if (graph === "https://github.com/vliz-be-opsci/profile-registry#provenance") {
-            candidateProfileSubjects.add(sub);
-            // Collect provenance assertions
+            // Populate global provenance cache
+            allProvenanceQuads.push(q);
+
+            // Group provenance assertions by subject
             if (!provenanceMap.has(sub)) provenanceMap.set(sub, []);
             provenanceMap.get(sub).push(q);
-          } else {
-            // Check for explicit RDF profile/catalog typing
-            if (pred === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
-              if (
-                obj === "http://www.w3.org/ns/dx/prof/Profile" ||
-                obj === "http://www.w3.org/ns/dcat#Catalog"
-              ) {
-                candidateProfileSubjects.add(sub);
-              }
+
+            // Strict filtering: A subject inside named graph is only a profile candidate
+            // if associated with direct profile-level metadata/provenance predicates
+            if (
+              pred === "http://purl.org/dc/terms/source" ||
+              pred === "http://www.w3.org/ns/prov#wasDerivedFrom" ||
+              pred === "http://www.w3.org/ns/prov#wasInfluencedBy" ||
+              pred === "http://www.w3.org/ns/prov#wasGeneratedBy"
+            ) {
+              candidateProfileSubjects.add(sub);
+            }
+          }
+
+          // Check for explicit RDF profile/catalog typing anywhere in the document
+          if (pred === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+            if (
+              obj === "http://www.w3.org/ns/dx/prof/Profile" ||
+              obj === "http://www.w3.org/ns/dcat#Catalog"
+            ) {
+              candidateProfileSubjects.add(sub);
             }
           }
         });
@@ -2116,16 +2147,9 @@
           }
         });
 
-        // Resolve retrospective activities from default graph or provenance assertions
+        // Resolve retrospective activities from global allProvenanceQuads cache
         if (issueUrl) {
-          // search graph quads for matching issueUrl subject
-          const registryQuads = isSandboxMode ? parseNQuads(sandboxNQuads) : [];
-          
-          // Helper search list combining all provenance lists
-          const allProvQuads = [];
-          parsedRegistryData.forEach(p => allProvQuads.push(...p.provenance));
-
-          allProvQuads.forEach(q => {
+          allProvenanceQuads.forEach(q => {
             if (q.subject.value === issueUrl) {
               if (q.predicate.value === "http://www.w3.org/ns/prov#wasAssociatedWith") {
                 creatorUri = q.object.value;
@@ -2224,13 +2248,13 @@
               <span>verified & merged via</span>
               <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
             </div>
-            <div class="prov-node agent" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.35);">
-              <div class="prov-node-icon" style="background: rgba(139, 92, 246, 0.1); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.25);">🔀</div>
+            <div class="prov-node agent" style="background: rgba(7, 121, 191, 0.08); border-color: rgba(7, 121, 191, 0.35);">
+              <div class="prov-node-icon" style="background: rgba(7, 121, 191, 0.15); color: #8ce9ec; border: 1px solid rgba(7, 121, 191, 0.3);">🔀</div>
               <div class="prov-node-info">
                 <div class="prov-node-label">prov:used (prov:Entity)</div>
                 <div class="prov-node-title">Retrospective Pull Request</div>
                 <div class="prov-node-value">
-                  GitHub PR: <a href="${prUrl}" target="_blank" style="color: #c084fc;">Pull Request #${prNumStr}</a>
+                  GitHub PR: <a href="${prUrl}" target="_blank" style="color: #8ce9ec;">Pull Request #${prNumStr}</a>
                 </div>
               </div>
             </div>
