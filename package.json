@@ -6,7 +6,8 @@
     "build": "bun run scripts/build.mjs",
     "aggregate-profile-registry": "bun run scripts/aggregate-profile-registry.mjs",
     "test": "node --test scripts/registry-pipeline.test.mjs",
-    "process-registration-issue": "bun run scripts/process-registration-issue.mjs"
+    "process-registration-issue": "bun run scripts/process-registration-issue.mjs",
+    "add-pr-provenance": "bun run scripts/add-pr-provenance.mjs"
   },
   "dependencies": {
     "n3": "1.26.0",

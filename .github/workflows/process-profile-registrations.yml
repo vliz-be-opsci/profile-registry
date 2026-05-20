@@ -30,6 +30,9 @@ jobs:
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_CREATOR: ${{ github.event.issue.user.login }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          REPOSITORY: ${{ github.repository }}
         run: bun run process-registration-issue
 
       - name: Open PR with per-issue N-Quads
@@ -46,6 +49,24 @@ jobs:
 
             This PR contains only the generated N-Quads file for the requested URI.
           delete-branch: true
+
+      - name: Append PR Provenance to N-Quads
+        if: steps.create_pr.outputs.pull-request-number
+        env:
+          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
+          PR_URL: ${{ steps.create_pr.outputs.pull-request-url }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          git fetch origin
+          git checkout registration/issue-${{ github.event.issue.number }}
+          bun run add-pr-provenance
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add profiles/issue-${{ github.event.issue.number }}.nq
+          git commit -m "chore: append PR provenance to issue #${{ github.event.issue.number }} [skip ci]"
+          git push origin registration/issue-${{ github.event.issue.number }}
 
       - name: Comment issue with processing status
         if: steps.create_pr.outputs.pull-request-number

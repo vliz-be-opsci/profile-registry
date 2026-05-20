@@ -13,6 +13,7 @@ import {
   parseNQuads,
   parseExtractedDocument,
   updateRegistryCsv,
+  buildProvenanceQuads,
 } from "./registry-pipeline.mjs";
 
 test("extracts profile URI from issue body", () => {
@@ -98,6 +99,8 @@ test("builds aggregate CSV with URI and discovered predicate columns", () => {
     `<https://example.org/p1> <https://example.org/title> "Profile One" .
 <https://example.org/p1> <https://example.org/type> <https://example.org/kind> .
 <https://example.org/p2> <https://example.org/title> "Profile Two" .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/p1> .
+<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/p2> .
 `,
   );
   const csv = buildPredicateCsvFromQuads(quads);
@@ -126,3 +129,81 @@ test("builds RFC7284 registry metadata triples for discovered profiles", () => {
     "<https://github.com/vliz-be-opsci/profile-registry#registry> <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://example.org/profile/a> .",
   ]);
 });
+
+test("filters out non-profile subjects from aggregate CSV rows", () => {
+  const quads = parseNQuads(
+    `<https://example.org/profile/a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .
+<https://example.org/profile/a> <https://example.org/title> "Profile A" .
+<https://example.org/non-profile> <https://example.org/title> "Not A Profile" .
+`,
+  );
+  const csv = buildPredicateCsvFromQuads(quads);
+  const lines = csv.trim().split("\n");
+  // The header should still include the titles, but only profile/a's row should be generated
+  assert.equal(lines[0], "URI,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://example.org/title");
+  assert.equal(lines[1], "https://example.org/profile/a,http://www.w3.org/ns/dx/prof/Profile,Profile A");
+  assert.equal(lines.length, 2); // Header + 1 profile row
+});
+
+test("generates W3C PROV-O and Dublin Core provenance triples in named graph", () => {
+  const provQuads = buildProvenanceQuads({
+    profileUri: "https://example.org/profile",
+    sourceUri: "https://example.org/source-document",
+    parentUri: "https://example.org/parent-catalog",
+    issueNumber: 42,
+    issueCreator: "alice",
+    issueUrl: "https://github.com/vliz-be-opsci/profile-registry/issues/42",
+    prUrl: "https://github.com/vliz-be-opsci/profile-registry/pull/43",
+  });
+
+  const lines = provQuads.trim().split("\n");
+  assert.ok(lines.length >= 6);
+
+  // Check Dublin Core Source and PROV wasDerivedFrom
+  assert.ok(lines.includes("<https://example.org/profile> <http://purl.org/dc/terms/source> <https://example.org/source-document> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+  assert.ok(lines.includes("<https://example.org/profile> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://example.org/source-document> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+  // Check parent discovery influence
+  assert.ok(lines.includes("<https://example.org/profile> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://example.org/parent-catalog> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+  // Check generation by issue Activity
+  assert.ok(lines.includes("<https://example.org/profile> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/42> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+  assert.ok(lines.includes("<https://github.com/vliz-be-opsci/profile-registry/issues/42> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+  // Check creator and PR associations
+  assert.ok(lines.includes("<https://github.com/vliz-be-opsci/profile-registry/issues/42> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/alice> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+  assert.ok(lines.includes("<https://github.com/alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+  assert.ok(lines.includes("<https://github.com/vliz-be-opsci/profile-registry/issues/42> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/43> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+  assert.ok(lines.includes("<https://github.com/vliz-be-opsci/profile-registry/pull/43> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+});
+
+test("add-pr-provenance.mjs script adds PR provenance to file", async () => {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { spawnSync } = await import("node:child_process");
+
+  const testDir = path.resolve("profiles");
+  await fs.mkdir(testDir, { recursive: true });
+
+  const testNqFile = path.resolve(testDir, "issue-999.nq");
+  await fs.writeFile(testNqFile, "<https://example.org/profile> <http://purl.org/dc/terms/title> \"Test\" .\n", "utf8");
+
+  // Run the script as a subprocess
+  const result = spawnSync("bun", ["run", "scripts/add-pr-provenance.mjs"], {
+    env: {
+      ...process.env,
+      ISSUE_NUMBER: "999",
+      PR_NUMBER: "123",
+      REPOSITORY: "vliz-be-opsci/profile-registry",
+    },
+  });
+
+  assert.equal(result.status, 0, `Script failed: ${result.stderr.toString()}`);
+
+  const updatedContent = await fs.readFile(testNqFile, "utf8");
+  assert.ok(updatedContent.includes("<https://github.com/vliz-be-opsci/profile-registry/issues/999> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/123> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+  // Clean up
+  await fs.unlink(testNqFile);
+});
+

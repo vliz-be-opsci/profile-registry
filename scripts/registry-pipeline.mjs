@@ -8,6 +8,7 @@ const RFC7284_DOCUMENT = "https://datatracker.ietf.org/doc/html/rfc7284";
 const RFC7284_IRD_CLASS = "https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry";
 const RFC7284_URI_PREDICATE = "https://datatracker.ietf.org/doc/html/rfc7284#uri";
 const REGISTRY_RESOURCE_URI = "https://github.com/vliz-be-opsci/profile-registry#registry";
+const PROVENANCE_GRAPH_URI = "https://github.com/vliz-be-opsci/profile-registry#provenance";
 const PROFILE_TYPES = new Set([
   PROF_PROFILE,
   "http://www.w3.org/2000/01/rdf-schema#Profile",
@@ -127,6 +128,16 @@ export function categorizeTypedResources(quads) {
   const catalogs = new Set();
 
   for (const quad of quads) {
+    if (quad.graph && quad.graph.value === PROVENANCE_GRAPH_URI) {
+      if (quad.predicate.value === "http://purl.org/dc/terms/source" || quad.predicate.value === "http://www.w3.org/ns/prov#wasDerivedFrom") {
+        profiles.add(quad.subject.value);
+      }
+    }
+
+    if (quad.predicate.value === RFC7284_URI_PREDICATE && quad.object.termType === "NamedNode") {
+      profiles.add(quad.object.value);
+    }
+
     if (quad.predicate.value !== RDF_TYPE || quad.object.termType !== "NamedNode") {
       continue;
     }
@@ -271,6 +282,7 @@ export function parseNQuads(content = "") {
 }
 
 export function buildPredicateCsvFromQuads(quads) {
+  const { profiles } = categorizeTypedResources(quads);
   const predicateUris = new Set();
   const rowMap = new Map();
 
@@ -280,6 +292,10 @@ export function buildPredicateCsvFromQuads(quads) {
     }
 
     const subject = quad.subject.value;
+    if (!profiles.has(subject)) {
+      continue;
+    }
+
     const predicate = quad.predicate.value;
     const object = quad.object.value;
     predicateUris.add(predicate);
@@ -320,6 +336,47 @@ export function buildPredicateCsvFromQuads(quads) {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+export function buildProvenanceQuads({
+  profileUri,
+  sourceUri,
+  parentUri,
+  issueNumber,
+  issueCreator,
+  issueUrl,
+  prUrl,
+}) {
+  const graph = PROVENANCE_GRAPH_URI;
+  const lines = [];
+
+  if (profileUri && sourceUri) {
+    lines.push(`<${profileUri}> <http://purl.org/dc/terms/source> <${sourceUri}> <${graph}> .`);
+    lines.push(`<${profileUri}> <http://www.w3.org/ns/prov#wasDerivedFrom> <${sourceUri}> <${graph}> .`);
+  }
+
+  if (profileUri && parentUri) {
+    lines.push(`<${profileUri}> <http://www.w3.org/ns/prov#wasInfluencedBy> <${parentUri}> <${graph}> .`);
+  }
+
+  if (profileUri && issueUrl) {
+    lines.push(`<${profileUri}> <http://www.w3.org/ns/prov#wasGeneratedBy> <${issueUrl}> <${graph}> .`);
+  }
+
+  if (issueUrl) {
+    lines.push(`<${issueUrl}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <${graph}> .`);
+    if (issueCreator) {
+      const creatorUri = `https://github.com/${issueCreator}`;
+      lines.push(`<${issueUrl}> <http://www.w3.org/ns/prov#wasAssociatedWith> <${creatorUri}> <${graph}> .`);
+      lines.push(`<${creatorUri}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <${graph}> .`);
+    }
+    if (prUrl) {
+      lines.push(`<${issueUrl}> <http://www.w3.org/ns/prov#used> <${prUrl}> <${graph}> .`);
+      lines.push(`<${prUrl}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <${graph}> .`);
+    }
+  }
+
+  return lines.join("\n") + (lines.length ? "\n" : "");
 }
 
 export function buildRfc7284RegistryMetadataNQuads(quads) {

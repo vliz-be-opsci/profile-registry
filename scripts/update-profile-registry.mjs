@@ -8,6 +8,8 @@ import {
   getCatalogLinkedUris,
   parseExtractedDocument,
   serializeQuadsToNQuads,
+  buildProvenanceQuads,
+  mergeNQuads,
 } from "./registry-pipeline.mjs";
 
 const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
@@ -35,6 +37,19 @@ async function extractDocumentsForUri(uri) {
     console.debug(`extractAllRDF failed for ${uri}; falling back to extractRDF. Error: ${message}`);
   }
 
+  // Fallback: If no documents were found and URI has no trailing slash, try with a trailing slash
+  if (!uri.endsWith("/")) {
+    try {
+      const overviewTrailing = await extractAllRDF(uri + "/");
+      const docsTrailing = normalizeExtractedDocuments(overviewTrailing);
+      if (docsTrailing.length > 0) {
+        return docsTrailing;
+      }
+    } catch (error) {
+      // Ignore retry failure and proceed to extractRDF fallback
+    }
+  }
+
   const result = await extractRDF(uri);
   return result ? [result] : [];
 }
@@ -46,13 +61,17 @@ function getIssueQuadPath(issueNumber, outputDirectory = ISSUE_QUADS_DIR) {
 export async function updateProfileRegistryFromUri(rootUri, issueNumber, options = {}) {
   const loadDocuments = options.extractDocumentsForUri || extractDocumentsForUri;
   const outputDirectory = options.outputDirectory || ISSUE_QUADS_DIR;
-  const queue = [rootUri];
+  const queue = [{ uri: rootUri, parentUri: null }];
   const visited = new Set();
   const allQuads = [];
   const profileUris = new Set([rootUri]);
+  const discoveryParents = new Map();
+  const sourceUris = new Map();
+
+  sourceUris.set(rootUri, rootUri);
 
   while (queue.length) {
-    const currentUri = queue.shift();
+    const { uri: currentUri, parentUri } = queue.shift();
     if (!currentUri || visited.has(currentUri)) {
       continue;
     }
@@ -68,13 +87,25 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     const { profiles, catalogs } = categorizeTypedResources(quads);
     for (const profileUri of profiles) {
       profileUris.add(profileUri);
+      if (!sourceUris.has(profileUri)) {
+        sourceUris.set(profileUri, currentUri);
+      }
+      if (!discoveryParents.has(profileUri) && currentUri !== profileUri) {
+        discoveryParents.set(profileUri, currentUri);
+      }
+      if (!visited.has(profileUri)) {
+        queue.push({ uri: profileUri, parentUri: currentUri });
+      }
     }
 
     for (const catalogUri of catalogs) {
       const linkedUris = getCatalogLinkedUris(quads, catalogUri);
       for (const linkedUri of linkedUris) {
+        if (!discoveryParents.has(linkedUri)) {
+          discoveryParents.set(linkedUri, currentUri);
+        }
         if (!visited.has(linkedUri)) {
-          queue.push(linkedUri);
+          queue.push({ uri: linkedUri, parentUri: currentUri });
         }
       }
     }
@@ -84,6 +115,25 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
   let discoveredNQuads = serializeQuadsToNQuads(profileQuads);
   if (!discoveredNQuads.trim()) {
     discoveredNQuads = createFallbackProfileTypeTriple(rootUri);
+  }
+
+  const issueCreator = process.env.ISSUE_CREATOR || options.issueCreator || "";
+  const issueUrl = process.env.ISSUE_URL || options.issueUrl || (issueNumber ? (process.env.REPOSITORY ? `https://github.com/${process.env.REPOSITORY}/issues/${issueNumber}` : `https://github.com/vliz-be-opsci/profile-registry/issues/${issueNumber}`) : "");
+
+  let provenanceNQuads = "";
+  for (const profileUri of profileUris) {
+    provenanceNQuads += buildProvenanceQuads({
+      profileUri,
+      sourceUri: sourceUris.get(profileUri) || rootUri,
+      parentUri: discoveryParents.get(profileUri),
+      issueNumber,
+      issueCreator,
+      issueUrl,
+    });
+  }
+
+  if (provenanceNQuads) {
+    discoveredNQuads = mergeNQuads(discoveredNQuads, provenanceNQuads);
   }
 
   const issuePath = getIssueQuadPath(issueNumber, outputDirectory);
