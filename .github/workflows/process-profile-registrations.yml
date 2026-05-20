@@ -31,9 +31,11 @@ jobs:
         run: bun run process-registration-issue
 
       - name: Commit registry updates
+        id: commit_changes
         run: |
           if git diff --quiet; then
             echo "No changes to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -41,8 +43,10 @@ jobs:
           git add registry.csv profile-registry-triples.nq
           git commit -m "chore: process profile registration issue #${{ github.event.issue.number }}"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Comment issue with processing status
+        if: steps.commit_changes.outputs.changed == 'true'
         uses: actions/github-script@v7
         with:
           script: |

@@ -67,8 +67,9 @@ export function parseExtractedDocument(doc) {
   try {
     const parser = new Parser({ format: parserFormat });
     return parser.parse(doc.content);
-  } catch (_) {
+  } catch (error) {
     // Unsupported or malformed RDF payloads are skipped.
+    console.debug("Skipping unparsable RDF content:", error);
     return [];
   }
 }
@@ -147,6 +148,39 @@ export function mergeNQuads(existingContent, newContent) {
 }
 
 export function updateRegistryCsv(existingCsv, newEntries) {
+  const parseCsvRow = (row) => {
+    const values = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < row.length; i += 1) {
+      const char = row[i];
+      if (char === '"') {
+        if (inQuotes && row[i + 1] === '"') {
+          current += '"';
+          i += 1;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
+      }
+      if (char === "," && !inQuotes) {
+        values.push(current);
+        current = "";
+        continue;
+      }
+      current += char;
+    }
+    values.push(current);
+    return values;
+  };
+
+  const escapeCsvValue = (value = "") => {
+    if (!value.includes(",") && !value.includes('"') && !value.includes("\n")) {
+      return value;
+    }
+    return `"${value.replace(/"/g, '""')}"`;
+  };
+
   const rows = (existingCsv || "")
     .split("\n")
     .map((line) => line.trim())
@@ -155,7 +189,7 @@ export function updateRegistryCsv(existingCsv, newEntries) {
   const header = rows[0] || "URI,type";
   const entries = new Map();
   for (const row of rows.slice(1)) {
-    const [uri, type] = row.split(",");
+    const [uri, type] = parseCsvRow(row);
     if (uri) {
       entries.set(uri, type || "");
     }
@@ -169,5 +203,8 @@ export function updateRegistryCsv(existingCsv, newEntries) {
   }
 
   const sorted = [...entries.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-  return [header, ...sorted.map(([uri, type]) => `${uri},${type}`)].join("\n") + "\n";
+  return [
+    header,
+    ...sorted.map(([uri, type]) => `${escapeCsvValue(uri)},${escapeCsvValue(type)}`),
+  ].join("\n") + "\n";
 }
