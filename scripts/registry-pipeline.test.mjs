@@ -1,12 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildPredicateCsvFromQuads,
   categorizeTypedResources,
   collectSurroundingProfileQuads,
+  createFallbackProfileTypeTriple,
   extractProfileUriFromIssueBody,
   getCatalogLinkedUris,
   isAllowedProfileUri,
   mergeNQuads,
+  parseNQuads,
   parseExtractedDocument,
   updateRegistryCsv,
 } from "./registry-pipeline.mjs";
@@ -58,4 +61,25 @@ test("updates registry CSV and merges N-Quads without duplicates", () => {
     "<https://example.org/s> <https://example.org/p> <https://example.org/o> .\n<https://example.org/s2> <https://example.org/p2> <https://example.org/o2> .\n",
   );
   assert.equal(merged.split("\n").filter(Boolean).length, 2);
+});
+
+test("creates fallback profile typing triple for URI", () => {
+  assert.equal(
+    createFallbackProfileTypeTriple("https://example.org/profile/fallback"),
+    "<https://example.org/profile/fallback> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .\n",
+  );
+});
+
+test("builds aggregate CSV with URI and discovered predicate columns", () => {
+  const quads = parseNQuads(
+    "<https://example.org/p1> <https://example.org/title> \"Profile One\" .\n<https://example.org/p1> <https://example.org/type> <https://example.org/kind> .\n<https://example.org/p2> <https://example.org/title> \"Profile Two\" .\n",
+  );
+  const csv = buildPredicateCsvFromQuads(quads);
+  const lines = csv.trim().split("\n");
+  assert.equal(
+    lines[0],
+    "URI,https://example.org/title,https://example.org/type",
+  );
+  assert.equal(lines[1], 'https://example.org/p1,Profile One,https://example.org/kind');
+  assert.equal(lines[2], "https://example.org/p2,Profile Two,");
 });

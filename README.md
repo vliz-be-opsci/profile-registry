@@ -8,3 +8,4 @@ This project is configured for Bun-based workflows:
 - `bun install`
 - `bun run build`
 - `bun run process-registration-issue`
+- `bun run aggregate-profile-registry`

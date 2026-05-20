@@ -12,6 +12,7 @@ await Promise.all([
     new URL("profile-registry-triples.nq", root),
     new URL("profile-registry-triples.nq", dist),
   ),
+  copyFile(new URL("all_profiles_quads.nq", root), new URL("all_profiles_quads.nq", dist)).catch(() => {}),
   copyFile(new URL("conventions.MD", root), new URL("conventions.MD", dist)),
 ]);
 

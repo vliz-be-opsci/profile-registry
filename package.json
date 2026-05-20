@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "bun run scripts/build.mjs",
+    "aggregate-profile-registry": "bun run scripts/aggregate-profile-registry.mjs",
     "test": "node --test scripts/registry-pipeline.test.mjs",
     "process-registration-issue": "bun run scripts/process-registration-issue.mjs"
   },

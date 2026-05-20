@@ -1,17 +1,15 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { extractAllRDF, extractRDF } from "wrx";
 import {
   categorizeTypedResources,
   collectSurroundingProfileQuads,
+  createFallbackProfileTypeTriple,
   getCatalogLinkedUris,
-  mergeNQuads,
   parseExtractedDocument,
   serializeQuadsToNQuads,
-  updateRegistryCsv,
 } from "./registry-pipeline.mjs";
 
-const REGISTRY_CSV_PATH = new URL("../registry.csv", import.meta.url);
-const TRIPLES_PATH = new URL("../profile-registry-triples.nq", import.meta.url);
+const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
 
 function normalizeExtractedDocuments(overview) {
   if (overview && Array.isArray(overview.found)) {
@@ -40,12 +38,15 @@ async function extractDocumentsForUri(uri) {
   return result ? [result] : [];
 }
 
-export async function updateProfileRegistryFromUri(rootUri) {
+function getIssueQuadPath(issueNumber) {
+  return new URL(`issue-${issueNumber}.nq`, ISSUE_QUADS_DIR);
+}
+
+export async function updateProfileRegistryFromUri(rootUri, issueNumber) {
   const queue = [rootUri];
   const visited = new Set();
   const allQuads = [];
   const profileUris = new Set();
-  const discoveredEntries = [];
 
   while (queue.length) {
     const currentUri = queue.shift();
@@ -64,10 +65,6 @@ export async function updateProfileRegistryFromUri(rootUri) {
     const { profiles, catalogs } = categorizeTypedResources(quads);
     for (const profileUri of profiles) {
       profileUris.add(profileUri);
-      discoveredEntries.push({
-        uri: profileUri,
-        type: "http://www.w3.org/ns/dx/prof/Profile",
-      });
     }
 
     for (const catalogUri of catalogs) {
@@ -81,23 +78,18 @@ export async function updateProfileRegistryFromUri(rootUri) {
   }
 
   const profileQuads = collectSurroundingProfileQuads(allQuads, profileUris);
-  const discoveredNQuads = serializeQuadsToNQuads(profileQuads);
+  let discoveredNQuads = serializeQuadsToNQuads(profileQuads);
+  if (!discoveredNQuads.trim()) {
+    discoveredNQuads = createFallbackProfileTypeTriple(rootUri);
+  }
 
-  const [existingRegistry, existingTriples] = await Promise.all([
-    readFile(REGISTRY_CSV_PATH, "utf8"),
-    readFile(TRIPLES_PATH, "utf8").catch(() => ""),
-  ]);
-
-  const updatedRegistry = updateRegistryCsv(existingRegistry, discoveredEntries);
-  const updatedTriples = mergeNQuads(existingTriples, discoveredNQuads);
-
-  await Promise.all([
-    writeFile(REGISTRY_CSV_PATH, updatedRegistry, "utf8"),
-    writeFile(TRIPLES_PATH, updatedTriples, "utf8"),
-  ]);
+  const issuePath = getIssueQuadPath(issueNumber);
+  await mkdir(ISSUE_QUADS_DIR, { recursive: true });
+  await writeFile(issuePath, discoveredNQuads, "utf8");
 
   return {
     registeredProfiles: profileUris.size,
-    writtenTriples: profileQuads.length,
+    writtenTriples: discoveredNQuads.split("\n").filter(Boolean).length,
+    outputFile: `profiles/issue-${issueNumber}.nq`,
   };
 }
