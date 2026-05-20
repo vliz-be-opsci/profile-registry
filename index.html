@@ -10,7 +10,7 @@
       <h1>Profile Registry</h1>
       <form id="register-profile-form">
         <label for="profile-uri">Profile URI</label>
-        <input id="profile-uri" name="profile-uri" type="url" required />
+        <input id="profile-uri" name="profile-uri" type="text" required />
         <button type="submit">Register Profile</button>
       </form>
     </main>
@@ -20,12 +20,29 @@
         .addEventListener("submit", function (event) {
           event.preventDefault();
 
-          const profileUri = document
+          const profileUriInput = document
             .getElementById("profile-uri")
             .value.trim();
 
-          if (!profileUri) {
+          if (!profileUriInput) {
             return;
+          }
+
+          let profileUri;
+          if (profileUriInput.startsWith("urn:")) {
+            profileUri = profileUriInput;
+          } else {
+            try {
+              const parsedUri = new URL(profileUriInput);
+              if (parsedUri.protocol !== "http:" && parsedUri.protocol !== "https:") {
+                alert("Please provide a valid URI.");
+                return;
+              }
+              profileUri = parsedUri.href;
+            } catch (_) {
+              alert("Please provide a valid URI.");
+              return;
+            }
           }
 
           const issueTitle = `Register profile: ${profileUri}`;
