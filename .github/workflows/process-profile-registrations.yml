@@ -36,6 +36,7 @@ jobs:
         id: create_pr
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.PAT_TOKEN }}
           add-paths: profiles/issue-${{ github.event.issue.number }}.nq
           branch: registration/issue-${{ github.event.issue.number }}
           commit-message: "chore: process profile registration issue #${{ github.event.issue.number }}"
