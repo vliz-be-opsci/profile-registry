@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Registry</title>
+  </head>
+  <body>
+    <main>
+      <h1>Profile Registry</h1>
+      <form id="register-profile-form">
+        <label for="profile-uri">Profile URI</label>
+        <input id="profile-uri" name="profile-uri" type="url" required />
+        <button type="submit">Register Profile</button>
+      </form>
+    </main>
+    <script>
+      document
+        .getElementById("register-profile-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const profileUri = document
+            .getElementById("profile-uri")
+            .value.trim();
+
+          if (!profileUri) {
+            return;
+          }
+
+          const issueTitle = `Register profile: ${profileUri}`;
+          const issueBody = `## Profile registration request\n\n- Profile URI: ${profileUri}\n- rdfs:type: \n\nPlease provide a valid rdfs:type for this profile.`;
+          const issueUrl = `https://github.com/vliz-be-opsci/profile-registry/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
+
+          window.location.assign(issueUrl);
+        });
+    </script>
+  </body>
+</html>
