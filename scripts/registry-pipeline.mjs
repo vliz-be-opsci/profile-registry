@@ -36,7 +36,8 @@ export function isAllowedProfileUri(value) {
     return url.protocol === "http:" || url.protocol === "https:";
   } catch (error) {
     // Invalid URLs are rejected.
-    console.debug(`Rejected invalid profile URI: ${value}`, error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.debug(`Rejected invalid profile URI: ${value}. Error: ${message}`);
     return false;
   }
 }
@@ -70,7 +71,10 @@ export function parseExtractedDocument(doc) {
     return parser.parse(doc.content);
   } catch (error) {
     // Unsupported or malformed RDF payloads are skipped.
-    console.debug("Skipping unparsable RDF content:", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.debug(
+      `Skipping unparsable RDF content from ${doc?.uri || "unknown source"}: ${message}`,
+    );
     return [];
   }
 }
