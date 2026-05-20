@@ -1,8 +1,14 @@
 import { Parser, Writer } from "n3";
 
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+const PROF_PROFILE = "http://www.w3.org/ns/dx/prof/Profile";
+const RDFS_SEE_ALSO = "http://www.w3.org/2000/01/rdf-schema#seeAlso";
+const RFC7284_DOCUMENT = "https://datatracker.ietf.org/doc/html/rfc7284";
+const RFC7284_IRD_CLASS = "https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry";
+const RFC7284_URI_PREDICATE = "https://datatracker.ietf.org/doc/html/rfc7284#uri";
+const REGISTRY_RESOURCE_URI = "https://github.com/vliz-be-opsci/profile-registry#registry";
 const PROFILE_TYPES = new Set([
-  "http://www.w3.org/ns/dx/prof/Profile",
+  PROF_PROFILE,
   "http://www.w3.org/2000/01/rdf-schema#Profile",
   "http://www.w3.org/ns/dx/prof/profile",
 ]);
@@ -10,6 +16,7 @@ const CATALOG_TYPES = new Set([
   "http://www.w3.org/ns/dcat#Catalog",
   "http://www.w3.org/ns/dcat#catalog",
 ]);
+const CSV_MULTI_VALUE_SEPARATOR = " | ";
 
 const DCAT_LINK_PREDICATES = new Set([
   "http://www.w3.org/ns/dcat#dataset",
@@ -77,6 +84,10 @@ export function parseExtractedDocument(doc) {
     );
     return [];
   }
+}
+
+export function createFallbackProfileTypeTriple(profileUri) {
+  return `<${profileUri}> <${RDF_TYPE}> <${PROF_PROFILE}> .\n`;
 }
 
 export function categorizeTypedResources(quads) {
@@ -152,6 +163,10 @@ export function mergeNQuads(existingContent, newContent) {
   return [...merged].sort().join("\n") + (merged.size ? "\n" : "");
 }
 
+export function countNQuadStatements(content = "") {
+  return parseNQuads(content).length;
+}
+
 export function updateRegistryCsv(existingCsv, newEntries) {
   const parseCsvRow = (row) => {
     const values = [];
@@ -212,4 +227,79 @@ export function updateRegistryCsv(existingCsv, newEntries) {
     header,
     ...sorted.map(([uri, type]) => `${escapeCsvValue(uri)},${escapeCsvValue(type)}`),
   ].join("\n") + "\n";
+}
+
+export function parseNQuads(content = "") {
+  if (!content.trim()) {
+    return [];
+  }
+
+  const parser = new Parser({ format: "application/n-quads" });
+  return parser.parse(content);
+}
+
+export function buildPredicateCsvFromQuads(quads) {
+  const predicateUris = new Set();
+  const rowMap = new Map();
+
+  for (const quad of quads) {
+    if (quad.subject.termType !== "NamedNode" || quad.predicate.termType !== "NamedNode") {
+      continue;
+    }
+
+    const subject = quad.subject.value;
+    const predicate = quad.predicate.value;
+    const object = quad.object.value;
+    predicateUris.add(predicate);
+
+    if (!rowMap.has(subject)) {
+      rowMap.set(subject, new Map());
+    }
+    const row = rowMap.get(subject);
+    if (!row.has(predicate)) {
+      row.set(predicate, new Set());
+    }
+    row.get(predicate).add(object);
+  }
+
+  const predicates = [...predicateUris].sort((a, b) => a.localeCompare(b));
+
+  const escapeCsv = (value = "") => {
+    if (!value.includes(",") && !value.includes('"') && !value.includes("\n")) {
+      return value;
+    }
+    return `"${value.replace(/"/g, '""')}"`;
+  };
+
+  const lines = [
+    ["URI", ...predicates].map(escapeCsv).join(","),
+  ];
+
+  const subjects = [...rowMap.keys()].sort((a, b) => a.localeCompare(b));
+  for (const subject of subjects) {
+    const row = rowMap.get(subject);
+    const values = predicates.map((predicate) => {
+      const objects = row.get(predicate);
+      return objects
+        ? [...objects].sort((a, b) => a.localeCompare(b)).join(CSV_MULTI_VALUE_SEPARATOR)
+        : "";
+    });
+    lines.push([subject, ...values].map(escapeCsv).join(","));
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+export function buildRfc7284RegistryMetadataNQuads(quads) {
+  const { profiles } = categorizeTypedResources(quads);
+  const registryTriples = [
+    `<${REGISTRY_RESOURCE_URI}> <${RDF_TYPE}> <${RFC7284_IRD_CLASS}> .`,
+    `<${REGISTRY_RESOURCE_URI}> <${RDFS_SEE_ALSO}> <${RFC7284_DOCUMENT}> .`,
+  ];
+
+  for (const profileUri of Array.from(profiles).sort((a, b) => a.localeCompare(b))) {
+    registryTriples.push(`<${REGISTRY_RESOURCE_URI}> <${RFC7284_URI_PREDICATE}> <${profileUri}> .`);
+  }
+
+  return registryTriples.join("\n") + "\n";
 }

@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   process-registration:
@@ -28,31 +29,33 @@ jobs:
       - name: Process registration with wrx
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: bun run process-registration-issue
 
-      - name: Commit registry updates
-        id: commit_changes
-        run: |
-          if git diff --quiet; then
-            echo "No changes to commit."
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add registry.csv profile-registry-triples.nq
-          git commit -m "chore: process profile registration issue #${{ github.event.issue.number }}"
-          git push
-          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Open PR with per-issue N-Quads
+        id: create_pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: profiles/issue-${{ github.event.issue.number }}.nq
+          branch: registration/issue-${{ github.event.issue.number }}
+          commit-message: chore: process profile registration issue #${{ github.event.issue.number }}
+          title: "Process profile registration #${{ github.event.issue.number }}"
+          body: |
+            Automated profile registration output for issue #${{ github.event.issue.number }}.
+
+            This PR contains only the generated N-Quads file for the requested URI.
+          delete-branch: true
 
       - name: Comment issue with processing status
-        if: steps.commit_changes.outputs.changed == 'true'
+        if: steps.create_pr.outputs.pull-request-number
         uses: actions/github-script@v7
         with:
           script: |
+            const issueNumber = context.issue.number;
+            const prNumber = "${{ steps.create_pr.outputs.pull-request-number }}";
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: "Profile registration workflow completed. `registry.csv` and `profile-registry-triples.nq` were updated when wrx discovered profile data."
+              issue_number: issueNumber,
+              body: `Profile registration issue #${issueNumber} completed. Opened PR #${prNumber} containing file profiles/issue-${issueNumber}.nq.`
             });

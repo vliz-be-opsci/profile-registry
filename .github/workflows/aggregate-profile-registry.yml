@@ -1,0 +1,38 @@
+name: Aggregate Profile Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "profiles/*.nq"
+
+permissions:
+  contents: write
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Aggregate per-issue N-Quads and rebuild CSV
+        run: bun run aggregate-profile-registry
+
+      - name: Commit aggregated outputs
+        run: |
+          if git diff --quiet; then
+            echo "No aggregate changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add all_profiles_quads.nq registry.csv
+          git commit -m "chore: regenerate all_profiles_quads.nq and registry.csv from profiles/"
+          git push
