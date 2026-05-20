@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cpurr | cpurr Profile URI Resource Registry</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Crect width='100' height='100' fill='white'/%3E%3Cellipse cx='42' cy='50' rx='3.5' ry='5.5' fill='black'/%3E%3Cellipse cx='58' cy='50' rx='3.5' ry='5.5' fill='black'/%3E%3Cpolygon points='50,57 47.2,60.8 52.8,60.8' fill='black'/%3E%3Cpath d='M 50 60.8 Q 47 64.5 44.5 62' stroke='black' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M 50 60.8 Q 53 64.5 55.5 62' stroke='black' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Cline x1='22' y1='54' x2='43' y2='55' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='23' y1='59' x2='42' y2='59' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='57' y1='55' x2='78' y2='54' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='58' y1='59' x2='77' y2='59' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/mask%3E%3Cg mask='url(%23m)'%3E%3Ccircle cx='50' cy='54' r='34' fill='%23354d9b'/%3E%3Cpolygon points='18.5,42 38,12 45,20.6' fill='%23354d9b'/%3E%3Cpolygon points='81.5,42 62,12 55,20.6' fill='%23354d9b'/%3E%3C/g%3E%3C/svg%3E" />
+
     <!-- Signposting & Metadata Discovery for wrx crawler -->
     <link rel="describedby" type="text/turtle" href="describedby.ttl" />
     <link rel="linkset" type="application/linkset+json" href="linkset.json" />
@@ -1652,19 +1655,26 @@
     <nav>
       <div class="nav-container">
         <a href="#" class="logo" title="cpurr: cpurr Profile-URI-Resource-Registry">
-          <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Cat head outline with ears -->
-            <path d="M12 21c-4.4 0-8-3.6-8-8 0-3.3 2-6.2 4.9-7.4L7 2l4 3h2l4-3-1.9 3.6c2.9 1.2 4.9 4.1 4.9 7.4 0 4.4-3.6 8-8 8z"/>
-            <!-- Eyes -->
-            <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
-            <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
-            <!-- Nose -->
-            <path d="M12 14c-.3 0-.5-.2-.5-.4 0-.3.2-.4.5-.4s.5.1.5.4c0 .2-.2.4-.5.4z" fill="currentColor"/>
-            <!-- Whiskers -->
-            <line x1="5.5" y1="14" x2="2.5" y2="13.5"/>
-            <line x1="5.5" y1="15.5" x2="2" y2="15.5"/>
-            <line x1="18.5" y1="14" x2="21.5" y2="13.5"/>
-            <line x1="18.5" y1="15.5" x2="22" y2="15.5"/>
+          <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 100 100">
+            <defs>
+              <mask id="cat-mask-nav">
+                <rect x="0" y="0" width="100" height="100" fill="white" />
+                <ellipse cx="42" cy="50" rx="3.5" ry="5.5" fill="black"/>
+                <ellipse cx="58" cy="50" rx="3.5" ry="5.5" fill="black"/>
+                <polygon points="50,57 47.2,60.8 52.8,60.8" fill="black"/>
+                <path d="M 50 60.8 Q 47 64.5 44.5 62" stroke="black" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <path d="M 50 60.8 Q 53 64.5 55.5 62" stroke="black" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <line x1="22" y1="54" x2="43" y2="55" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="23" y1="59" x2="42" y2="59" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="57" y1="55" x2="78" y2="54" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="58" y1="59" x2="77" y2="59" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+              </mask>
+            </defs>
+            <g mask="url(#cat-mask-nav)">
+              <circle cx="50" cy="54" r="34" fill="currentColor"/>
+              <polygon points="18.5,42 38,12 45,20.6" fill="currentColor"/>
+              <polygon points="81.5,42 62,12 55,20.6" fill="currentColor"/>
+            </g>
           </svg>
           cpurr
         </a>
@@ -1914,12 +1924,26 @@
           <!-- Card 4 -->
           <div class="glass-card">
             <div class="card-icon">
-              <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Cat head outline with ears -->
-                <path d="M12 21c-4.4 0-8-3.6-8-8 0-3.3 2-6.2 4.9-7.4L7 2l4 3h2l4-3-1.9 3.6c2.9 1.2 4.9 4.1 4.9 7.4 0 4.4-3.6 8-8 8z"/>
-                <!-- Eyes -->
-                <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
-                <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
+              <svg class="cat-logo-svg" xmlns="http://www.w3.org/2000/01/svg" width="22" height="22" viewBox="0 0 100 100">
+                <defs>
+                  <mask id="cat-mask-card">
+                    <rect x="0" y="0" width="100" height="100" fill="white" />
+                    <ellipse cx="42" cy="50" rx="3.5" ry="5.5" fill="black"/>
+                    <ellipse cx="58" cy="50" rx="3.5" ry="5.5" fill="black"/>
+                    <polygon points="50,57 47.2,60.8 52.8,60.8" fill="black"/>
+                    <path d="M 50 60.8 Q 47 64.5 44.5 62" stroke="black" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                    <path d="M 50 60.8 Q 53 64.5 55.5 62" stroke="black" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                    <line x1="22" y1="54" x2="43" y2="55" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                    <line x1="23" y1="59" x2="42" y2="59" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                    <line x1="57" y1="55" x2="78" y2="54" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                    <line x1="58" y1="59" x2="77" y2="59" stroke="black" stroke-width="2.2" stroke-linecap="round"/>
+                  </mask>
+                </defs>
+                <g mask="url(#cat-mask-card)">
+                  <circle cx="50" cy="54" r="34" fill="currentColor"/>
+                  <polygon points="18.5,42 38,12 45,20.6" fill="currentColor"/>
+                  <polygon points="81.5,42 62,12 55,20.6" fill="currentColor"/>
+                </g>
               </svg>
             </div>
             <h3>cpurr Recursive Acronym</h3>
