@@ -108,4 +108,10 @@ test("builds RFC7284 registry metadata triples for discovered profiles", () => {
     ),
     true,
   );
+  assert.equal(
+    metadata.includes(
+      "<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .",
+    ),
+    true,
+  );
 });
