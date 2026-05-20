@@ -5,7 +5,11 @@ const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
 const ALL_PROFILES_PATH = new URL("../all_profiles_quads.nq", import.meta.url);
 const REGISTRY_CSV_PATH = new URL("../registry.csv", import.meta.url);
 
-const entries = await readdir(ISSUE_QUADS_DIR, { withFileTypes: true }).catch(() => []);
+const entries = await readdir(ISSUE_QUADS_DIR, { withFileTypes: true }).catch((error) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.warn(`Could not read profiles directory, aggregating empty set: ${message}`);
+  return [];
+});
 const nqFiles = entries
   .filter((entry) => entry.isFile() && entry.name.endsWith(".nq"))
   .map((entry) => entry.name)
