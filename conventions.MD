@@ -7,7 +7,7 @@ This registry follows a lightweight, RFC 7284-inspired model focused on practica
 The aggregated `all_profiles_quads.nq` output must include triples about the registry resource itself:
 
 1. A registry resource URI (`https://github.com/vliz-be-opsci/profile-registry#registry`)
-2. An RDF type linking the registry to the RFC 7284 Information Resource Directory concept
+2. An RDF type linking the registry to the RFC 7284 Profile URIs Registry concept
 3. An `rdfs:seeAlso` link to `https://datatracker.ietf.org/doc/html/rfc7284`
 4. RFC 7284 `#uri` links from the registry resource to each discovered profile URI
 
