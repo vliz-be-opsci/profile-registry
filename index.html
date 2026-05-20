@@ -39,7 +39,7 @@
           triplesStatus.textContent = `${lines.length} triples loaded`;
           triplesOutput.textContent = lines.join("\n");
         } catch (error) {
-          console.debug("Triples are not available yet:", error);
+          console.warn("Triples are not available yet:", error);
           // Keep the page usable even before any triples are discovered.
           triplesStatus.textContent =
             "No triples available yet. New registrations will populate this view.";

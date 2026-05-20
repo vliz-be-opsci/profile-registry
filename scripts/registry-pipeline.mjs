@@ -36,6 +36,7 @@ export function isAllowedProfileUri(value) {
     return url.protocol === "http:" || url.protocol === "https:";
   } catch (_) {
     // Invalid URLs are rejected.
+    console.debug(`Rejected invalid profile URI: ${value}`);
     return false;
   }
 }
