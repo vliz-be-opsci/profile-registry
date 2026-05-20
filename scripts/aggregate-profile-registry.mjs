@@ -31,12 +31,12 @@ for (const fileName of nqFiles) {
 
 const quads = parseNQuads(merged);
 const registryMetadata = buildRfc7284RegistryMetadataNQuads(quads);
-const mergedWithRegistryMetadata = mergeNQuads(merged, registryMetadata);
-const publishedQuads = parseNQuads(mergedWithRegistryMetadata);
+const publishedNQuads = mergeNQuads(merged, registryMetadata);
+const publishedQuads = parseNQuads(publishedNQuads);
 const csv = buildPredicateCsvFromQuads(publishedQuads);
 
 await Promise.all([
-  writeFile(ALL_PROFILES_PATH, mergedWithRegistryMetadata, "utf8"),
+  writeFile(ALL_PROFILES_PATH, publishedNQuads, "utf8"),
   writeFile(REGISTRY_CSV_PATH, csv, "utf8"),
 ]);
 
