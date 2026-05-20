@@ -35,6 +35,7 @@ export function isAllowedProfileUri(value) {
     const url = new URL(value);
     return url.protocol === "http:" || url.protocol === "https:";
   } catch (_) {
+    // Invalid URLs are rejected.
     return false;
   }
 }
@@ -67,6 +68,7 @@ export function parseExtractedDocument(doc) {
     const parser = new Parser({ format: parserFormat });
     return parser.parse(doc.content);
   } catch (_) {
+    // Unsupported or malformed RDF payloads are skipped.
     return [];
   }
 }

@@ -31,7 +31,7 @@ async function extractDocumentsForUri(uri) {
       return docs;
     }
   } catch (_) {
-    // Fallback to first-match extraction.
+    // If full trace extraction fails, fallback to first-match extraction below.
   }
 
   const result = await extractRDF(uri);

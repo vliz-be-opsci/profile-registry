@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "n3": "1.26.0",
-    "wrx": "github:cedricdcc/wrx"
+    "wrx": "github:cedricdcc/wrx#17b102929d9437ecfe575191b654a93abc2a80dd"
   }
 }
