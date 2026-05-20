@@ -38,7 +38,7 @@ jobs:
         with:
           add-paths: profiles/issue-${{ github.event.issue.number }}.nq
           branch: registration/issue-${{ github.event.issue.number }}
-          commit-message: chore: process profile registration issue #${{ github.event.issue.number }}
+          commit-message: "chore: process profile registration issue #${{ github.event.issue.number }}"
           title: "Process profile registration #${{ github.event.issue.number }}"
           body: |
             Automated profile registration output for issue #${{ github.event.issue.number }}.
