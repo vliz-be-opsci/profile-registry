@@ -1,6 +1,0 @@
-<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry> .
-<https://github.com/vliz-be-opsci/profile-registry#registry> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284> .
-<https://w3id.org/ro/crate> <http://schema.org/about> "RO-Crate is a community effort to establish a lightweight approach to packaging research data with their metadata. It is based on schema.org annotations in JSON-LD, and aims to make best-practice in formal metadata description accessible and practical for use in a wider variety of situations, from an individual researcher working with a folder of data, to large data-intensive computational research environments." .
-<https://w3id.org/ro/crate> <http://schema.org/name> "Research Object Crate (RO-Crate)" .
-<https://w3id.org/ro/crate> <http://schema.org/url> <https://www.researchobject.org> .
-<https://w3id.org/ro/crate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebSite> .
