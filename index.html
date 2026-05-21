@@ -2074,6 +2074,60 @@
         "http://www.w3.org/2002/07/owl#": "owl"
       };
 
+      // 5Ws Logic Configuration
+      const whoPredicates = [
+        "http://purl.org/dc/terms/creator",
+        "http://purl.org/dc/terms/publisher",
+        "http://www.w3.org/ns/prov#wasAssociatedWith"
+      ];
+
+      const whatPredicates = [
+        "http://purl.org/dc/terms/description",
+        "http://www.w3.org/2000/01/rdf-schema#label",
+        "http://purl.org/dc/terms/title",
+        "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "http://schema.org/name",
+        "http://schema.org/description",
+        "http://schema.org/about",
+        "http://purl.org/dc/terms/subject",
+        "http://purl.org/dc/terms/abstract",
+        "http://purl.org/dc/elements/1.1/title",
+        "http://purl.org/dc/elements/1.1/description",
+        "http://www.w3.org/2004/02/skos/core#altLabel"
+      ];
+
+      const whenPredicates = [
+        "http://purl.org/dc/terms/created",
+        "http://purl.org/dc/terms/modified",
+        "http://www.w3.org/ns/prov#generatedAtTime",
+        "http://purl.org/dc/terms/issued",
+        "http://schema.org/dateCreated",
+        "http://schema.org/dateModified",
+        "http://schema.org/datePublished",
+        "http://purl.org/dc/terms/date",
+        "http://purl.org/dc/terms/valid",
+        "http://purl.org/dc/terms/available",
+        "http://purl.org/dc/elements/1.1/date"
+      ];
+
+      const wherePredicates = [
+        "http://www.w3.org/ns/dcat#theme",
+        "http://www.w3.org/ns/dcat#keyword",
+        "http://purl.org/dc/terms/spatial",
+        "http://schema.org/location",
+        "http://schema.org/spatialCoverage",
+        "http://schema.org/contentLocation",
+        "http://purl.org/dc/terms/coverage",
+        "http://purl.org/dc/elements/1.1/coverage",
+        "http://www.w3.org/ns/locn#location"
+      ];
+
+      const whyPredicates = [
+        "http://www.w3.org/ns/dx/prof/isProfileOf",
+        "http://purl.org/dc/terms/conformsTo",
+        "http://www.w3.org/ns/prov#wasDerivedFrom"
+      ];
+
       function shortenUri(uri) {
         for (const [ns, prefix] of Object.entries(namespaces)) {
           if (uri.startsWith(ns)) {
@@ -2472,13 +2526,6 @@
             return `<a href="${type}" target="_blank" class="${pillClass}" title="${type}">${shortName}</a>`;
           }).join(" ") || '<a href="http://www.w3.org/2000/01/rdf-schema#Resource" target="_blank" class="type-pill">Resource</a>';
 
-          // 5Ws Logic Configuration
-          const whoPredicates = ["http://purl.org/dc/terms/creator", "http://purl.org/dc/terms/publisher", "http://www.w3.org/ns/prov#wasAssociatedWith"];
-          const whatPredicates = ["http://purl.org/dc/terms/description", "http://www.w3.org/2000/01/rdf-schema#label", "http://purl.org/dc/terms/title", "http://www.w3.org/2004/02/skos/core#prefLabel"];
-          const whenPredicates = ["http://purl.org/dc/terms/created", "http://purl.org/dc/terms/modified", "http://www.w3.org/ns/prov#generatedAtTime", "http://purl.org/dc/terms/issued"];
-          const wherePredicates = ["http://www.w3.org/ns/dcat#theme", "http://www.w3.org/ns/dcat#keyword", "http://purl.org/dc/terms/spatial"];
-          const whyPredicates = ["http://www.w3.org/ns/dx/prof/isProfileOf", "http://purl.org/dc/terms/conformsTo", "http://www.w3.org/ns/prov#wasDerivedFrom"];
-
           const renderCell = (predicates) => {
             let matches = [];
             // Check default properties
@@ -2762,11 +2809,11 @@
 
         // 5Ws Search space if not checking hidden graph
         const visiblePredicates = [
-          "http://purl.org/dc/terms/creator", "http://purl.org/dc/terms/publisher", "http://www.w3.org/ns/prov#wasAssociatedWith",
-          "http://purl.org/dc/terms/description", "http://www.w3.org/2000/01/rdf-schema#label", "http://purl.org/dc/terms/title", "http://www.w3.org/2004/02/skos/core#prefLabel",
-          "http://purl.org/dc/terms/created", "http://purl.org/dc/terms/modified", "http://www.w3.org/ns/prov#generatedAtTime", "http://purl.org/dc/terms/issued",
-          "http://www.w3.org/ns/dcat#theme", "http://www.w3.org/ns/dcat#keyword", "http://purl.org/dc/terms/spatial",
-          "http://www.w3.org/ns/dx/prof/isProfileOf", "http://purl.org/dc/terms/conformsTo", "http://www.w3.org/ns/prov#wasDerivedFrom"
+          ...whoPredicates,
+          ...whatPredicates,
+          ...whenPredicates,
+          ...wherePredicates,
+          ...whyPredicates
         ];
 
         const filtered = parsedRegistryData.filter(profile => {
