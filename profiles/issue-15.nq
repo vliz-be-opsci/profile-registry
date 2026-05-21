@@ -4,4 +4,6 @@
 <https://data.emobon.embrc.eu/observatory-bpns-crate/> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/15> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/mpo-vliz> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/15> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/15> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/16> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://github.com/vliz-be-opsci/profile-registry/issues/15> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/mpo-vliz> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/pull/16> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
