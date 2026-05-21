@@ -2083,6 +2083,27 @@
         return uri;
       }
 
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function safeHref(uri) {
+        try {
+          const parsed = new URL(uri);
+          if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+            return parsed.href;
+          }
+        } catch (_) {
+          // Invalid URI values are rendered as plain text fallback links.
+        }
+        return "#";
+      }
+
       // High-Fidelity Mock Sandbox N-Quads including active metadata and PROV-O provenance structures
       const sandboxNQuads = `
 # RO-Crate Profile
@@ -2225,8 +2246,8 @@
 
         // Add provenance
         profile.provenance.forEach(q => {
-          const sub = escapeRdf({type: "NamedNode", value: q.subject.value});
-          const pred = escapeRdf({type: "NamedNode", value: q.predicate.value});
+          const sub = escapeRdf(q.subject);
+          const pred = escapeRdf(q.predicate);
           const obj = escapeRdf(q.object);
           const graph = typeof q.graph === "string" ? `<${q.graph}>` : escapeRdf(q.graph);
           nqContent += `${sub} ${pred} ${obj} ${graph} .\n`;
@@ -2360,10 +2381,40 @@
         });
 
         // 4. Attach provenance lists to each profile model
-        provenanceMap.forEach((provQuads, sub) => {
-          if (profilesMap.has(sub)) {
-            profilesMap.get(sub).provenance = provQuads;
-          }
+        const addUniqueProvenanceQuad = (bucket, seen, quad) => {
+          const graphValue = typeof quad.graph === "string" ? quad.graph : quad.graph.value;
+          const key = `${quad.subject.type}:${quad.subject.value}|${quad.predicate.type}:${quad.predicate.value}|${quad.object.type}:${quad.object.value}|${graphValue}`;
+          if (seen.has(key)) return;
+          seen.add(key);
+          bucket.push(quad);
+        };
+
+        const activityLinkPredicates = new Set([
+          "http://www.w3.org/ns/prov#wasGeneratedBy",
+          "http://www.w3.org/ns/prov#wasInfluencedBy",
+          "http://www.w3.org/ns/prov#wasDerivedFrom"
+        ]);
+
+        profilesMap.forEach((profile, profileUri) => {
+          const seenProvenance = new Set();
+          const profileProvenance = [];
+          const directProvenance = provenanceMap.get(profileUri) || [];
+
+          directProvenance.forEach(q => addUniqueProvenanceQuad(profileProvenance, seenProvenance, q));
+
+          const linkedSubjects = new Set();
+          directProvenance.forEach(q => {
+            if (activityLinkPredicates.has(q.predicate.value) && (q.object.type === "NamedNode" || q.object.type === "BlankNode")) {
+              linkedSubjects.add(q.object.value);
+            }
+          });
+
+          linkedSubjects.forEach(subject => {
+            const linkedQuads = provenanceMap.get(subject) || [];
+            linkedQuads.forEach(q => addUniqueProvenanceQuad(profileProvenance, seenProvenance, q));
+          });
+
+          profile.provenance = profileProvenance;
         });
 
         return Array.from(profilesMap.values());
@@ -2448,11 +2499,17 @@
             matches.forEach(m => {
               let displayVal = "";
               if (m.obj.type === "NamedNode") {
-                displayVal = `<a href="${m.obj.value}" target="_blank" style="color: var(--accent-color); word-break: break-all;">${shortenUri(m.obj.value)}</a>`;
+                const safeUri = safeHref(m.obj.value);
+                const label = escapeHtml(shortenUri(m.obj.value));
+                if (safeUri === "#") {
+                  displayVal = `<span style="color: var(--text-secondary); word-break: break-word;">${label}</span>`;
+                } else {
+                  displayVal = `<a href="${escapeHtml(safeUri)}" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); word-break: break-all;">${label}</a>`;
+                }
               } else {
-                displayVal = `<span style="color: var(--text-secondary); word-break: break-word;">${m.obj.value}</span>`;
+                displayVal = `<span style="color: var(--text-secondary); word-break: break-word;">${escapeHtml(m.obj.value)}</span>`;
               }
-              cellHtml += `<div><strong style="color: var(--text-muted); font-size: 0.75rem;">${shortenUri(m.pred)}</strong><br/>${displayVal}</div>`;
+              cellHtml += `<div><strong style="color: var(--text-muted); font-size: 0.75rem;">${escapeHtml(shortenUri(m.pred))}</strong><br/>${displayVal}</div>`;
             });
             cellHtml += `</div>`;
             return cellHtml;
