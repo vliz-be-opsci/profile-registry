@@ -2093,6 +2093,7 @@
       }
 
       function safeHref(uri) {
+        if (typeof uri !== "string") return "#";
         try {
           const parsed = new URL(uri);
           if (parsed.protocol === "http:" || parsed.protocol === "https:") {
