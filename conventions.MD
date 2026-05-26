@@ -4,7 +4,7 @@ This registry follows a lightweight, RFC 7284-inspired model focused on practica
 
 ## Published registry triples
 
-The aggregated `all_profiles_quads.nq` output must include triples about the registry resource itself:
+The aggregated `profiles/all/all_profiles_quads.nq` output must include triples about the registry resource itself:
 
 1. A registry resource URI (`https://github.com/vliz-be-opsci/profile-registry#registry`)
 2. An RDF type linking the registry to the RFC 7284 Profile URIs Registry concept

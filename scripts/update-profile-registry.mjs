@@ -1,4 +1,3 @@
-import { mkdir, writeFile } from "node:fs/promises";
 import { extractAllRDF, extractRDF } from "wrx";
 import {
   categorizeTypedResources,
@@ -11,8 +10,12 @@ import {
   buildProvenanceQuads,
   mergeNQuads,
 } from "./registry-pipeline.mjs";
-
-const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
+import {
+  BY_ISSUE_DIR,
+  ensureProfilesDirectories,
+  updateByNameSymlinks,
+  writeQuadVariantsFromNQuads,
+} from "./profile-storage.mjs";
 
 function normalizeExtractedDocuments(overview) {
   if (overview && Array.isArray(overview.found)) {
@@ -54,13 +57,13 @@ async function extractDocumentsForUri(uri) {
   return result ? [result] : [];
 }
 
-function getIssueQuadPath(issueNumber, outputDirectory = ISSUE_QUADS_DIR) {
-  return new URL(`issue-${issueNumber}.nq`, outputDirectory);
+function getIssueQuadPath(issueNumber, outputDirectory = BY_ISSUE_DIR) {
+  return new URL(`${issueNumber}.nq`, outputDirectory);
 }
 
 export async function updateProfileRegistryFromUri(rootUri, issueNumber, options = {}) {
   const loadDocuments = options.extractDocumentsForUri || extractDocumentsForUri;
-  const outputDirectory = options.outputDirectory || ISSUE_QUADS_DIR;
+  const outputDirectory = options.outputDirectory || BY_ISSUE_DIR;
   const queue = [{ uri: rootUri, parentUri: null }];
   const visited = new Set();
   const allQuads = [];
@@ -137,12 +140,14 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
   }
 
   const issuePath = getIssueQuadPath(issueNumber, outputDirectory);
-  await mkdir(outputDirectory, { recursive: true });
-  await writeFile(issuePath, discoveredNQuads, "utf8");
+  await ensureProfilesDirectories();
+  const issueBasePath = issuePath.pathname.replace(/\.nq$/, "");
+  await writeQuadVariantsFromNQuads(issueBasePath, discoveredNQuads);
+  await updateByNameSymlinks(profileUris, issueNumber);
 
   return {
     registeredProfiles: profileUris.size,
     writtenTriples: countNQuadStatements(discoveredNQuads),
-    outputFile: `profiles/issue-${issueNumber}.nq`,
+    outputFile: `profiles/by-issue/${issueNumber}.nq`,
   };
 }

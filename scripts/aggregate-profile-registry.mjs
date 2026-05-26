@@ -1,3 +1,4 @@
+import path from "node:path";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import {
   mergeNQuads,
@@ -7,14 +8,23 @@ import {
   categorizeTypedResources,
 } from "./registry-pipeline.mjs";
 import { getErrorMessage } from "./error-utils.mjs";
+import {
+  ALL_DIR,
+  BY_ISSUE_DIR,
+  ensureProfilesDirectories,
+  getAggregateVariantPath,
+  writeQuadVariantsFromNQuads,
+} from "./profile-storage.mjs";
 
-const ISSUE_QUADS_DIR = new URL("../profiles/", import.meta.url);
-const ALL_PROFILES_PATH = new URL("../all_profiles_quads.nq", import.meta.url);
-const PROFILE_REGISTRY_TRIPLES_PATH = new URL("../profile-registry-triples.nq", import.meta.url);
-const REGISTRY_CSV_PATH = new URL("../registry.csv", import.meta.url);
-const DESCRIBEDBY_PATH = new URL("../describedby.ttl", import.meta.url);
-const LINKSET_JSON_PATH = new URL("../linkset.json", import.meta.url);
-const LINKSET_TXT_PATH = new URL("../linkset", import.meta.url);
+const ISSUE_QUADS_DIR = BY_ISSUE_DIR;
+const ALL_PROFILES_PATH = getAggregateVariantPath("all_profiles_quads", "nq");
+const PROFILE_REGISTRY_TRIPLES_PATH = getAggregateVariantPath("profile-registry-triples", "nq");
+const REGISTRY_CSV_PATH = new URL("registry.csv", ALL_DIR);
+const DESCRIBEDBY_PATH = new URL("describedby.ttl", ALL_DIR);
+const LINKSET_JSON_PATH = new URL("linkset.json", ALL_DIR);
+const LINKSET_TXT_PATH = new URL("linkset", ALL_DIR);
+
+await ensureProfilesDirectories();
 
 const entries = await readdir(ISSUE_QUADS_DIR, { withFileTypes: true }).catch((error) => {
   const message = getErrorMessage(error);
@@ -72,7 +82,7 @@ function generateLinksetJson(profilesSet) {
         anchor: "https://github.com/vliz-be-opsci/profile-registry",
         describedby: [
           {
-            href: "https://github.com/vliz-be-opsci/profile-registry/describedby.ttl",
+            href: "https://github.com/vliz-be-opsci/profile-registry/profiles/all/describedby.ttl",
             type: "text/turtle"
           }
         ],
@@ -86,7 +96,7 @@ function generateLinksetJson(profilesSet) {
 function generateLinksetText(profilesSet) {
   const profileList = Array.from(profilesSet).sort((a, b) => a.localeCompare(b));
   const links = [
-    `<https://github.com/vliz-be-opsci/profile-registry/describedby.ttl>; rel="describedby"; type="text/turtle"; anchor="https://github.com/vliz-be-opsci/profile-registry"`
+    `<https://github.com/vliz-be-opsci/profile-registry/profiles/all/describedby.ttl>; rel="describedby"; type="text/turtle"; anchor="https://github.com/vliz-be-opsci/profile-registry"`
   ];
   for (const uri of profileList) {
     links.push(`<${uri}>; rel="item"; anchor="https://github.com/vliz-be-opsci/profile-registry"`);
@@ -95,8 +105,8 @@ function generateLinksetText(profilesSet) {
 }
 
 await Promise.all([
-  writeFile(ALL_PROFILES_PATH, publishedNQuads, "utf8"),
-  writeFile(PROFILE_REGISTRY_TRIPLES_PATH, registryMetadata, "utf8"),
+  writeQuadVariantsFromNQuads(path.join(path.dirname(ALL_PROFILES_PATH.pathname), "all_profiles_quads"), publishedNQuads),
+  writeQuadVariantsFromNQuads(path.join(path.dirname(PROFILE_REGISTRY_TRIPLES_PATH.pathname), "profile-registry-triples"), registryMetadata),
   writeFile(REGISTRY_CSV_PATH, csv, "utf8"),
   writeFile(DESCRIBEDBY_PATH, generateDescribedByTtl(profiles), "utf8"),
   writeFile(LINKSET_JSON_PATH, generateLinksetJson(profiles), "utf8"),

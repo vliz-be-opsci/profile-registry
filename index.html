@@ -9,9 +9,9 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Crect width='100' height='100' fill='white'/%3E%3Cellipse cx='42' cy='50' rx='3.5' ry='5.5' fill='black'/%3E%3Cellipse cx='58' cy='50' rx='3.5' ry='5.5' fill='black'/%3E%3Cpolygon points='50,57 47.2,60.8 52.8,60.8' fill='black'/%3E%3Cpath d='M 50 60.8 Q 47 64.5 44.5 62' stroke='black' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Cpath d='M 50 60.8 Q 53 64.5 55.5 62' stroke='black' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3Cline x1='22' y1='54' x2='43' y2='55' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='23' y1='59' x2='42' y2='59' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='57' y1='55' x2='78' y2='54' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3Cline x1='58' y1='59' x2='77' y2='59' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/mask%3E%3Cg mask='url(%23m)'%3E%3Ccircle cx='50' cy='54' r='34' fill='%23354d9b'/%3E%3Cpolygon points='18.5,42 38,12 45,20.6' fill='%23354d9b'/%3E%3Cpolygon points='81.5,42 62,12 55,20.6' fill='%23354d9b'/%3E%3C/g%3E%3C/svg%3E" />
 
     <!-- Signposting & Metadata Discovery for wrx crawler -->
-    <link rel="describedby" type="text/turtle" href="describedby.ttl" />
-    <link rel="linkset" type="application/linkset+json" href="linkset.json" />
-    <link rel="linkset" type="application/linkset" href="linkset" />
+    <link rel="describedby" type="text/turtle" href="profiles/all/describedby.ttl" />
+    <link rel="linkset" type="application/linkset+json" href="profiles/all/linkset.json" />
+    <link rel="linkset" type="application/linkset" href="profiles/all/linkset" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2003,7 +2003,7 @@
           </div>
           
           <div style="display: flex; gap: 1rem; align-items: center;">
-            <a href="./registry.csv" download class="btn-primary" id="download-csv-btn" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.25);">
+            <a href="./profiles/all/registry.csv" download class="btn-primary" id="download-csv-btn" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.25);">
               <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download registry.csv
             </a>
@@ -2559,7 +2559,7 @@
 
       async function loadTriples() {
         try {
-          const response = await fetch("./profile-registry-triples.nq", {
+          const response = await fetch("./profiles/all/profile-registry-triples.nq", {
             cache: "no-store",
           });
           if (!response.ok) {
@@ -2815,7 +2815,7 @@
 
       async function fetchRegistryNQuads() {
         try {
-          const response = await fetch("./all_profiles_quads.nq", {
+          const response = await fetch("./profiles/all/all_profiles_quads.nq", {
             cache: "no-store",
           });
           if (!response.ok) {

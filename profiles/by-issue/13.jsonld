@@ -1,0 +1,74 @@
+[
+  {
+    "@id": "https://github.com/vliz-be-opsci/profile-registry#provenance",
+    "@graph": [
+      {
+        "@id": "https://github.com/cedricdcc",
+        "@type": [
+          "http://www.w3.org/ns/prov#Agent"
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/13",
+        "@type": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "http://www.w3.org/ns/prov#used": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/14"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasAssociatedWith": [
+          {
+            "@id": "https://github.com/cedricdcc"
+          }
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/14",
+        "@type": [
+          "http://www.w3.org/ns/prov#Entity"
+        ]
+      },
+      {
+        "@id": "https://w3id.org/ro/crate",
+        "http://purl.org/dc/terms/source": [
+          {
+            "@id": "https://w3id.org/ro/crate"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasDerivedFrom": [
+          {
+            "@id": "https://w3id.org/ro/crate"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasGeneratedBy": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/13"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/ro/crate",
+    "http://schema.org/about": [
+      {
+        "@value": "RO-Crate is a community effort to establish a lightweight approach to packaging research data with their metadata. It is based on schema.org annotations in JSON-LD, and aims to make best-practice in formal metadata description accessible and practical for use in a wider variety of situations, from an individual researcher working with a folder of data, to large data-intensive computational research environments."
+      }
+    ],
+    "http://schema.org/name": [
+      {
+        "@value": "Research Object Crate (RO-Crate)"
+      }
+    ],
+    "http://schema.org/url": [
+      {
+        "@id": "https://www.researchobject.org"
+      }
+    ],
+    "@type": [
+      "http://schema.org/WebSite"
+    ]
+  }
+]

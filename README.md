@@ -11,3 +11,9 @@ This project is configured for Bun-based workflows:
 - `bun run build`
 - `bun run process-registration-issue`
 - `bun run aggregate-profile-registry`
+
+## Profiles storage layout
+
+- `profiles/by-issue/{issue-number}.{nq|ttl|trig|jsonld}`: canonical per-issue harvested output
+- `profiles/by-name/*.{nq|ttl|trig|jsonld}`: human-readable symlinks to per-issue files
+- `profiles/all/*`: aggregated registry outputs

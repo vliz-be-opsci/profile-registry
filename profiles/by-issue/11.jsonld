@@ -1,0 +1,335 @@
+[
+  {
+    "@id": "_:b0_n3-0",
+    "http://schema.org/itemListElement": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json"
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json"
+      }
+    ]
+  },
+  {
+    "@id": "_:b0_n3-1",
+    "http://schema.org/url": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ]
+  },
+  {
+    "@id": "_:b0_n3-2",
+    "http://schema.org/url": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ]
+  },
+  {
+    "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/",
+    "http://schema.org/author": [
+      {
+        "@value": "Kendrick Lemarenostrum"
+      }
+    ],
+    "http://schema.org/description": [
+      {
+        "@value": "test repo for test profile"
+      }
+    ],
+    "http://schema.org/hasPart": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/README.md"
+      }
+    ],
+    "http://schema.org/headline": [
+      {
+        "@value": "test file readme"
+      }
+    ],
+    "http://schema.org/item": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ],
+    "http://schema.org/keywords": [
+      {
+        "@value": "correct"
+      },
+      {
+        "@value": "profile"
+      },
+      {
+        "@value": "test"
+      }
+    ],
+    "http://schema.org/license": [
+      {
+        "@id": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "http://schema.org/name": [
+      {
+        "@value": "test profile A"
+      }
+    ],
+    "http://schema.org/url": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ],
+    "http://schema.org/version": [
+      {
+        "@value": "1.0.0"
+      }
+    ],
+    "@type": [
+      "http://schema.org/Dataset",
+      "http://schema.org/ListItem",
+      "http://schema.org/WebPage",
+      "http://www.w3.org/ns/dx/prof/Profile"
+    ]
+  },
+  {
+    "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json",
+    "http://purl.org/dc/terms/conformsTo": [
+      {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    ],
+    "http://schema.org/about": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ],
+    "http://schema.org/author": [
+      {
+        "@value": "Kendrick Lemarenostrum"
+      }
+    ],
+    "http://schema.org/description": [
+      {
+        "@value": "test repo for test profile"
+      }
+    ],
+    "http://schema.org/item": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json"
+      }
+    ],
+    "http://schema.org/keywords": [
+      {
+        "@value": "correct"
+      },
+      {
+        "@value": "profile"
+      },
+      {
+        "@value": "test"
+      }
+    ],
+    "http://schema.org/license": [
+      {
+        "@id": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "http://schema.org/name": [
+      {
+        "@value": "test profile A"
+      }
+    ],
+    "http://schema.org/version": [
+      {
+        "@value": "1.0.0"
+      }
+    ],
+    "@type": [
+      "http://schema.org/CreativeWork",
+      "http://schema.org/ListItem",
+      "http://www.w3.org/ns/dx/prof/Profile"
+    ]
+  },
+  {
+    "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json",
+    "http://purl.org/dc/terms/conformsTo": [
+      {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    ],
+    "http://schema.org/about": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      }
+    ],
+    "http://schema.org/author": [
+      {
+        "@value": "Decruw Cedric"
+      }
+    ],
+    "http://schema.org/description": [
+      {
+        "@value": "test repo for test profile"
+      }
+    ],
+    "http://schema.org/item": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json"
+      }
+    ],
+    "http://schema.org/keywords": [
+      {
+        "@value": "correct"
+      },
+      {
+        "@value": "profile"
+      },
+      {
+        "@value": "test"
+      }
+    ],
+    "http://schema.org/license": [
+      {
+        "@id": "https://creativecommons.org/licenses/by/4.0/"
+      }
+    ],
+    "http://schema.org/name": [
+      {
+        "@value": "test profile"
+      }
+    ],
+    "http://schema.org/version": [
+      {
+        "@value": "1.0.0"
+      }
+    ],
+    "@type": [
+      "http://schema.org/CreativeWork",
+      "http://schema.org/ListItem",
+      "http://www.w3.org/ns/dx/prof/Profile"
+    ]
+  },
+  {
+    "@id": "https://github.com/vliz-be-opsci/profile-registry#provenance",
+    "@graph": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/",
+        "http://purl.org/dc/terms/source": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasDerivedFrom": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasGeneratedBy": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/11"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasInfluencedBy": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ]
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json",
+        "http://purl.org/dc/terms/source": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasDerivedFrom": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasGeneratedBy": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/11"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasInfluencedBy": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ]
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json",
+        "http://purl.org/dc/terms/source": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasDerivedFrom": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasGeneratedBy": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/11"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasInfluencedBy": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ]
+      },
+      {
+        "@id": "https://github.com/cedricdcc",
+        "@type": [
+          "http://www.w3.org/ns/prov#Agent"
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/11",
+        "@type": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "http://www.w3.org/ns/prov#used": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/12"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasAssociatedWith": [
+          {
+            "@id": "https://github.com/cedricdcc"
+          }
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/12",
+        "@type": [
+          "http://www.w3.org/ns/prov#Entity"
+        ]
+      },
+      {
+        "@id": "https://open-science.vliz.be/demo-profile-repository",
+        "http://purl.org/dc/terms/source": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasDerivedFrom": [
+          {
+            "@id": "https://open-science.vliz.be/demo-profile-repository"
+          }
+        ],
+        "http://www.w3.org/ns/prov#wasGeneratedBy": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/11"
+          }
+        ]
+      }
+    ]
+  }
+]

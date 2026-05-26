@@ -80,8 +80,8 @@
 <https://w3id.org/ro/crate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebSite> .
 <https://w3id.org/ro/crate> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://w3id.org/ro/crate> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 <https://w3id.org/ro/crate> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/13> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
-_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
-_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
-_:n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
-_:n3-1 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
-_:n3-2 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+_:b2_b0_n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+_:b2_b0_n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> .
+_:b2_b0_n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> .
+_:b2_b0_n3-1 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .
+_:b2_b0_n3-2 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/> .

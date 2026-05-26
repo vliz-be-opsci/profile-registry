@@ -4,7 +4,7 @@
       "anchor": "https://github.com/vliz-be-opsci/profile-registry",
       "describedby": [
         {
-          "href": "https://github.com/vliz-be-opsci/profile-registry/describedby.ttl",
+          "href": "https://github.com/vliz-be-opsci/profile-registry/profiles/all/describedby.ttl",
           "type": "text/turtle"
         }
       ],

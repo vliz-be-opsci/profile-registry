@@ -1,0 +1,84 @@
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository>
+}
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://schema.org/author> "Kendrick Lemarenostrum";
+    <http://schema.org/description> "test repo for test profile";
+    <http://schema.org/hasPart> <https://cedricdcc.github.io/test-profile-repository/test/data/README.md>;
+    <http://schema.org/headline> "test file readme";
+    <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/>;
+    <http://schema.org/keywords> "correct", "profile", "test";
+    <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/>;
+    <http://schema.org/name> "test profile A";
+    <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/>;
+    <http://schema.org/version> "1.0.0";
+    a <http://schema.org/Dataset>, <http://schema.org/ListItem>, <http://schema.org/WebPage>, <http://www.w3.org/ns/dx/prof/Profile>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11>;
+    <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository>
+}
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://purl.org/dc/terms/conformsTo> <https://w3id.org/ro/crate/1.1>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository>
+}
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://schema.org/about> <https://cedricdcc.github.io/test-profile-repository/test/data/>;
+    <http://schema.org/author> "Kendrick Lemarenostrum";
+    <http://schema.org/description> "test repo for test profile";
+    <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json>;
+    <http://schema.org/keywords> "correct", "profile", "test";
+    <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/>;
+    <http://schema.org/name> "test profile A";
+    <http://schema.org/version> "1.0.0";
+    a <http://schema.org/CreativeWork>, <http://schema.org/ListItem>, <http://www.w3.org/ns/dx/prof/Profile>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11>;
+    <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository>
+}
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://purl.org/dc/terms/conformsTo> <https://w3id.org/ro/crate/1.1>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository>
+}
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://schema.org/about> <https://cedricdcc.github.io/test-profile-repository/test/data/>;
+    <http://schema.org/author> "Decruw Cedric";
+    <http://schema.org/description> "test repo for test profile";
+    <http://schema.org/item> <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json>;
+    <http://schema.org/keywords> "correct", "profile", "test";
+    <http://schema.org/license> <https://creativecommons.org/licenses/by/4.0/>;
+    <http://schema.org/name> "test profile";
+    <http://schema.org/version> "1.0.0";
+    a <http://schema.org/CreativeWork>, <http://schema.org/ListItem>, <http://www.w3.org/ns/dx/prof/Profile>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11>;
+    <http://www.w3.org/ns/prov#wasInfluencedBy> <https://open-science.vliz.be/demo-profile-repository>.
+<https://github.com/cedricdcc> a <http://www.w3.org/ns/prov#Agent>
+}
+<https://github.com/vliz-be-opsci/profile-registry#registry> a <https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry>;
+    <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284>;
+    <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://cedricdcc.github.io/test-profile-repository/test/data/>, <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json>, <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json>, <https://open-science.vliz.be/demo-profile-repository>, <https://w3id.org/ro/crate>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://github.com/vliz-be-opsci/profile-registry/issues/11> a <http://www.w3.org/ns/prov#Activity>;
+    <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/12>;
+    <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc>.
+<https://github.com/vliz-be-opsci/profile-registry/issues/13> a <http://www.w3.org/ns/prov#Activity>;
+    <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/14>;
+    <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc>.
+<https://github.com/vliz-be-opsci/profile-registry/pull/12> a <http://www.w3.org/ns/prov#Entity>.
+<https://github.com/vliz-be-opsci/profile-registry/pull/14> a <http://www.w3.org/ns/prov#Entity>.
+<https://open-science.vliz.be/demo-profile-repository> <http://purl.org/dc/terms/source> <https://open-science.vliz.be/demo-profile-repository>;
+    <http://www.w3.org/ns/prov#wasDerivedFrom> <https://open-science.vliz.be/demo-profile-repository>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/11>.
+<https://w3id.org/ro/crate> <http://purl.org/dc/terms/source> <https://w3id.org/ro/crate>
+}
+<https://w3id.org/ro/crate> <http://schema.org/about> "RO-Crate is a community effort to establish a lightweight approach to packaging research data with their metadata. It is based on schema.org annotations in JSON-LD, and aims to make best-practice in formal metadata description accessible and practical for use in a wider variety of situations, from an individual researcher working with a folder of data, to large data-intensive computational research environments.";
+    <http://schema.org/name> "Research Object Crate (RO-Crate)";
+    <http://schema.org/url> <https://www.researchobject.org>;
+    a <http://schema.org/WebSite>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://w3id.org/ro/crate> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://w3id.org/ro/crate>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/13>
+}
+_:b2_b0_n3-0 <http://schema.org/itemListElement> <https://cedricdcc.github.io/test-profile-repository/test/data/>, <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json>, <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json>.
+_:b2_b0_n3-1 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/>.
+_:b2_b0_n3-2 <http://schema.org/url> <https://cedricdcc.github.io/test-profile-repository/test/data/>.

@@ -182,14 +182,14 @@ test("add-pr-provenance.mjs script adds PR provenance to file", async () => {
   const path = await import("node:path");
   const { spawnSync } = await import("node:child_process");
 
-  const testDir = path.resolve("profiles");
+  const testDir = path.resolve("profiles/by-issue");
   await fs.mkdir(testDir, { recursive: true });
 
-  const testNqFile = path.resolve(testDir, "issue-999.nq");
+  const testNqFile = path.resolve(testDir, "999.nq");
   await fs.writeFile(testNqFile, "<https://example.org/profile> <http://purl.org/dc/terms/title> \"Test\" .\n", "utf8");
 
   // Run the script as a subprocess
-  const result = spawnSync("bun", ["run", "scripts/add-pr-provenance.mjs"], {
+  const result = spawnSync("node", ["scripts/add-pr-provenance.mjs"], {
     env: {
       ...process.env,
       ISSUE_NUMBER: "999",
@@ -198,12 +198,25 @@ test("add-pr-provenance.mjs script adds PR provenance to file", async () => {
     },
   });
 
-  assert.equal(result.status, 0, `Script failed: ${result.stderr.toString()}`);
+  assert.equal(result.status, 0, `Script failed: ${(result.stderr || "").toString()}`);
 
   const updatedContent = await fs.readFile(testNqFile, "utf8");
   assert.ok(updatedContent.includes("<https://github.com/vliz-be-opsci/profile-registry/issues/999> <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/123> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
 
-  // Clean up
-  await fs.unlink(testNqFile);
-});
+  const testTtlFile = path.resolve(testDir, "999.ttl");
+  const testTrigFile = path.resolve(testDir, "999.trig");
+  const testJsonLdFile = path.resolve(testDir, "999.jsonld");
+  await Promise.all([
+    fs.access(testTtlFile),
+    fs.access(testTrigFile),
+    fs.access(testJsonLdFile),
+  ]);
 
+  // Clean up
+  await Promise.all([
+    fs.unlink(testNqFile),
+    fs.unlink(testTtlFile),
+    fs.unlink(testTrigFile),
+    fs.unlink(testJsonLdFile),
+  ]);
+});
