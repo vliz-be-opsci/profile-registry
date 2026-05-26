@@ -1,0 +1,3 @@
+<https://github.com/vliz-be-opsci/profile-registry#registry> a <https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry>;
+    <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://datatracker.ietf.org/doc/html/rfc7284>;
+    <https://datatracker.ietf.org/doc/html/rfc7284#uri> <https://cedricdcc.github.io/test-profile-repository/test/data/>, <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json>, <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json>, <https://open-science.vliz.be/demo-profile-repository>, <https://w3id.org/ro/crate>.

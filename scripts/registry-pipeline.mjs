@@ -196,6 +196,47 @@ export function serializeQuadsToNQuads(quads) {
   return output;
 }
 
+export function serializeQuadsToTurtle(quads) {
+  if (!quads.length) {
+    return "";
+  }
+  const writer = new Writer({ format: "Turtle" });
+  writer.addQuads(quads);
+  let output = "";
+  writer.end((error, result) => {
+    if (error) {
+      throw error;
+    }
+    output = result;
+  });
+  return output;
+}
+
+export function serializeQuadsToTriG(quads) {
+  if (!quads.length) {
+    return "";
+  }
+  const writer = new Writer({ format: "TriG" });
+  writer.addQuads(quads);
+  let output = "";
+  writer.end((error, result) => {
+    if (error) {
+      throw error;
+    }
+    output = result;
+  });
+  return output;
+}
+
+export async function serializeQuadsToJsonLd(quads) {
+  if (!quads.length) {
+    return "[]\n";
+  }
+  const nquads = serializeQuadsToNQuads(quads);
+  const jsonldDocument = await jsonld.fromRDF(nquads, { format: "application/n-quads" });
+  return `${JSON.stringify(jsonldDocument, null, 2)}\n`;
+}
+
 export function mergeNQuads(existingContent, newContent) {
   const merged = new Set(
     `${existingContent || ""}\n${newContent || ""}`

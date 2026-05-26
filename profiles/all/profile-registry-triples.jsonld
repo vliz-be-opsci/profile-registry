@@ -1,0 +1,30 @@
+[
+  {
+    "@id": "https://github.com/vliz-be-opsci/profile-registry#registry",
+    "@type": [
+      "https://datatracker.ietf.org/doc/html/rfc7284#ProfileURIsRegistry"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "https://datatracker.ietf.org/doc/html/rfc7284"
+      }
+    ],
+    "https://datatracker.ietf.org/doc/html/rfc7284#uri": [
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/"
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json"
+      },
+      {
+        "@id": "https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json"
+      },
+      {
+        "@id": "https://open-science.vliz.be/demo-profile-repository"
+      },
+      {
+        "@id": "https://w3id.org/ro/crate"
+      }
+    ]
+  }
+]

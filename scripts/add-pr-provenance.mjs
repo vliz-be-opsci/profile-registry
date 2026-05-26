@@ -1,10 +1,10 @@
-import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { readFile } from "node:fs/promises";
 import {
-  parseNQuads,
-  categorizeTypedResources,
   buildProvenanceQuads,
   mergeNQuads,
 } from "./registry-pipeline.mjs";
+import { getIssueVariantPath, writeQuadVariantsFromNQuads } from "./profile-storage.mjs";
 
 const issueNumber = Number(process.env.ISSUE_NUMBER || "");
 const prNumber = Number(process.env.PR_NUMBER || "");
@@ -18,12 +18,10 @@ if (!issueNumber || !prNumber) {
 const issueUrl = process.env.ISSUE_URL || `https://github.com/${repository}/issues/${issueNumber}`;
 const prUrl = process.env.PR_URL || `https://github.com/${repository}/pull/${prNumber}`;
 
-const nqPath = new URL(`../profiles/issue-${issueNumber}.nq`, import.meta.url);
+const nqPath = getIssueVariantPath(issueNumber, "nq");
 
 try {
   const content = await readFile(nqPath, "utf8");
-  const quads = parseNQuads(content);
-  const { profiles } = categorizeTypedResources(quads);
 
   let prProvenance = "";
   prProvenance += buildProvenanceQuads({
@@ -33,8 +31,9 @@ try {
 
   if (prProvenance) {
     const updatedContent = mergeNQuads(content, prProvenance);
-    await writeFile(nqPath, updatedContent, "utf8");
-    console.log(`Successfully added PR provenance to profiles/issue-${issueNumber}.nq`);
+    const issueBasePath = path.join(path.dirname(nqPath.pathname), String(issueNumber));
+    await writeQuadVariantsFromNQuads(issueBasePath, updatedContent);
+    console.log(`Successfully added PR provenance to profiles/by-issue/${issueNumber}.nq`);
   } else {
     console.log("No PR provenance to add.");
   }

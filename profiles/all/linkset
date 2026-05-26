@@ -1,4 +1,4 @@
-<https://github.com/vliz-be-opsci/profile-registry/describedby.ttl>; rel="describedby"; type="text/turtle"; anchor="https://github.com/vliz-be-opsci/profile-registry",
+<https://github.com/vliz-be-opsci/profile-registry/profiles/all/describedby.ttl>; rel="describedby"; type="text/turtle"; anchor="https://github.com/vliz-be-opsci/profile-registry",
 <https://cedricdcc.github.io/test-profile-repository/test/data/>; rel="item"; anchor="https://github.com/vliz-be-opsci/profile-registry",
 <https://cedricdcc.github.io/test-profile-repository/test/data/a-profile.json>; rel="item"; anchor="https://github.com/vliz-be-opsci/profile-registry",
 <https://cedricdcc.github.io/test-profile-repository/test/data/bas-c-profile.json>; rel="item"; anchor="https://github.com/vliz-be-opsci/profile-registry",
