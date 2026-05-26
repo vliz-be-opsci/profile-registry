@@ -1298,6 +1298,204 @@
         color: #fbbf24;
       }
 
+      /* Tooltip and Multi-column Explorer styles */
+      .th-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+      }
+
+      .info-icon-container {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: help;
+      }
+
+      .info-icon {
+        width: 14px;
+        height: 14px;
+        color: var(--text-secondary);
+        opacity: 0.6;
+        transition: var(--transition);
+      }
+
+      .info-icon-container:hover .info-icon {
+        opacity: 1;
+        color: var(--accent-color);
+        filter: drop-shadow(0 0 4px rgba(101, 201, 205, 0.4));
+      }
+
+      .info-tooltip {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px) scale(0.95);
+        background: rgba(15, 23, 42, 0.96);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 0.8rem;
+        width: 260px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+        z-index: 50;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .info-tooltip::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent transparent rgba(15, 23, 42, 0.96) transparent;
+      }
+
+      .light-mode .info-tooltip {
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      }
+
+      .light-mode .info-tooltip::after {
+        border-color: transparent transparent rgba(255, 255, 255, 0.98) transparent;
+      }
+
+      .info-icon-container:hover .info-tooltip {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+
+      .info-tooltip.align-left {
+        left: 0;
+        transform: translateX(0) translateY(-10px) scale(0.95);
+      }
+
+      .info-tooltip.align-left::after {
+        left: 10px;
+        transform: none;
+      }
+
+      .info-icon-container:hover .info-tooltip.align-left {
+        transform: translateX(0) translateY(0) scale(1);
+      }
+
+      .info-tooltip.align-right {
+        left: auto;
+        right: 0;
+        transform: translateX(0) translateY(-10px) scale(0.95);
+      }
+
+      .info-tooltip.align-right::after {
+        left: auto;
+        right: 15px;
+        transform: none;
+      }
+
+      .info-icon-container:hover .info-tooltip.align-right {
+        transform: translateX(0) translateY(0) scale(1);
+      }
+
+      .tooltip-header {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        color: var(--heading-color);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 0.25rem;
+      }
+
+      .light-mode .tooltip-header {
+        border-bottom-color: rgba(0, 0, 0, 0.06);
+      }
+
+      .tooltip-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-height: 180px;
+        overflow-y: auto;
+      }
+
+      .tooltip-body code {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--accent-color);
+        padding: 0.12rem 0.35rem;
+        border-radius: 4px;
+        word-break: break-all;
+      }
+
+      .light-mode .tooltip-body code {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.06);
+        color: #0369a1;
+      }
+
+      .cell-prop-entry {
+        margin-bottom: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .cell-prop-entry:last-child {
+        margin-bottom: 0;
+      }
+
+      .cell-pred-link {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--accent-color);
+        opacity: 0.85;
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        word-break: break-all;
+      }
+
+      .cell-pred-link:hover {
+        opacity: 1;
+        color: var(--ocean-color);
+        text-decoration: underline;
+      }
+
+      .cell-value-container {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        word-break: break-all;
+      }
+
+      .cell-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+        transition: var(--transition);
+      }
+
+      .cell-link:hover {
+        color: #ffffff;
+        border-bottom-color: #ffffff;
+      }
+
+      .empty-cell {
+        color: var(--text-muted);
+        opacity: 0.3;
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+
       .actions-cell {
         display: flex;
         gap: 0.75rem;
@@ -1815,14 +2013,144 @@
           <table id="profiles-table">
             <thead>
               <tr>
-                <th style="width: 38%;">Profile Identifier & Actions</th>
-                <th style="width: 62%;">Associated Data (Semantic Key-Value Pairs)</th>
+                <th style="width: 25%;">Profile Identifier & Actions</th>
+                <th style="width: 15%;">
+                  <div class="th-content">
+                    <span>WHO</span>
+                    <div class="info-icon-container">
+                      <svg class="info-icon" xmlns="http://www.w3.org/2000/01/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                      </svg>
+                      <div class="info-tooltip align-left">
+                        <div class="tooltip-header">WHO Predicates</div>
+                        <div class="tooltip-body">
+                          <code>schema:author</code>
+                          <code>dct:publisher</code>
+                          <code>dct:creator</code>
+                          <code>dct:contributor</code>
+                          <code>foaf:maker</code>
+                          <code>foaf:name</code>
+                          <code>prov:wasAssociatedWith</code>
+                          <code>schema:publisher</code>
+                          <code>schema:creator</code>
+                          <code>schema:contributor</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                <th style="width: 15%;">
+                  <div class="th-content">
+                    <span>WHAT</span>
+                    <div class="info-icon-container">
+                      <svg class="info-icon" xmlns="http://www.w3.org/2000/01/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                      </svg>
+                      <div class="info-tooltip">
+                        <div class="tooltip-header">WHAT Predicates</div>
+                        <div class="tooltip-body">
+                          <code>rdf:type</code>
+                          <code>rdfs:label</code>
+                          <code>dct:title</code>
+                          <code>dct:description</code>
+                          <code>schema:about</code>
+                          <code>schema:headline</code>
+                          <code>schema:keywords</code>
+                          <code>schema:name</code>
+                          <code>schema:description</code>
+                          <code>rdfs:comment</code>
+                          <code>schema:hasPart</code>
+                          <code>schema:item</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                <th style="width: 15%;">
+                  <div class="th-content">
+                    <span>WHEN</span>
+                    <div class="info-icon-container">
+                      <svg class="info-icon" xmlns="http://www.w3.org/2000/01/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                      </svg>
+                      <div class="info-tooltip">
+                        <div class="tooltip-header">WHEN Predicates</div>
+                        <div class="tooltip-body">
+                          <code>dct:created</code>
+                          <code>dct:modified</code>
+                          <code>dct:date</code>
+                          <code>dct:issued</code>
+                          <code>schema:dateCreated</code>
+                          <code>schema:dateModified</code>
+                          <code>schema:datePublished</code>
+                          <code>owl:versionInfo</code>
+                          <code>schema:version</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                <th style="width: 15%;">
+                  <div class="th-content">
+                    <span>WHERE</span>
+                    <div class="info-icon-container">
+                      <svg class="info-icon" xmlns="http://www.w3.org/2000/01/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                      </svg>
+                      <div class="info-tooltip">
+                        <div class="tooltip-header">WHERE Predicates</div>
+                        <div class="tooltip-body">
+                          <code>schema:url</code>
+                          <code>prof:hasResource</code>
+                          <code>dcat:accessURL</code>
+                          <code>dcat:downloadURL</code>
+                          <code>rdfs:seeAlso</code>
+                          <code>foaf:homepage</code>
+                          <code>schema:distribution</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                <th style="width: 15%;">
+                  <div class="th-content">
+                    <span>WHY</span>
+                    <div class="info-icon-container">
+                      <svg class="info-icon" xmlns="http://www.w3.org/2000/01/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                      </svg>
+                      <div class="info-tooltip align-right">
+                        <div class="tooltip-header">WHY Predicates</div>
+                        <div class="tooltip-body">
+                          <code>dct:conformsTo</code>
+                          <code>dct:source</code>
+                          <code>prov:wasDerivedFrom</code>
+                          <code>prov:wasGeneratedBy</code>
+                          <code>prov:wasInfluencedBy</code>
+                          <code>prov:used</code>
+                          <code>dct:license</code>
+                          <code>schema:license</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody id="profiles-tbody">
               <!-- Rendered Dynamically -->
               <tr>
-                <td colspan="2" class="no-results">Initializing registry explorer...</td>
+                <td colspan="6" class="no-results">Initializing registry explorer...</td>
               </tr>
             </tbody>
           </table>
@@ -2071,6 +2399,114 @@
           }
         }
         return uri;
+      }
+
+      // Mappings of RDF predicates to the WHO, WHAT, WHEN, WHERE, WHY columns
+      const categoryMappings = {
+        who: [
+          "http://schema.org/author",
+          "http://purl.org/dc/terms/publisher",
+          "http://purl.org/dc/terms/creator",
+          "http://purl.org/dc/terms/contributor",
+          "http://xmlns.com/foaf/0.1/maker",
+          "http://xmlns.com/foaf/0.1/name",
+          "http://www.w3.org/ns/prov#wasAssociatedWith",
+          "http://schema.org/publisher",
+          "http://schema.org/creator",
+          "http://schema.org/contributor"
+        ],
+        what: [
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "http://www.w3.org/2000/01/rdf-schema#label",
+          "http://purl.org/dc/terms/title",
+          "http://purl.org/dc/terms/description",
+          "http://schema.org/about",
+          "http://schema.org/headline",
+          "http://schema.org/keywords",
+          "http://schema.org/name",
+          "http://schema.org/description",
+          "http://www.w3.org/2000/01/rdf-schema#comment",
+          "http://schema.org/hasPart",
+          "http://schema.org/item"
+        ],
+        when: [
+          "http://purl.org/dc/terms/created",
+          "http://purl.org/dc/terms/modified",
+          "http://purl.org/dc/terms/date",
+          "http://purl.org/dc/terms/issued",
+          "http://schema.org/dateCreated",
+          "http://schema.org/dateModified",
+          "http://schema.org/datePublished",
+          "http://www.w3.org/2002/07/owl#versionInfo",
+          "http://schema.org/version"
+        ],
+        where: [
+          "http://schema.org/url",
+          "http://www.w3.org/ns/dx/prof/hasResource",
+          "http://www.w3.org/ns/dcat#accessURL",
+          "http://www.w3.org/ns/dcat#downloadURL",
+          "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+          "http://xmlns.com/foaf/0.1/homepage",
+          "http://schema.org/distribution"
+        ],
+        why: [
+          "http://purl.org/dc/terms/conformsTo",
+          "http://purl.org/dc/terms/source",
+          "http://www.w3.org/ns/prov#wasDerivedFrom",
+          "http://www.w3.org/ns/prov#wasGeneratedBy",
+          "http://www.w3.org/ns/prov#wasInfluencedBy",
+          "http://www.w3.org/ns/prov#used",
+          "http://purl.org/dc/terms/license",
+          "http://schema.org/license"
+        ]
+      };
+
+      function getPredicateCategory(pred) {
+        for (const [category, predicates] of Object.entries(categoryMappings)) {
+          if (predicates.includes(pred)) {
+            return category;
+          }
+        }
+        return "what"; // fallback default category
+      }
+
+      function renderCategoryCell(profile, category) {
+        const matchingProps = [];
+        profile.properties.forEach((objects, pred) => {
+          if (getPredicateCategory(pred) === category) {
+            matchingProps.push({ pred, objects });
+          }
+        });
+
+        if (matchingProps.length === 0) {
+          return `<span class="empty-cell">&mdash;</span>`;
+        }
+
+        // Sort predicates alphabetically for deterministic layout
+        matchingProps.sort((a, b) => a.pred.localeCompare(b.pred));
+
+        return matchingProps.map(({ pred, objects }) => {
+          const shortenedPred = shortenUri(pred);
+          const valuesHtml = objects.map(obj => {
+            if (obj.type === "NamedNode") {
+              return `<a href="${obj.value}" target="_blank" class="cell-link" title="${obj.value}">${shortenUri(obj.value)}</a>`;
+            } else if (obj.type === "Literal") {
+              const isString = !obj.datatype || obj.datatype.includes("string");
+              const styleClass = isString ? "assoc-literal-string" : "assoc-literal-other";
+              const displayValue = isString ? `"${obj.value}"` : obj.value;
+              return `<span class="${styleClass}">${displayValue}</span>`;
+            } else {
+              return `<span>${obj.value}</span>`;
+            }
+          }).join(", ");
+
+          return `
+            <div class="cell-prop-entry">
+              <a href="${pred}" target="_blank" class="cell-pred-link" title="${pred}">${shortenedPred}</a>
+              <div class="cell-value-container">${valuesHtml}</div>
+            </div>
+          `;
+        }).join("");
       }
 
       // High-Fidelity Mock Sandbox N-Quads including active metadata and PROV-O provenance structures
@@ -2342,7 +2778,7 @@
         profilesTbody.innerHTML = "";
 
         if (data.length === 0) {
-          profilesTbody.innerHTML = `<tr><td colspan="2" class="no-results">No profiles found matching your search term.</td></tr>`;
+          profilesTbody.innerHTML = `<tr><td colspan="6" class="no-results">No profiles found matching your search term.</td></tr>`;
           recordCountSpan.textContent = "0 Records Found";
           return;
         }
@@ -2360,60 +2796,6 @@
             return `<a href="${type}" target="_blank" class="${pillClass}" title="${type}">${shortName}</a>`;
           }).join(" ") || '<a href="http://www.w3.org/2000/01/rdf-schema#Resource" target="_blank" class="type-pill">Resource</a>';
 
-          // Build Column 2: Associated Properties Table (predicates and values fully clickable)
-          let assocPropertiesHtml = `<table class="assoc-table">`;
-          
-          // Sort predicates alphabetically
-          const sortedPredicates = Array.from(profile.properties.keys()).sort((a, b) => a.localeCompare(b));
-          
-          if (sortedPredicates.length === 0) {
-            assocPropertiesHtml += `<tr><td colspan="2" style="color: var(--text-muted); font-style: italic;">No default properties associated.</td></tr>`;
-          } else {
-            sortedPredicates.forEach(pred => {
-              const objects = profile.properties.get(pred);
-              const shortenedPred = shortenUri(pred);
-
-              // Render predicate clickable link
-              assocPropertiesHtml += `
-                <tr>
-                  <td class="assoc-predicate-cell">
-                    <a href="${pred}" target="_blank" title="${pred}">${shortenedPred}</a>
-                  </td>
-                  <td class="assoc-value-cell">
-                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-              `;
-
-              // Render object values: links if NamedNodes, styled strings otherwise
-              objects.forEach(obj => {
-                if (obj.type === "NamedNode") {
-                  assocPropertiesHtml += `
-                    <div>
-                      <a href="${obj.value}" target="_blank" title="${obj.value}">${shortenUri(obj.value)}</a>
-                    </div>
-                  `;
-                } else if (obj.type === "Literal") {
-                  const isString = !obj.datatype || obj.datatype.includes("string");
-                  const styleClass = isString ? "assoc-literal-string" : "assoc-literal-other";
-                  const displayValue = isString ? `"${obj.value}"` : obj.value;
-                  assocPropertiesHtml += `
-                    <div class="${styleClass}">
-                      ${displayValue}
-                    </div>
-                  `;
-                } else {
-                  assocPropertiesHtml += `<div>${obj.value}</div>`;
-                }
-              });
-
-              assocPropertiesHtml += `
-                    </div>
-                  </td>
-                </tr>
-              `;
-            });
-          }
-          assocPropertiesHtml += `</table>`;
-
           // Put everything together
           tr.innerHTML = `
             <td>
@@ -2424,13 +2806,25 @@
                   ${typePillsHtml}
                 </div>
                 <button class="btn-prov view-provenance-btn" data-uri="${profile.uri}">
-                  <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/><path d="M12 2L2 7L12 12L22 7L12 2Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/01/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17L12 22L22 17"/><path d="M2 12L17L22 12"/><path d="M12 2L2 7L12 12L22 7L12 2Z"/></svg>
                   View Provenance Graph
                 </button>
               </div>
             </td>
             <td>
-              ${assocPropertiesHtml}
+              ${renderCategoryCell(profile, "who")}
+            </td>
+            <td>
+              ${renderCategoryCell(profile, "what")}
+            </td>
+            <td>
+              ${renderCategoryCell(profile, "when")}
+            </td>
+            <td>
+              ${renderCategoryCell(profile, "where")}
+            </td>
+            <td>
+              ${renderCategoryCell(profile, "why")}
             </td>
           `;
 
