@@ -1,5 +1,6 @@
 import path from "node:path";
 import { readdir, readFile, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import {
   mergeNQuads,
   parseNQuads,
@@ -105,8 +106,8 @@ function generateLinksetText(profilesSet) {
 }
 
 await Promise.all([
-  writeQuadVariantsFromNQuads(path.join(path.dirname(ALL_PROFILES_PATH.pathname), "all_profiles_quads"), publishedNQuads),
-  writeQuadVariantsFromNQuads(path.join(path.dirname(PROFILE_REGISTRY_TRIPLES_PATH.pathname), "profile-registry-triples"), registryMetadata),
+  writeQuadVariantsFromNQuads(path.join(path.dirname(fileURLToPath(ALL_PROFILES_PATH)), "all_profiles_quads"), publishedNQuads),
+  writeQuadVariantsFromNQuads(path.join(path.dirname(fileURLToPath(PROFILE_REGISTRY_TRIPLES_PATH)), "profile-registry-triples"), registryMetadata),
   writeFile(REGISTRY_CSV_PATH, csv, "utf8"),
   writeFile(DESCRIBEDBY_PATH, generateDescribedByTtl(profiles), "utf8"),
   writeFile(LINKSET_JSON_PATH, generateLinksetJson(profiles), "utf8"),

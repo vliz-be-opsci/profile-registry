@@ -2545,17 +2545,18 @@
 <https://open-science.vliz.be/demo-profile-repository/nested-profile> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/5> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
 `;
 
-      // Console copying helper
-      copyConsoleBtn.addEventListener("click", () => {
-        const text = triplesOutput.textContent;
-        navigator.clipboard.writeText(text).then(() => {
-          const originalTitle = copyConsoleBtn.title;
-          copyConsoleBtn.title = "Copied!";
-          setTimeout(() => {
-            copyConsoleBtn.title = originalTitle;
-          }, 1500);
+      if (copyConsoleBtn) {
+        copyConsoleBtn.addEventListener("click", () => {
+          const text = triplesOutput ? triplesOutput.textContent : "";
+          navigator.clipboard.writeText(text).then(() => {
+            const originalTitle = copyConsoleBtn.title;
+            copyConsoleBtn.title = "Copied!";
+            setTimeout(() => {
+              copyConsoleBtn.title = originalTitle;
+            }, 1500);
+          });
         });
-      });
+      }
 
       async function loadTriples() {
         try {
@@ -2571,8 +2572,8 @@
             .map((line) => line.trim())
             .filter(Boolean);
           
-          triplesBadge.className = "status-pill";
-          triplesStatus.textContent = `${lines.length} Triples Active`;
+          if (triplesBadge) triplesBadge.className = "status-pill";
+          if (triplesStatus) triplesStatus.textContent = `${lines.length} Triples Active`;
           
           // Simple custom syntax highlighting for N-Quads (Subjects, Predicates, Objects, named graph)
           const highlightedLines = lines.map(line => {
@@ -2581,12 +2582,12 @@
             return safeLine;
           });
 
-          triplesOutput.innerHTML = highlightedLines.join("\n");
+          if (triplesOutput) triplesOutput.innerHTML = highlightedLines.join("\n");
         } catch (error) {
           console.warn(`Failed to load triples: ${error?.message ?? error}`);
-          triplesBadge.className = "status-pill loading";
-          triplesStatus.textContent = "Awaiting Registrations";
-          triplesOutput.textContent = "# Triples will appear here as profiles are registered and validated via GitHub Actions.\n# Conforming to RFC 7284 ProfileURIsRegistry.";
+          if (triplesBadge) triplesBadge.className = "status-pill loading";
+          if (triplesStatus) triplesStatus.textContent = "Awaiting Registrations";
+          if (triplesOutput) triplesOutput.textContent = "# Triples will appear here as profiles are registered and validated via GitHub Actions.\n# Conforming to RFC 7284 ProfileURIsRegistry.";
         }
       }
 

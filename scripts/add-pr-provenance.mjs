@@ -1,5 +1,6 @@
 import path from "node:path";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import {
   buildProvenanceQuads,
   mergeNQuads,
@@ -31,7 +32,7 @@ try {
 
   if (prProvenance) {
     const updatedContent = mergeNQuads(content, prProvenance);
-    const issueBasePath = path.join(path.dirname(nqPath.pathname), String(issueNumber));
+    const issueBasePath = path.join(path.dirname(fileURLToPath(nqPath)), String(issueNumber));
     await writeQuadVariantsFromNQuads(issueBasePath, updatedContent);
     console.log(`Successfully added PR provenance to profiles/by-issue/${issueNumber}.nq`);
   } else {

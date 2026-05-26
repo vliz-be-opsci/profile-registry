@@ -40,8 +40,10 @@ function deriveCommonName(profileUri, issueNumber) {
   }
 }
 
+import { fileURLToPath } from "node:url";
+
 function toPath(url) {
-  return url.pathname;
+  return fileURLToPath(url);
 }
 
 export function getIssueVariantPath(issueNumber, extension) {
