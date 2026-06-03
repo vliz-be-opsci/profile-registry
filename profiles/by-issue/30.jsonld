@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "@id": "https://github.com/vliz-be-opsci/profile-registry#provenance",
+    "@graph": [
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/issues/30",
+        "@type": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "http://www.w3.org/ns/prov#used": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/31"
+          }
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/31",
+        "@type": [
+          "http://www.w3.org/ns/prov#Entity"
+        ]
+      }
+    ]
+  }
+]

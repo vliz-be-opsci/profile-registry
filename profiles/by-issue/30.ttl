@@ -1,0 +1,5 @@
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://github.com/vliz-be-opsci/profile-registry/issues/30> a <http://www.w3.org/ns/prov#Activity>;
+    <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/31>.
+<https://github.com/vliz-be-opsci/profile-registry/pull/31> a <http://www.w3.org/ns/prov#Entity>
+}
