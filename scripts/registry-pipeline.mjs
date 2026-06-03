@@ -108,7 +108,10 @@ export async function parseExtractedDocument(doc, fallbackUri) {
           parsed["@id"] = targetId;
         }
       }
-      contentToParse = await jsonld.toRDF(parsed, { format: "application/n-quads" });
+      contentToParse = await jsonld.toRDF(parsed, {
+        base: targetId || undefined,
+        format: "application/n-quads",
+      });
       actualFormat = "application/n-quads";
     }
 
