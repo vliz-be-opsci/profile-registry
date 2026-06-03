@@ -433,3 +433,107 @@ export function buildRfc7284RegistryMetadataNQuads(quads) {
 
   return registryTriples.join("\n") + "\n";
 }
+
+export async function detectProfilesFromResource(rootUri, loadDocuments) {
+  const discoveredProfiles = new Set();
+
+  let responseText = "";
+  let linkHeader = "";
+  try {
+    const res = await fetch(rootUri, {
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,application/ld+json,text/turtle,*/*;q=0.8'
+      }
+    });
+    if (res.ok) {
+      linkHeader = res.headers.get("link") || "";
+      responseText = await res.text();
+    }
+  } catch (err) {
+    console.debug(`Failed to fetch ${rootUri} for resource check: ${err.message}`);
+  }
+
+  // Parse HTTP Link header
+  if (linkHeader) {
+    const parts = linkHeader.split(",");
+    for (let part of parts) {
+      part = part.trim();
+      const urlMatch = part.match(/<([^>]+)>/);
+      if (!urlMatch) continue;
+      const url = urlMatch[1];
+      const relMatch = part.match(/rel\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s;]+))/i);
+      const rel = relMatch ? (relMatch[1] || relMatch[2] || relMatch[3]) : null;
+      if (rel) {
+        const isProfile = rel.split(/\s+/).some(token => 
+          token.toLowerCase() === 'profile' || 
+          token.toLowerCase() === 'conformsto' || 
+          token.toLowerCase() === 'dct:conformsto' ||
+          token === 'http://purl.org/dc/terms/conformsTo'
+        );
+        if (isProfile) {
+          try {
+            discoveredProfiles.add(new URL(url, rootUri).toString());
+          } catch (e) {}
+        }
+      }
+    }
+  }
+
+  // Parse HTML Link tags (rel or property)
+  if (responseText) {
+    const linkRegex = /<link\b[^>]*>/gi;
+    let match;
+    while ((match = linkRegex.exec(responseText)) !== null) {
+      const tag = match[0];
+      const hrefMatch = tag.match(/href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+      const href = hrefMatch ? (hrefMatch[1] || hrefMatch[2] || hrefMatch[3]) : null;
+      if (!href) continue;
+
+      const relMatch = tag.match(/rel\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+      const rel = relMatch ? (relMatch[1] || relMatch[2] || relMatch[3]) : null;
+
+      const propMatch = tag.match(/property\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+      const property = propMatch ? (propMatch[1] || propMatch[2] || propMatch[3]) : null;
+
+      const isProfileRel = rel && rel.split(/\s+/).some(token => 
+        token.toLowerCase() === 'profile' || 
+        token.toLowerCase() === 'conformsto' || 
+        token.toLowerCase() === 'dct:conformsto' ||
+        token === 'http://purl.org/dc/terms/conformsTo'
+      );
+      const isProfileProp = property && property.split(/\s+/).some(token => 
+        token.toLowerCase() === 'profile' || 
+        token.toLowerCase() === 'conformsto' || 
+        token.toLowerCase() === 'dct:conformsto' ||
+        token === 'http://purl.org/dc/terms/conformsTo'
+      );
+
+      if (isProfileRel || isProfileProp) {
+        try {
+          discoveredProfiles.add(new URL(href, rootUri).toString());
+        } catch (e) {}
+      }
+    }
+  }
+
+  // Parse RDF / JSON-LD conformsTo predicates
+  try {
+    const documents = await loadDocuments(rootUri);
+    const quads = (await Promise.all(documents.map((doc) => parseExtractedDocument(doc, rootUri)))).flat();
+    for (const quad of quads) {
+      if (
+        quad.subject.value === rootUri &&
+        (quad.predicate.value === "http://purl.org/dc/terms/conformsTo" ||
+         quad.predicate.value === "conformsTo") &&
+        quad.object.termType === "NamedNode"
+      ) {
+        discoveredProfiles.add(quad.object.value);
+      }
+    }
+  } catch (err) {
+    console.debug(`Failed to parse RDF for ${rootUri} conformsTo check: ${err.message}`);
+  }
+
+  return discoveredProfiles;
+}
+

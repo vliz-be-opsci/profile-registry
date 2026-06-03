@@ -1,4 +1,5 @@
 import { extractAllRDF, extractRDF } from "wrx";
+import { fileURLToPath } from "node:url";
 import {
   categorizeTypedResources,
   countNQuadStatements,
@@ -9,6 +10,7 @@ import {
   serializeQuadsToNQuads,
   buildProvenanceQuads,
   mergeNQuads,
+  detectProfilesFromResource,
 } from "./registry-pipeline.mjs";
 import {
   BY_ISSUE_DIR,
@@ -64,14 +66,21 @@ function getIssueQuadPath(issueNumber, outputDirectory = BY_ISSUE_DIR) {
 export async function updateProfileRegistryFromUri(rootUri, issueNumber, options = {}) {
   const loadDocuments = options.extractDocumentsForUri || extractDocumentsForUri;
   const outputDirectory = options.outputDirectory || BY_ISSUE_DIR;
-  const queue = [{ uri: rootUri, parentUri: null }];
+
+  const discoveredResourceProfiles = await detectProfilesFromResource(rootUri, loadDocuments);
+  const isResourceSubmission = discoveredResourceProfiles.size > 0;
+
+  const initialUris = isResourceSubmission ? Array.from(discoveredResourceProfiles) : [rootUri];
+  const queue = initialUris.map((uri) => ({ uri, parentUri: null }));
   const visited = new Set();
   const allQuads = [];
-  const profileUris = new Set([rootUri]);
+  const profileUris = new Set(initialUris);
   const discoveryParents = new Map();
   const sourceUris = new Map();
 
-  sourceUris.set(rootUri, rootUri);
+  for (const uri of initialUris) {
+    sourceUris.set(uri, uri);
+  }
 
   while (queue.length) {
     const { uri: currentUri, parentUri } = queue.shift();
@@ -117,7 +126,11 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
   const profileQuads = collectSurroundingProfileQuads(allQuads, profileUris);
   let discoveredNQuads = serializeQuadsToNQuads(profileQuads);
   if (!discoveredNQuads.trim()) {
-    discoveredNQuads = createFallbackProfileTypeTriple(rootUri);
+    let fallback = "";
+    for (const uri of profileUris) {
+      fallback += createFallbackProfileTypeTriple(uri);
+    }
+    discoveredNQuads = fallback;
   }
 
   const issueCreator = process.env.ISSUE_CREATOR || options.issueCreator || "";
@@ -135,13 +148,19 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     });
   }
 
+  if (isResourceSubmission) {
+    for (const profileUri of discoveredResourceProfiles) {
+      provenanceNQuads += `<${rootUri}> <http://www.w3.org/ns/prov#wasDerivedFrom> <${profileUri}> <https://github.com/vliz-be-opsci/profile-registry#provenance> .\n`;
+    }
+  }
+
   if (provenanceNQuads) {
     discoveredNQuads = mergeNQuads(discoveredNQuads, provenanceNQuads);
   }
 
   const issuePath = getIssueQuadPath(issueNumber, outputDirectory);
   await ensureProfilesDirectories();
-  const issueBasePath = issuePath.pathname.replace(/\.nq$/, "");
+  const issueBasePath = fileURLToPath(issuePath).replace(/\.nq$/, "");
   await writeQuadVariantsFromNQuads(issueBasePath, discoveredNQuads);
   await updateByNameSymlinks(profileUris, issueNumber);
 

@@ -14,6 +14,7 @@ import {
   parseExtractedDocument,
   updateRegistryCsv,
   buildProvenanceQuads,
+  detectProfilesFromResource,
 } from "./registry-pipeline.mjs";
 
 test("extracts profile URI from issue body", () => {
@@ -219,4 +220,124 @@ test("add-pr-provenance.mjs script adds PR provenance to file", async () => {
     fs.unlink(testTrigFile),
     fs.unlink(testJsonLdFile),
   ]);
+});
+
+test("detectProfilesFromResource extracts profiles from headers, HTML, and RDF conformsTo", async () => {
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => {
+      if (url === "https://example.org/resource") {
+        return {
+          ok: true,
+          headers: {
+            get: (name) => {
+              if (name.toLowerCase() === "link") {
+                return '<https://example.org/profile-from-header>; rel="profile"';
+              }
+              return null;
+            }
+          },
+          text: async () => `
+            <html>
+              <head>
+                <link rel="profile" href="https://example.org/profile-from-rel">
+                <link property="dct:conformsTo" href="/profile-from-prop">
+              </head>
+            </html>
+          `
+        };
+      }
+      return { ok: false };
+    };
+
+    const mockLoadDocuments = async (uri) => {
+      return [
+        {
+          format: "nquads",
+          content: `<https://example.org/resource> <http://purl.org/dc/terms/conformsTo> <https://example.org/profile-from-rdf> .\n`
+        }
+      ];
+    };
+
+    const profiles = await detectProfilesFromResource("https://example.org/resource", mockLoadDocuments);
+
+    assert.equal(profiles.size, 4);
+    assert.ok(profiles.has("https://example.org/profile-from-header"));
+    assert.ok(profiles.has("https://example.org/profile-from-rel"));
+    assert.ok(profiles.has("https://example.org/profile-from-prop")); // absolute URL resolved against base
+    assert.ok(profiles.has("https://example.org/profile-from-rdf"));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("updateProfileRegistryFromUri integrates resource-to-profile discovery and logs wasDerivedFrom provenance", async () => {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { updateProfileRegistryFromUri } = await import("./update-profile-registry.mjs");
+
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => {
+      if (url === "https://example.org/resource-submission") {
+        return {
+          ok: true,
+          headers: { get: () => null },
+          text: async () => `
+            <html>
+              <head>
+                <link rel="profile" href="https://example.org/discovered-profile">
+              </head>
+            </html>
+          `
+        };
+      }
+      return { ok: false };
+    };
+
+    const mockLoadDocuments = async (uri) => {
+      if (uri === "https://example.org/discovered-profile") {
+        return [
+          {
+            format: "nquads",
+            content: `<https://example.org/discovered-profile> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .\n`
+          }
+        ];
+      }
+      return [];
+    };
+
+    const result = await updateProfileRegistryFromUri("https://example.org/resource-submission", 888, {
+      extractDocumentsForUri: mockLoadDocuments,
+    });
+
+    assert.equal(result.registeredProfiles, 1);
+    
+    const testDir = path.resolve("profiles/by-issue");
+    const testNqFile = path.resolve(testDir, "888.nq");
+    const testTtlFile = path.resolve(testDir, "888.ttl");
+    const testTrigFile = path.resolve(testDir, "888.trig");
+    const testJsonLdFile = path.resolve(testDir, "888.jsonld");
+
+    const content = await fs.readFile(testNqFile, "utf8");
+    
+    // Check that the profile itself is registered
+    assert.ok(content.includes("<https://example.org/discovered-profile> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+    
+    // Check that the resource is not registered as a profile itself
+    assert.ok(!content.includes("<https://example.org/resource-submission> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+
+    // Check that the prov:wasDerivedFrom link is added
+    assert.ok(content.includes("<https://example.org/resource-submission> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://example.org/discovered-profile> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+    // Clean up
+    await Promise.all([
+      fs.unlink(testNqFile),
+      fs.unlink(testTtlFile),
+      fs.unlink(testTrigFile),
+      fs.unlink(testJsonLdFile),
+    ]);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

@@ -97,7 +97,15 @@ async function ensureSymlink(linkPath, targetPath) {
     // Link does not exist yet.
   }
 
-  await symlink(relativeTarget, linkPath);
+  try {
+    await symlink(relativeTarget, linkPath);
+  } catch (error) {
+    if (process.platform === "win32" && error.code === "EPERM") {
+      console.warn(`Warning: Symbolic link creation failed due to lack of permissions on Windows. Please enable Developer Mode or run as Administrator to create symlinks.`);
+      return false;
+    }
+    throw error;
+  }
   return true;
 }
 
