@@ -516,13 +516,38 @@ export async function detectProfilesFromResource(rootUri, loadDocuments) {
     }
   }
 
+  const normalizeUri = (uri) => {
+    if (!uri) return "";
+    try {
+      const url = new URL(uri);
+      let path = url.pathname;
+      if (path.endsWith("/")) {
+        path = path.slice(0, -1);
+      }
+      return `${url.protocol}//${url.host}${path}`;
+    } catch (e) {
+      let u = uri.trim();
+      if (u.endsWith("/")) {
+        u = u.slice(0, -1);
+      }
+      const hashIndex = u.indexOf("#");
+      if (hashIndex !== -1) {
+        u = u.slice(0, hashIndex);
+      }
+      return u;
+    }
+  };
+
+  const normRoot = normalizeUri(rootUri);
+
   // Parse RDF / JSON-LD conformsTo predicates
   try {
     const documents = await loadDocuments(rootUri);
     const quads = (await Promise.all(documents.map((doc) => parseExtractedDocument(doc, rootUri)))).flat();
     for (const quad of quads) {
+      const normSubject = normalizeUri(quad.subject.value);
       if (
-        quad.subject.value === rootUri &&
+        (normSubject === normRoot || normSubject.startsWith(normRoot + "/")) &&
         (quad.predicate.value === "http://purl.org/dc/terms/conformsTo" ||
          quad.predicate.value === "conformsTo") &&
         quad.object.termType === "NamedNode"

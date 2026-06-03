@@ -1,4 +1,3 @@
-import { extractAllRDF, extractRDF } from "wrx";
 import { fileURLToPath } from "node:url";
 import {
   categorizeTypedResources,
@@ -30,6 +29,7 @@ function normalizeExtractedDocuments(overview) {
 }
 
 async function extractDocumentsForUri(uri) {
+  const { extractAllRDF, extractRDF } = await import("wrx");
   try {
     const overview = await extractAllRDF(uri);
     const docs = normalizeExtractedDocuments(overview);

@@ -341,3 +341,85 @@ test("updateProfileRegistryFromUri integrates resource-to-profile discovery and 
     globalThis.fetch = originalFetch;
   }
 });
+
+test("updateProfileRegistryFromUri integrates observatory-bergen-crate conformsTo extraction and registers latest profile", async () => {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { updateProfileRegistryFromUri } = await import("./update-profile-registry.mjs");
+
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => {
+      if (url === "https://data.emobon.embrc.eu/observatory-bergen-crate/") {
+        // Return HTML with no profile/conformsTo links in headers or body to simulate normal retrieval finding nothing
+        return {
+          ok: true,
+          headers: { get: () => null },
+          text: async () => `
+            <html>
+              <body>
+                <h1>Observatory Bergen Crate</h1>
+              </body>
+            </html>
+          `
+        };
+      }
+      return { ok: false };
+    };
+
+    const mockLoadDocuments = async (uri) => {
+      if (uri === "https://data.emobon.embrc.eu/observatory-bergen-crate/") {
+        // Simulates wrx discovering and harvesting the conformsTo relationship from ro-crate-metadata.json
+        return [
+          {
+            format: "nquads",
+            content: `<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://purl.org/dc/terms/conformsTo> <https://data.emobon.embrc.eu/observatory-profile/latest> .\n`
+          }
+        ];
+      }
+      if (uri === "https://data.emobon.embrc.eu/observatory-profile/latest") {
+        return [
+          {
+            format: "nquads",
+            content: `<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .\n`
+          }
+        ];
+      }
+      return [];
+    };
+
+    const result = await updateProfileRegistryFromUri("https://data.emobon.embrc.eu/observatory-bergen-crate/", 999, {
+      extractDocumentsForUri: mockLoadDocuments,
+    });
+
+    assert.equal(result.registeredProfiles, 1);
+
+    const testDir = path.resolve("profiles/by-issue");
+    const testNqFile = path.resolve(testDir, "999.nq");
+    const testTtlFile = path.resolve(testDir, "999.ttl");
+    const testTrigFile = path.resolve(testDir, "999.trig");
+    const testJsonLdFile = path.resolve(testDir, "999.jsonld");
+
+    const content = await fs.readFile(testNqFile, "utf8");
+
+    // Check that the conformsTo target (the profile) is registered
+    assert.ok(content.includes("<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+
+    // Check that the resource itself is not registered as a profile
+    assert.ok(!content.includes("<https://data.emobon.embrc.eu/observatory-bergen-crate/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+
+    // Check that the prov:wasDerivedFrom link is added
+    assert.ok(content.includes("<https://data.emobon.embrc.eu/observatory-bergen-crate/> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+    // Clean up
+    await Promise.all([
+      fs.unlink(testNqFile),
+      fs.unlink(testTtlFile),
+      fs.unlink(testTrigFile),
+      fs.unlink(testJsonLdFile),
+    ]);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
