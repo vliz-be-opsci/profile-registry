@@ -1,0 +1,25 @@
+<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://w3id.org/ro/crate/1.1> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://purl.org/dc/terms/source> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://schema.org/datePublished> "2023-05-10T11:38:29+00:00" <https://data.emobon.embrc.eu/observatory-profile/latest> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://schema.org/distribution> <https://github.com/emo-bon/observatory-profile/archive/refs/tags/latest.zip> <https://data.emobon.embrc.eu/observatory-profile/latest> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Dataset> <https://data.emobon.embrc.eu/observatory-profile/latest> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> <https://data.emobon.embrc.eu/observatory-profile/latest> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/32> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/> <http://www.w3.org/ns/prov#wasInfluencedBy> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/latest> <http://purl.org/dc/terms/source> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/32> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://data.emobon.embrc.eu/observatory-profile/ro-crate-metadata.json> <http://schema.org/about> <https://data.emobon.embrc.eu/observatory-profile/> <https://data.emobon.embrc.eu/observatory-profile/latest> .
+<https://github.com/cedricdcc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/32> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://github.com/vliz-be-opsci/profile-registry/issues/32> <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate/1.1> <http://purl.org/dc/terms/source> <https://w3id.org/ro/crate/1.1> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate/1.1> <http://schema.org/about> "RO-Crate is a community effort to establish a lightweight approach to packaging research data with their metadata. It is based on schema.org annotations in JSON-LD, and aims to make best-practice in formal metadata description accessible and practical for use in a wider variety of situations, from an individual researcher working with a folder of data, to large data-intensive computational research environments." .
+<https://w3id.org/ro/crate/1.1> <http://schema.org/name> "Research Object Crate (RO-Crate)" .
+<https://w3id.org/ro/crate/1.1> <http://schema.org/url> <https://www.researchobject.org> .
+<https://w3id.org/ro/crate/1.1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebSite> .
+<https://w3id.org/ro/crate/1.1> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://w3id.org/ro/crate/1.1> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate/1.1> <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/32> <https://github.com/vliz-be-opsci/profile-registry#provenance> .
+<https://w3id.org/ro/crate/ro-crate-metadata.json> <http://purl.org/dc/terms/conformsTo> <https://w3id.org/ro/crate/1.1> <https://w3id.org/ro/crate/1.1> .
