@@ -808,6 +808,47 @@
         color: var(--accent-color);
       }
 
+      select {
+        width: 100%;
+        padding: 1.15rem 2.5rem 1.15rem 3.25rem;
+        background: var(--input-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        transition: var(--transition);
+        outline: none;
+        box-shadow: var(--input-shadow);
+        cursor: pointer;
+        appearance: none;
+      }
+
+      select:focus {
+        border-color: var(--input-focus-border);
+        box-shadow: 0 0 0 4px var(--input-focus-shadow), var(--input-shadow);
+      }
+
+      select:focus + svg {
+        color: var(--accent-color);
+      }
+
+      .select-wrapper::after {
+        content: '';
+        position: absolute;
+        right: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-top-color: var(--text-muted);
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      .select-wrapper:focus-within::after {
+        border-top-color: var(--accent-color);
+      }
+
       /* Checklist of Requirements */
       .checklist-card {
         background: var(--checklist-bg);
@@ -1942,6 +1983,17 @@
                   required 
                 />
                 <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="uri-type">Submission Type</label>
+              <div class="input-wrapper select-wrapper">
+                <select id="uri-type" name="uri-type" required>
+                  <option value="profile">Profile URL (The URL directly defines/is the profile)</option>
+                  <option value="resource">Resource URL (Traverse this page to find profile references)</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/01/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
               </div>
             </div>
 
@@ -3226,8 +3278,11 @@
             }
           }
 
+          const uriType = document.getElementById("uri-type").value;
+          const isResource = uriType === "resource";
+
           const issueTitle = `Register profile: ${profileUri}`;
-          const issueBody = `## Profile registration request\n\n- Profile URI: ${profileUri}\n- rdfs:type: \n\nPlease provide a valid rdfs:type for this profile.`;
+          const issueBody = `## Profile registration request\n\n- Profile URI: ${profileUri}\n- Is Resource URL: ${isResource ? 'yes' : 'no'}\n- rdfs:type: \n\nPlease provide a valid rdfs:type for this profile.`;
           const issueUrl = `https://github.com/vliz-be-opsci/profile-registry/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
 
           window.location.assign(issueUrl);

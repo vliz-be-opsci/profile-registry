@@ -66,9 +66,10 @@ function getIssueQuadPath(issueNumber, outputDirectory = BY_ISSUE_DIR) {
 export async function updateProfileRegistryFromUri(rootUri, issueNumber, options = {}) {
   const loadDocuments = options.extractDocumentsForUri || extractDocumentsForUri;
   const outputDirectory = options.outputDirectory || BY_ISSUE_DIR;
+  const isResource = options.isResource === true;
 
   const discoveredResourceProfiles = await detectProfilesFromResource(rootUri, loadDocuments);
-  const isResourceSubmission = discoveredResourceProfiles.size > 0;
+  const isResourceSubmission = isResource || discoveredResourceProfiles.size > 0;
 
   const initialUris = isResourceSubmission ? Array.from(discoveredResourceProfiles) : [rootUri];
   const queue = initialUris.map((uri) => ({ uri, parentUri: null }));
@@ -168,5 +169,8 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     registeredProfiles: profileUris.size,
     writtenTriples: countNQuadStatements(discoveredNQuads),
     outputFile: `profiles/by-issue/${issueNumber}.nq`,
+    isResourceSubmission,
+    submittedUri: rootUri,
+    discoveredProfiles: Array.from(profileUris),
   };
 }

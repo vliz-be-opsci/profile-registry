@@ -15,6 +15,7 @@ import {
   updateRegistryCsv,
   buildProvenanceQuads,
   detectProfilesFromResource,
+  extractIsResourceFromIssueBody,
 } from "./registry-pipeline.mjs";
 
 test("extracts profile URI from issue body", () => {
@@ -24,6 +25,19 @@ test("extracts profile URI from issue body", () => {
     extractProfileUriFromIssueBody(issueBody),
     "https://example.org/profile/demo",
   );
+});
+
+test("extracts isResource selection from issue body", () => {
+  const bodyWithResource =
+    "## Profile registration request\n\n- Profile URI: https://example.org/resource\n- Is Resource URL: yes";
+  const bodyWithProfile =
+    "## Profile registration request\n\n- Profile URI: https://example.org/profile\n- Is Resource URL: no";
+  const bodyDefault =
+    "## Profile registration request\n\n- Profile URI: https://example.org/profile";
+
+  assert.equal(extractIsResourceFromIssueBody(bodyWithResource), true);
+  assert.equal(extractIsResourceFromIssueBody(bodyWithProfile), false);
+  assert.equal(extractIsResourceFromIssueBody(bodyDefault), false);
 });
 
 test("accepts HTTP(S) and URN profile URIs", () => {
@@ -410,6 +424,87 @@ test("updateProfileRegistryFromUri integrates observatory-bergen-crate conformsT
 
     // Check that the prov:wasDerivedFrom link is added
     assert.ok(content.includes("<https://data.emobon.embrc.eu/observatory-bergen-crate/> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
+
+    // Clean up
+    await Promise.all([
+      fs.unlink(testNqFile),
+      fs.unlink(testTtlFile),
+      fs.unlink(testTrigFile),
+      fs.unlink(testJsonLdFile),
+    ]);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("updateProfileRegistryFromUri integrates observatory-bergen-crate conformsTo extraction with relative hash root and registers latest profile", async () => {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { updateProfileRegistryFromUri } = await import("./update-profile-registry.mjs");
+
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => {
+      // Note the hash #./ is stripped during fetch by standard URL/fetch behavior, so fetch is called for the base URL.
+      if (url.startsWith("https://data.emobon.embrc.eu/observatory-bergen-crate/")) {
+        return {
+          ok: true,
+          headers: { get: () => null },
+          text: async () => `
+            <html>
+              <body>
+                <h1>Observatory Bergen Crate</h1>
+              </body>
+            </html>
+          `
+        };
+      }
+      return { ok: false };
+    };
+
+    const mockLoadDocuments = async (uri) => {
+      if (uri.startsWith("https://data.emobon.embrc.eu/observatory-bergen-crate/")) {
+        return [
+          {
+            format: "nquads",
+            content: `<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://purl.org/dc/terms/conformsTo> <https://data.emobon.embrc.eu/observatory-profile/latest> .\n`
+          }
+        ];
+      }
+      if (uri === "https://data.emobon.embrc.eu/observatory-profile/latest") {
+        return [
+          {
+            format: "nquads",
+            content: `<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> .\n`
+          }
+        ];
+      }
+      return [];
+    };
+
+    // Submitting with the hash #./
+    const result = await updateProfileRegistryFromUri("https://data.emobon.embrc.eu/observatory-bergen-crate/#./", 998, {
+      extractDocumentsForUri: mockLoadDocuments,
+    });
+
+    assert.equal(result.registeredProfiles, 1);
+
+    const testDir = path.resolve("profiles/by-issue");
+    const testNqFile = path.resolve(testDir, "998.nq");
+    const testTtlFile = path.resolve(testDir, "998.ttl");
+    const testTrigFile = path.resolve(testDir, "998.trig");
+    const testJsonLdFile = path.resolve(testDir, "998.jsonld");
+
+    const content = await fs.readFile(testNqFile, "utf8");
+
+    // Check that the conformsTo target (the profile) is registered
+    assert.ok(content.includes("<https://data.emobon.embrc.eu/observatory-profile/latest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+
+    // Check that the resource itself is not registered as a profile
+    assert.ok(!content.includes("<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dx/prof/Profile> ."));
+
+    // Check that the prov:wasDerivedFrom link is added with correct source Uri
+    assert.ok(content.includes("<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-profile/latest> <https://github.com/vliz-be-opsci/profile-registry#provenance> ."));
 
     // Clean up
     await Promise.all([

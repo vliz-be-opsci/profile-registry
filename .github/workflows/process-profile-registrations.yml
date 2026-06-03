@@ -83,3 +83,40 @@ jobs:
               issue_number: issueNumber,
               body: `Profile registration issue #${issueNumber} completed. Opened PR #${prNumber} containing files under profiles/by-issue/${issueNumber}.* and profiles/by-name/.`
             });
+
+      - name: Comment PR with profile extraction summary
+        if: steps.create_pr.outputs.pull-request-number
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'registration-summary.json';
+            if (!fs.existsSync(path)) return;
+            const summary = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const prNumber = parseInt("${{ steps.create_pr.outputs.pull-request-number }}");
+            
+            let body = `### 📋 Profile Registration Summary\n\n`;
+            if (summary.isResourceSubmission) {
+              body += `This submission was recognized as a **Resource** URL:\n`;
+              body += `- Submitted Resource URL: \`${summary.submittedUri}\`\n\n`;
+              if (summary.registeredProfiles > 0) {
+                body += `The following **${summary.registeredProfiles}** profile(s) were successfully discovered, crawled, and registered:\n`;
+                for (const profile of summary.discoveredProfiles) {
+                  body += `- \`${profile}\` (derived from the resource URL above)\n`;
+                }
+              } else {
+                body += `⚠️ No profiles were discovered on this resource URL.\n`;
+              }
+            } else {
+              body += `This submission was registered as a **Profile** URL:\n`;
+              body += `- Registered Profile URL: \`${summary.submittedUri}\`\n`;
+            }
+            body += `\n- **Total Triples Written**: ${summary.writtenTriples}\n`;
+            body += `- **Output File**: [\`${summary.outputFile}\`](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/registration/issue-${context.issue.number}/${summary.outputFile})\n`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: body
+            });

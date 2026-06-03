@@ -33,6 +33,11 @@ export function extractProfileUriFromIssueBody(issueBody = "") {
   return match ? match[1].trim() : null;
 }
 
+export function extractIsResourceFromIssueBody(issueBody = "") {
+  const match = issueBody.match(/^\s*-\s*Is Resource URL:\s*(\S+)\s*$/im);
+  return match ? match[1].trim().toLowerCase() === "yes" : false;
+}
+
 export function isAllowedProfileUri(value) {
   if (!value) {
     return false;

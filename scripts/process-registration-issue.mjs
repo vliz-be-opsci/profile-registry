@@ -2,7 +2,9 @@ import { updateProfileRegistryFromUri } from "./update-profile-registry.mjs";
 import {
   extractProfileUriFromIssueBody,
   isAllowedProfileUri,
+  extractIsResourceFromIssueBody,
 } from "./registry-pipeline.mjs";
+import fs from "node:fs/promises";
 
 const issueBody = process.env.ISSUE_BODY || "";
 const issueNumber = Number(process.env.ISSUE_NUMBER || "");
@@ -23,7 +25,11 @@ if (!Number.isInteger(issueNumber) || issueNumber <= 0) {
   process.exit(1);
 }
 
-const result = await updateProfileRegistryFromUri(profileUri, issueNumber);
+const isResource = extractIsResourceFromIssueBody(issueBody);
+const result = await updateProfileRegistryFromUri(profileUri, issueNumber, { isResource });
+
+await fs.writeFile("registration-summary.json", JSON.stringify(result, null, 2), "utf8");
+
 console.log(
   JSON.stringify(
     {
@@ -32,6 +38,8 @@ console.log(
       registeredProfiles: result.registeredProfiles,
       writtenTriples: result.writtenTriples,
       outputFile: result.outputFile,
+      isResourceSubmission: result.isResourceSubmission,
+      discoveredProfiles: result.discoveredProfiles,
     },
     null,
     2,
