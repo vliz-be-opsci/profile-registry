@@ -7,5 +7,7 @@
     <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/26>.
 <https://github.com/cedricdcc> a <http://www.w3.org/ns/prov#Agent>.
 <https://github.com/vliz-be-opsci/profile-registry/issues/26> a <http://www.w3.org/ns/prov#Activity>;
-    <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc>
+    <http://www.w3.org/ns/prov#used> <https://github.com/vliz-be-opsci/profile-registry/pull/27>;
+    <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc>.
+<https://github.com/vliz-be-opsci/profile-registry/pull/27> a <http://www.w3.org/ns/prov#Entity>
 }
