@@ -30,6 +30,9 @@ const result = await updateProfileRegistryFromUri(profileUri, issueNumber, { isR
 
 await fs.writeFile("registration-summary.json", JSON.stringify(result, null, 2), "utf8");
 
+console.log("=== Debug: All Gathered Data by wrx ===");
+console.log(JSON.stringify(result.wrxDocuments, null, 2));
+
 console.log(
   JSON.stringify(
     {

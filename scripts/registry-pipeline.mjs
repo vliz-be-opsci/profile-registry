@@ -441,10 +441,12 @@ export function buildRfc7284RegistryMetadataNQuads(quads) {
 
 export async function detectProfilesFromResource(rootUri, loadDocuments) {
   const discoveredProfiles = new Set();
+  console.log(`[wrx] Checking if ${rootUri} is a resource...`);
 
   let responseText = "";
   let linkHeader = "";
   try {
+    console.log(`[wrx] Fetching headers and HTML from ${rootUri}...`);
     const res = await fetch(rootUri, {
       headers: {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,application/ld+json,text/turtle,*/*;q=0.8'
@@ -547,6 +549,7 @@ export async function detectProfilesFromResource(rootUri, loadDocuments) {
 
   // Parse RDF / JSON-LD conformsTo predicates
   try {
+    console.log(`[wrx] Parsing RDF for conformsTo check from ${rootUri}...`);
     const documents = await loadDocuments(rootUri);
     const quads = (await Promise.all(documents.map((doc) => parseExtractedDocument(doc, rootUri)))).flat();
     for (const quad of quads) {
@@ -564,6 +567,7 @@ export async function detectProfilesFromResource(rootUri, loadDocuments) {
     console.debug(`Failed to parse RDF for ${rootUri} conformsTo check: ${err.message}`);
   }
 
+  console.log(`[wrx] Resource check completed for ${rootUri}. Discovered profiles: ${Array.from(discoveredProfiles).join(", ") || 'none'}`);
   return discoveredProfiles;
 }
 

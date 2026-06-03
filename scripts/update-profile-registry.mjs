@@ -78,6 +78,7 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
   const profileUris = new Set(initialUris);
   const discoveryParents = new Map();
   const sourceUris = new Map();
+  const wrxDocuments = [];
 
   for (const uri of initialUris) {
     sourceUris.set(uri, uri);
@@ -90,7 +91,14 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     }
     visited.add(currentUri);
 
+    console.log(`[wrx] Initiating extraction for URI: ${currentUri}...`);
     const documents = await loadDocuments(currentUri);
+    console.log(`[wrx] Completed extraction for URI: ${currentUri}. Found ${documents.length} document(s).`);
+    for (const doc of documents) {
+      console.log(`[wrx] - Retrieved document: format=${doc.format || 'unknown'}, uri=${doc.uri || 'unknown'}, content length=${doc.content ? doc.content.length : 0} chars`);
+    }
+    wrxDocuments.push(...documents);
+
     const quads = (await Promise.all(documents.map((doc) => parseExtractedDocument(doc, currentUri)))).flat();
     if (!quads.length) {
       continue;
@@ -172,5 +180,6 @@ export async function updateProfileRegistryFromUri(rootUri, issueNumber, options
     isResourceSubmission,
     submittedUri: rootUri,
     discoveredProfiles: Array.from(profileUris),
+    wrxDocuments,
   };
 }
