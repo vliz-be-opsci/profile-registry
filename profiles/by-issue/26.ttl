@@ -1,0 +1,11 @@
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://purl.org/dc/terms/source> <https://data.emobon.embrc.eu/observatory-bergen-crate/#./>
+}
+<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> a <http://www.w3.org/ns/dx/prof/Profile>.
+<https://github.com/vliz-be-opsci/profile-registry#provenance> {
+<https://data.emobon.embrc.eu/observatory-bergen-crate/#./> <http://www.w3.org/ns/prov#wasDerivedFrom> <https://data.emobon.embrc.eu/observatory-bergen-crate/#./>;
+    <http://www.w3.org/ns/prov#wasGeneratedBy> <https://github.com/vliz-be-opsci/profile-registry/issues/26>.
+<https://github.com/cedricdcc> a <http://www.w3.org/ns/prov#Agent>.
+<https://github.com/vliz-be-opsci/profile-registry/issues/26> a <http://www.w3.org/ns/prov#Activity>;
+    <http://www.w3.org/ns/prov#wasAssociatedWith> <https://github.com/cedricdcc>
+}
