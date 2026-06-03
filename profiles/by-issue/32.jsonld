@@ -95,10 +95,21 @@
         "@type": [
           "http://www.w3.org/ns/prov#Activity"
         ],
+        "http://www.w3.org/ns/prov#used": [
+          {
+            "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/33"
+          }
+        ],
         "http://www.w3.org/ns/prov#wasAssociatedWith": [
           {
             "@id": "https://github.com/cedricdcc"
           }
+        ]
+      },
+      {
+        "@id": "https://github.com/vliz-be-opsci/profile-registry/pull/33",
+        "@type": [
+          "http://www.w3.org/ns/prov#Entity"
         ]
       },
       {
